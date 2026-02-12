@@ -24,7 +24,7 @@
             --leftW: 310px;
             --topH: 32px;
             --menuH: 26px;
-            --tabsH: 34px;
+            --tabsH: 50px;
             --toolbarH: 36px;
         }
 
@@ -95,6 +95,8 @@
             flex-direction: column;
             background: #fff;
             border: 1px solid #b8c2cf;
+            overflow: hidden;
+            /* Added to prevent horizontal overflow */
         }
 
         /* faux title bar */
@@ -107,6 +109,7 @@
             background: linear-gradient(#ffffff, #f0f2f5);
             border-bottom: 1px solid var(--line);
             user-select: none;
+            flex-shrink: 0;
         }
 
         .appmark {
@@ -142,45 +145,164 @@
         /* top menu */
         .menubar {
             height: var(--menuH);
+            min-height: var(--menuH);
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
+            /* Reduced from 14px */
             padding: 0 10px;
             background: #fff;
             border-bottom: 1px solid var(--line);
-            font-size: 13px;
-            overflow: auto;
+            font-size: 12px;
+            /* Reduced from 13px */
+            /* overflow: auto; */
+            /* Removed to allow dropdowns to be visible */
             white-space: nowrap;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         }
 
         .menuitem {
             cursor: pointer;
             color: #0f172a;
             font-weight: 500;
+            position: relative;
+            padding: 4px 6px;
+            /* Reduced from 4px 8px */
+            border-radius: 4px;
+            transition: all 0.2s;
         }
 
         .menuitem:hover {
-            text-decoration: underline
+            background: #f1f5f9;
+            color: var(--blue2);
+            text-decoration: none;
+        }
+
+        .menubar-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 220px;
+            max-height: 450px;
+            overflow-y: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 6px 0;
+            margin-top: 2px;
+        }
+
+        .menubar-dropdown-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .menubar-dropdown-content::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .menubar-dropdown-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .menubar-dropdown-content::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .menuitem:hover .menubar-dropdown-content {
+            display: block;
+        }
+
+        .menubar-dropdown-content a {
+            color: #334155;
+            padding: 8px 16px;
+            text-decoration: none !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            transition: background 0.2s;
+            font-weight: normal;
+        }
+
+        .menubar-dropdown-content a i {
+            font-size: 6px;
+            color: #94a3b8;
+            margin-right: 4px;
+        }
+
+        .menubar-dropdown-content a:hover {
+            background-color: #f1f5f9;
+            color: var(--blue2);
+        }
+
+        .menubar-dropdown-content a:hover i {
+            color: var(--blue2);
+        }
+
+        .menubar-dropdown-content .sub-header {
+            padding: 8px 16px 4px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-top: 1px solid #f1f5f9;
+            margin-top: 6px;
+        }
+
+        .menubar-dropdown-content .sub-header:first-child {
+            border-top: none;
+            margin-top: 0;
         }
 
         /* tab strip + right info */
         .tabsrow {
             height: var(--tabsH);
+            min-height: var(--tabsH);
             display: flex;
             align-items: flex-end;
             gap: 6px;
             padding: 0 8px;
             background: #fff;
             border-bottom: 1px solid var(--tabLine);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 50;
         }
 
         .tabs {
             display: flex;
             align-items: flex-end;
             gap: 6px;
-            overflow: auto;
+            overflow-x: auto;
+            overflow-y: hidden;
             padding-bottom: 0;
             flex: 1;
+            scrollbar-width: thin;
+        }
+
+        .tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .tabs::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .tabs::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+
+        .tabs::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
 
         .tab {
@@ -1059,19 +1181,354 @@
         </div>
 
         <div class="menubar">
-            <span class="menuitem">Stok Yönetimi</span>
-            <span class="menuitem">Satın Alma Yönetimi</span>
-            <span class="menuitem">Satış Yönetimi</span>
-            <span class="menuitem">Üretim Yönetimi</span>
-            <span class="menuitem">Servis Yönetimi</span>
-            <span class="menuitem">Finans Yönetimi</span>
-            <span class="menuitem">CRM</span>
-            <span class="menuitem">İthalat Yönetimi</span>
-            <span class="menuitem">Diğer İşlemler</span>
-            <span class="menuitem">Yetkili</span>
-            <span class="menuitem">Pencere</span>
-            <span class="menuitem">Yardım</span>
-            <span class="menuitem">Raporlarım</span>
+            <span class="menuitem">
+                Stok
+                <div class="menubar-dropdown-content">
+                    <div class="sub-header">İşlemler</div>
+                    <a href="#" onclick="openScreen('Seri/Lot Giriş Haraketleri')"><i class="bi bi-circle"></i> Seri/Lot
+                        Giriş</a>
+                    <a href="#" onclick="openScreen('Seri/Lot Çıkış Haraketleri')"><i class="bi bi-circle"></i> Seri/Lot
+                        Çıkış</a>
+                    <a href="#" onclick="openScreen('Depo Transferi')"><i class="bi bi-circle"></i> Depo Transferi</a>
+                    <a href="#" onclick="openScreen('Stok Giriş Haraketleri')"><i class="bi bi-circle"></i> Stok
+                        Giriş</a>
+                    <a href="#" onclick="openScreen('Stok Çıkış Haraketleri')"><i class="bi bi-circle"></i> Stok
+                        Çıkış</a>
+                    <a href="#" onclick="openScreen('Stok Sayımı ve Düzenleme')"><i class="bi bi-circle"></i> Stok
+                        Sayımı</a>
+                    <a href="#" onclick="openScreen('Stok Fiyat Güncelleme')"><i class="bi bi-circle"></i> Fiyat
+                        Güncelleme</a>
+                    <a href="#" onclick="openScreen('Barkod Basımı')"><i class="bi bi-circle"></i> Barkod Basımı</a>
+
+                    <div class="sub-header">Tanımlar</div>
+                    <a href="#" onclick="openScreen('Stok Tanımları')"><i class="bi bi-circle"></i> Stok Tanımları</a>
+                    <a href="#" onclick="openScreen('Depo Tanımları')"><i class="bi bi-circle"></i> Depo Tanımları</a>
+                    <a href="#" onclick="openScreen('Lokasyon Tanımları')"><i class="bi bi-circle"></i> Lokasyon
+                        Tanımları</a>
+                    <a href="#" onclick="openScreen('Hizmet Tanımları')"><i class="bi bi-circle"></i> Hizmet
+                        Tanımları</a>
+                    <a href="#" onclick="openScreen('Marka-Model Tanımları')"><i class="bi bi-circle"></i>
+                        Marka-Model</a>
+                    <a href="#" onclick="openScreen('Birim Tanımları')"><i class="bi bi-circle"></i> Birim Tanımları</a>
+                    <a href="#" onclick="openScreen('Grup Tanımları')"><i class="bi bi-circle"></i> Grup Tanımları</a>
+
+                    <div class="sub-header">Raporlar</div>
+                    <a href="#" onclick="openScreen('Envanter Raporu')"><i class="bi bi-circle"></i> Envanter Raporu</a>
+                    <a href="#" onclick="openScreen('Stok Haraket Raporu')"><i class="bi bi-circle"></i> Haraket
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Seri/Lot Bazlı Envanter')"><i class="bi bi-circle"></i> Seri/Lot
+                        Envanter</a>
+                    <a href="#" onclick="openScreen('Depo Bazlı Envanter')"><i class="bi bi-circle"></i> Depo
+                        Envanter</a>
+                    <a href="#" onclick="openScreen('Stok Sayım Raporu')"><i class="bi bi-circle"></i> Sayım Raporu</a>
+                    <a href="#" onclick="openScreen('Hizmet Haraket Raporu')"><i class="bi bi-circle"></i> Hizmet
+                        Raporu</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Satın Alma
+                <div class="menubar-dropdown-content">
+                    <div class="sub-header">İşlemler</div>
+                    <a href="#" onclick="openScreen('Satın Alma Teklif')"><i class="bi bi-circle"></i> Teklif</a>
+                    <a href="#" onclick="openScreen('Satın Alma Sipariş')"><i class="bi bi-circle"></i> Sipariş</a>
+                    <a href="#" onclick="openScreen('Satın Alma İrsaliye')"><i class="bi bi-circle"></i> İrsaliye</a>
+                    <a href="#" onclick="openScreen('Satın Alma Fatura')"><i class="bi bi-circle"></i> Fatura</a>
+                    <a href="#" onclick="openScreen('Alıştan İade Faturası')"><i class="bi bi-circle"></i> Alıştan
+                        İade</a>
+
+                    <div class="sub-header">Tanımlar</div>
+                    <a href="#" onclick="openScreen('Satın Alma Koşulları')"><i class="bi bi-circle"></i> Satın Alma
+                        Koşulları</a>
+                    <a href="#" onclick="openScreen('Satıcı Bilgileri')"><i class="bi bi-circle"></i> Satıcı
+                        Bilgileri</a>
+
+                    <div class="sub-header">Raporlar</div>
+                    <a href="#" onclick="openScreen('Satın Alma Teklif Raporu')"><i class="bi bi-circle"></i> Teklif
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Satın Alma Sipariş Raporu')"><i class="bi bi-circle"></i> Sipariş
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Satın Alma Fatura Raporu')"><i class="bi bi-circle"></i> Fatura
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Alış Analizi')"><i class="bi bi-circle"></i> Alış Analizi</a>
+                    <a href="#" onclick="openScreen('Tedarikçi Performans Raporu')"><i class="bi bi-circle"></i>
+                        Tedarikçi Performans</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Satış
+                <div class="menubar-dropdown-content">
+                    <div class="sub-header">İşlemler</div>
+                    <a href="#" onclick="openScreen('Satış Teklif')"><i class="bi bi-circle"></i> Teklif</a>
+                    <a href="#" onclick="openScreen('Satış Sipariş')"><i class="bi bi-circle"></i> Sipariş</a>
+                    <a href="#" onclick="openScreen('Satış İrsaliye')"><i class="bi bi-circle"></i> İrsaliye</a>
+                    <a href="#" onclick="openScreen('Satış Fatura')"><i class="bi bi-circle"></i> Fatura</a>
+                    <a href="#" onclick="openScreen('Satıştan İade Faturası')"><i class="bi bi-circle"></i> Satıştan
+                        İade</a>
+                    <a href="#" onclick="openScreen('Hızlı Satış')"><i class="bi bi-circle"></i> Hızlı Satış</a>
+
+                    <div class="sub-header">Tanımlar</div>
+                    <a href="#" onclick="openScreen('Satış Tanımları')"><i class="bi bi-circle"></i> Satış Tanımları</a>
+                    <a href="#" onclick="openScreen('Kampanya Tanımları')"><i class="bi bi-circle"></i> Kampanya
+                        Tanımları</a>
+                    <a href="#" onclick="openScreen('Pazarlamacı Tanımları')"><i class="bi bi-circle"></i>
+                        Pazarlamacılar</a>
+                    <a href="#" onclick="openScreen('Müşteri Fiyat Listeleri')"><i class="bi bi-circle"></i> Fiyat
+                        Listeleri</a>
+
+                    <div class="sub-header">Raporlar</div>
+                    <a href="#" onclick="openScreen('Satış Teklif Raporu')"><i class="bi bi-circle"></i> Teklif
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Satış Sipariş Raporu')"><i class="bi bi-circle"></i> Sipariş
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Satış Fatura Raporu')"><i class="bi bi-circle"></i> Fatura
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Satış Analizi')"><i class="bi bi-circle"></i> Satış Analizi</a>
+                    <a href="#" onclick="openScreen('Pazarlamacı Kar-Zarar')"><i class="bi bi-circle"></i> Pazarlamacı
+                        Kar-Zarar</a>
+                    <a href="#" onclick="openScreen('Müşteri Satış Raporu')"><i class="bi bi-circle"></i> Müşteri
+                        Satışları</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Üretim
+                <div class="menubar-dropdown-content">
+                    <div class="sub-header">İşlemler</div>
+                    <a href="#" onclick="openScreen('Üretim Reçetesi')"><i class="bi bi-circle"></i> Üretim Reçetesi</a>
+                    <a href="#" onclick="openScreen('Üretim Emri')"><i class="bi bi-circle"></i> Üretim Emri</a>
+                    <a href="#" onclick="openScreen('Üretim Sonu Kaydı')"><i class="bi bi-circle"></i> Üretim Sonu</a>
+                    <a href="#" onclick="openScreen('Parçalayarak Üretim Sonu Kaydı')"><i class="bi bi-circle"></i>
+                        Parçalayarak Üretim</a>
+                    <a href="#" onclick="openScreen('Fire-Atık Girişi')"><i class="bi bi-circle"></i> Fire-Atık
+                        Girişi</a>
+                    <a href="#" onclick="openScreen('MRP Hesaplama')"><i class="bi bi-circle"></i> MRP Hesaplama</a>
+
+                    <div class="sub-header">Tanımlar</div>
+                    <a href="#" onclick="openScreen('İş İstasyonu Tanımları')"><i class="bi bi-circle"></i> İş
+                        İstasyonları</a>
+                    <a href="#" onclick="openScreen('Operasyon Tanımları')"><i class="bi bi-circle"></i>
+                        Operasyonlar</a>
+                    <a href="#" onclick="openScreen('Makine Tanımları')"><i class="bi bi-circle"></i> Makineler</a>
+                    <a href="#" onclick="openScreen('Personel Tanımları')"><i class="bi bi-circle"></i> Personel</a>
+                    <a href="#" onclick="openScreen('Vardiya Tanımları')"><i class="bi bi-circle"></i> Vardiyalar</a>
+
+                    <div class="sub-header">Raporlar</div>
+                    <a href="#" onclick="openScreen('Üretim Raporu')"><i class="bi bi-circle"></i> Üretim Raporu</a>
+                    <a href="#" onclick="openScreen('MRP Raporu')"><i class="bi bi-circle"></i> MRP Raporu</a>
+                    <a href="#" onclick="openScreen('Üretim Maliyet Analizi')"><i class="bi bi-circle"></i> Maliyet
+                        Analizi</a>
+                    <a href="#" onclick="openScreen('Üretim Genel Analizi')"><i class="bi bi-circle"></i> Genel
+                        Analiz</a>
+                    <a href="#" onclick="openScreen('Fire-Atık Raporu')"><i class="bi bi-circle"></i> Fire-Atık
+                        Raporu</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Servis
+                <div class="menubar-dropdown-content">
+                    <div class="sub-header">İşlemler</div>
+                    <a href="#" onclick="openScreen('Servis Fişi')"><i class="bi bi-circle"></i> Servis Fişi</a>
+                    <a href="#" onclick="openScreen('Servis Randevu Kayıt')"><i class="bi bi-circle"></i> Randevu
+                        Kayıt</a>
+                    <a href="#" onclick="openScreen('Servis Bakım Sözleşmesi')"><i class="bi bi-circle"></i> Bakım
+                        Sözleşmesi</a>
+                    <a href="#" onclick="openScreen('Arıza Takip')"><i class="bi bi-circle"></i> Arıza Takip</a>
+
+                    <div class="sub-header">Tanımlar</div>
+                    <a href="#" onclick="openScreen('İşlem Tanımları')"><i class="bi bi-circle"></i> İşlem Tanımları</a>
+                    <a href="#" onclick="openScreen('Araç Tanımları')"><i class="bi bi-circle"></i> Araç Tanımları</a>
+                    <a href="#" onclick="openScreen('Servis Elemanı Tanımları')"><i class="bi bi-circle"></i> Servis
+                        Elemanları</a>
+
+                    <div class="sub-header">Raporlar</div>
+                    <a href="#" onclick="openScreen('Fiş Raporu')"><i class="bi bi-circle"></i> Fiş Raporu</a>
+                    <a href="#" onclick="openScreen('Servis Analizi')"><i class="bi bi-circle"></i> Servis Analizi</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Finans
+                <div class="menubar-dropdown-content">
+                    <div class="sub-header">İşlemler</div>
+                    <a href="#" onclick="openScreen('Cari Virman')"><i class="bi bi-circle"></i> Cari Virman</a>
+                    <a href="#" onclick="openScreen('Cari Tahsilat')"><i class="bi bi-circle"></i> Cari Tahsilat</a>
+                    <a href="#" onclick="openScreen('Cari Tediye')"><i class="bi bi-circle"></i> Cari Tediye</a>
+                    <a href="#" onclick="openScreen('Kasa İşlemleri')"><i class="bi bi-circle"></i> Kasa İşlemleri</a>
+                    <a href="#" onclick="openScreen('Banka İşlemleri')"><i class="bi bi-circle"></i> Banka İşlemleri</a>
+                    <a href="#" onclick="openScreen('Çek/Senet İşlemleri')"><i class="bi bi-circle"></i> Çek/Senet</a>
+                    <a href="#" onclick="openScreen('Taksit İşlemleri')"><i class="bi bi-circle"></i> Taksit
+                        İşlemleri</a>
+                    <a href="#" onclick="openScreen('Doviz İşlemleri')"><i class="bi bi-circle"></i> Döviz İşlemleri</a>
+
+                    <div class="sub-header">Tanımlar</div>
+                    <a href="#" onclick="openScreen('Cari Tanımları')"><i class="bi bi-circle"></i> Cari Tanımları</a>
+                    <a href="#" onclick="openScreen('Kasa Tanımları')"><i class="bi bi-circle"></i> Kasa Tanımları</a>
+                    <a href="#" onclick="openScreen('Banka Tanımları')"><i class="bi bi-circle"></i> Banka Tanımları</a>
+                    <a href="#" onclick="openScreen('Döviz Tanımları')"><i class="bi bi-circle"></i> Döviz Tanımları</a>
+
+                    <div class="sub-header">Raporlar</div>
+                    <a href="#" onclick="openScreen('Cari Haraket Raporu')"><i class="bi bi-circle"></i> Haraket
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Bankalar Listesi')"><i class="bi bi-circle"></i> Bankalar
+                        Listesi</a>
+                    <a href="#" onclick="openScreen('Finansal Analiz')"><i class="bi bi-circle"></i> Finansal Analiz</a>
+                    <a href="#" onclick="openScreen('Kasa Raporu(Genel)')"><i class="bi bi-circle"></i> Kasa Raporu</a>
+                    <a href="#" onclick="openScreen('Çek/Senet Raporu')"><i class="bi bi-circle"></i> Çek/Senet
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Döviz Kur Arama')"><i class="bi bi-circle"></i> Döviz Raporları</a>
+                    <a href="#" onclick="openScreen('Yönetici Ekranı')"><i class="bi bi-circle"></i> Yönetici Ekranı</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                CRM
+                <div class="menubar-dropdown-content">
+                    <div class="sub-header">İşlemler</div>
+                    <a href="#" onclick="openScreen('Müşteri İlişkilendirme Yönetimi')"><i class="bi bi-circle"></i>
+                        İlişkilendirme</a>
+                    <a href="#" onclick="openScreen('Aktivite Kayıt')"><i class="bi bi-circle"></i> Aktivite Kayıt</a>
+                    <a href="#" onclick="openScreen('Müşteri Destek Kayıt')"><i class="bi bi-circle"></i> Destek
+                        Kayıt</a>
+                    <a href="#" onclick="openScreen('Ajanda')"><i class="bi bi-circle"></i> Ajanda</a>
+                    <a href="#" onclick="openScreen('Anket Girişi')"><i class="bi bi-circle"></i> Anket Girişi</a>
+
+                    <div class="sub-header">Tanımlar</div>
+                    <a href="#" onclick="openScreen('Müşteri Listesi Tanımları')"><i class="bi bi-circle"></i> Müşteri
+                        Listeleri</a>
+                    <a href="#" onclick="openScreen('Kapmanya Tanımları')"><i class="bi bi-circle"></i> Kampanyalar</a>
+                    <a href="#" onclick="openScreen('Proje ve Satış Takip Tanımları')"><i class="bi bi-circle"></i>
+                        Proje Takip</a>
+                    <a href="#" onclick="openScreen('Anket Tanımları')"><i class="bi bi-circle"></i> Anket Tanımları</a>
+
+                    <div class="sub-header">Raporlar</div>
+                    <a href="#" onclick="openScreen('Aktivite Raporu')"><i class="bi bi-circle"></i> Aktivite Raporu</a>
+                    <a href="#" onclick="openScreen('Müşteri Destek Raporu')"><i class="bi bi-circle"></i> Destek
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Müşteri Kayıp Raporu')"><i class="bi bi-circle"></i> Kayıp
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Müşteri Karlılık Raporu')"><i class="bi bi-circle"></i> Karlılık
+                        Raporu</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Raporlar
+                <div class="menubar-dropdown-content">
+                    <div class="sub-header">Genel Raporlar</div>
+                    <a href="#" onclick="openScreen('Özel Raporlar')"><i class="bi bi-circle"></i> Özel Raporlar</a>
+                    <a href="#" onclick="openScreen('Dizaynlarım')"><i class="bi bi-circle"></i> Dizaynlarım</a>
+                    <a href="#" onclick="openScreen('Hızlı Raporlar')"><i class="bi bi-circle"></i> Hızlı Raporlar</a>
+                    <a href="#" onclick="openScreen('Favori Raporlar')"><i class="bi bi-circle"></i> Favori Raporlar</a>
+
+                    <div class="sub-header">Müşteri ve Satış Raporları</div>
+                    <a href="#" onclick="openScreen('Mevcut Müşteri Listesi')"><i class="bi bi-circle"></i> Müşteri
+                        Listesi</a>
+                    <a href="#" onclick="openScreen('Kampanya Raporu')"><i class="bi bi-circle"></i> Kampanya Raporu</a>
+                    <a href="#" onclick="openScreen('Proje ve Satış Takip Raporu')"><i class="bi bi-circle"></i> Proje
+                        Takip</a>
+                    <a href="#" onclick="openScreen('Müşteri Destek Raporu')"><i class="bi bi-circle"></i> Destek
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Aktivite Raporu')"><i class="bi bi-circle"></i> Aktivite Raporu</a>
+                    <a href="#" onclick="openScreen('Anket Raporu')"><i class="bi bi-circle"></i> Anket Raporu</a>
+                    <a href="#" onclick="openScreen('Müşteri Karlılık Raporu')"><i class="bi bi-circle"></i> Karlılık
+                        Raporu</a>
+                    <a href="#" onclick="openScreen('Müşteri ve Ürün Genel İlişki')"><i class="bi bi-circle"></i> Ürün
+                        İlişki</a>
+
+                    <div class="sub-header">Satış Analizleri</div>
+                    <a href="#" onclick="openScreen('En Çok Satılan Ürünler')"><i class="bi bi-circle"></i> Çok
+                        Satanlar</a>
+                    <a href="#" onclick="openScreen('Müşteri Bazında en çok Satılan Ürünler')"><i
+                            class="bi bi-circle"></i> Müşteri Bazlı Satış</a>
+                    <a href="#" onclick="openScreen('Müşteri Bazında Satılmayan ürünler')"><i class="bi bi-circle"></i>
+                        Satılmayan Ürünler</a>
+                    <a href="#" onclick="openScreen('Çapraz Satış Raporu')"><i class="bi bi-circle"></i> Çapraz
+                        Satış</a>
+                    <a href="#" onclick="openScreen('En Çok Satış Yapılan Ürün Grupları')"><i class="bi bi-circle"></i>
+                        Grup Satışları</a>
+                    <a href="#" onclick="openScreen('Ürün Bazında en çok Satış yapılan Müşteriler')"><i
+                            class="bi bi-circle"></i> Ürün Bazlı Müşteri</a>
+                    <a href="#" onclick="openScreen('En Çok satış yapılan Müşteri Grupları')"><i
+                            class="bi bi-circle"></i> Müşteri Grupları</a>
+                    <a href="#" onclick="openScreen('En Çok Satış Yapılan İlçe-İl Grupları')"><i
+                            class="bi bi-circle"></i> Bölgesel Satış</a>
+
+                    <div class="sub-header">Pazarlamacı ve Servis</div>
+                    <a href="#" onclick="openScreen('Ürün Bazında Pazarlamacı Miktarları')"><i class="bi bi-circle"></i>
+                        Pazarlamacı Miktar</a>
+                    <a href="#" onclick="openScreen('Pazarlamacı Bazında En Çok Satılan Ürünler')"><i
+                            class="bi bi-circle"></i> Pazarlamacı Satış</a>
+                    <a href="#" onclick="openScreen('Müşteri Servis Raporu')"><i class="bi bi-circle"></i> Servis
+                        Raporu</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                İthalat
+                <div class="menubar-dropdown-content">
+                    <div class="sub-header">İşlemler</div>
+                    <a href="#" onclick="openScreen('İthalat Dosyası')"><i class="bi bi-circle"></i> İthalat Dosyası</a>
+                    <a href="#" onclick="openScreen('Stok Millileştirme')"><i class="bi bi-circle"></i> Stok
+                        Millileştirme</a>
+
+                    <div class="sub-header">Tanımlar</div>
+                    <a href="#" onclick="openScreen('Dağıtım Anahtarları')"><i class="bi bi-circle"></i> Dağıtım
+                        Anahtarları</a>
+
+                    <div class="sub-header">Raporlar</div>
+                    <a href="#" onclick="openScreen('İthalat Dosya Listesi')"><i class="bi bi-circle"></i> Dosya
+                        Listesi</a>
+                    <a href="#" onclick="openScreen('Stok Millileştirme Listesi')"><i class="bi bi-circle"></i>
+                        Millileştirme
+                        Listesi</a>
+                    <a href="#" onclick="openScreen('İthalat Envanter Listesi')"><i class="bi bi-circle"></i> Envanter
+                        Listesi</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Diğer
+                <div class="menubar-dropdown-content">
+                    <a href="#" onclick="openScreen('Doviz İşlemleri')"><i class="bi bi-circle"></i> Döviz İşlemleri</a>
+                    <a href="#" onclick="openScreen('Ajanda')"><i class="bi bi-circle"></i> Ajanda</a>
+                    <a href="#" onclick="openScreen('Hızlı Mesaj')"><i class="bi bi-circle"></i> Hızlı Mesaj</a>
+                    <a href="#" onclick="openScreen('SMS Gönderimi')"><i class="bi bi-circle"></i> SMS Gönderimi</a>
+                    <a href="#" onclick="openScreen('E-Posta Gönderimi')"><i class="bi bi-circle"></i> E-Posta
+                        Gönderimi</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Yetkili
+                <div class="menubar-dropdown-content">
+                    <a href="#" onclick="openModal('modal-company')"><i class="bi bi-circle"></i> Şirket Kayıt</a>
+                    <a href="#" onclick="openModal('modal-user')"><i class="bi bi-circle"></i> Kullanıcı Kayıt</a>
+                    <a href="#" onclick="openScreen('Yetki Tanımları')"><i class="bi bi-circle"></i> Yetki Tanımları</a>
+                    <a href="#" onclick="openScreen('Genel Ayarlar')"><i class="bi bi-circle"></i> Genel Ayarlar</a>
+                    <a href="#" onclick="openScreen('Log Kayıtları')"><i class="bi bi-circle"></i> Log Kayıtları</a>
+                    <a href="#" onclick="openScreen('Veritabanı Bakımı')"><i class="bi bi-circle"></i> DB Bakımı</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Programlar
+                <div class="menubar-dropdown-content">
+                    <a href="#" onclick="openScreen('İnsan Kaynakları')"><i class="bi bi-circle"></i> İnsan
+                        Kaynakları</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Pencere
+                <div class="menubar-dropdown-content">
+                    <a href="#" onclick="showHome()"><i class="bi bi-circle"></i> Ana Ekran</a>
+                    <a href="#" onclick="document.getElementById('tabs').innerHTML=''"><i class="bi bi-circle"></i>
+                        Tümünü Kapat</a>
+                    <a href="#" onclick="openScreen('Dashboard')"><i class="bi bi-circle"></i> Dashboard</a>
+                    <a href="#" onclick="openScreen('Hızlı Erişim')"><i class="bi bi-circle"></i> Hızlı Erişim</a>
+                </div>
+            </span>
+            <span class="menuitem">
+                Yardım
+                <div class="menubar-dropdown-content">
+                    <a href="#" onclick="openScreen('Yardım İçeriği')"><i class="bi bi-circle"></i> Yardım İçeriği</a>
+                    <a href="#" onclick="openScreen('Sürüm Yenilikleri')"><i class="bi bi-circle"></i> Yenilikler</a>
+                    <a href="#" onclick="openScreen('Uzak Destek')"><i class="bi bi-circle"></i> Uzak Destek</a>
+                    <a href="#" onclick="openScreen('Hakkında')"><i class="bi bi-circle"></i> Hakkında</a>
+                </div>
+            </span>
+
         </div>
 
         <div class="tabsrow">
@@ -1081,8 +1538,8 @@
             <div class="topright">
                 <div class="searchico">🔍</div>
                 <span class="pill" id="disp-company" onclick="openModal('modal-company')"><b>Şirket :</b> 2026 - RESTART
-                    -
-                    RESTART BİLİŞİM HİZ...</span>
+
+                    BİLİŞİM HİZMETLERİ</span>
                 <span class="pill" id="disp-user" onclick="openModal('modal-user')"><b>Kullanıcı :</b> İlayda
                     Çakal</span>
                 <a href="index.html" class="pill logout-btn" title="Çıkış Yap">
@@ -5667,13 +6124,32 @@
 
             // Navbar click handling
             topMenuBar.addEventListener('click', (e) => {
-                const item = e.target.closest('.menuitem');
-                if (item) {
-                    const text = item.textContent.trim();
-                    openScreen(text);
-                    expandSidebarByTitle(text);
+                const link = e.target.closest('a');
+                if (link) {
+                    // It's a click on a sub-menu item
+                    e.preventDefault();
+                    // The openScreen is already handled by inline onclick, 
+                    // but we ensure consistency and menu closing here.
                     topMenuBar.classList.remove('show');
                     if (window.innerWidth <= 980) closeMenu();
+                    return;
+                }
+
+                const item = e.target.closest('.menuitem');
+                if (item) {
+                    // If it's a mobile view, maybe toggle the dropdown visibility?
+                    // For now, let's just make sure it doesn't break.
+                    // If the item itself is clicked (not a link), we don't necessarily want to open a screen 
+                    // unless it's a leaf node. But our header items are all folders now.
+
+                    if (window.innerWidth <= 980) {
+                        // Toggle sub-menu visibility on mobile
+                        const content = item.querySelector('.menubar-dropdown-content');
+                        if (content) {
+                            const isVisible = window.getComputedStyle(content).display !== 'none';
+                            content.style.display = isVisible ? 'none' : 'block';
+                        }
+                    }
                 }
             });
 
