@@ -8358,6 +8358,26 @@
             }
         });
 
+
+        // -------------------------------------------------------------
+        // FILTER TABS SWITCHING
+        // -------------------------------------------------------------
+        window.switchFilterTab = function (tabName) {
+            // 1. Remove active class from all tabs
+            document.querySelectorAll('.sf-tab').forEach(t => t.classList.remove('active'));
+
+            // 2. Add active class to clicked tab
+            const activeTab = document.getElementById('tab-' + tabName);
+            if (activeTab) activeTab.classList.add('active');
+
+            // 3. Hide all content panes
+            document.querySelectorAll('.filter-pane').forEach(p => p.style.display = 'none');
+
+            // 4. Show selected content pane
+            const content = document.getElementById('filter-' + tabName);
+            if (content) content.style.display = 'block';
+        };
+
         window.globalSearchMenu = function (inputEl) {
             try {
                 // Feedback
