@@ -215,7 +215,7 @@
             background: #94a3b8;
         }
 
-        .menuitem:hover .menubar-dropdown-content {
+        .menuitem.show .menubar-dropdown-content {
             display: block;
         }
 
@@ -255,11 +255,43 @@
             letter-spacing: 0.5px;
             border-top: 1px solid #f1f5f9;
             margin-top: 6px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+
+        .menubar-dropdown-content .sub-header:hover {
+            color: var(--blue2);
+            background: #f8fafc;
         }
 
         .menubar-dropdown-content .sub-header:first-child {
             border-top: none;
             margin-top: 0;
+        }
+
+        .menubar-dropdown-content .sub-header::after {
+            content: "▸";
+            font-size: 12px;
+            transition: transform 0.2s;
+            color: #94a3b8;
+        }
+
+        .menubar-dropdown-content .sub-header.expanded::after {
+            transform: rotate(90deg);
+            color: var(--blue2);
+        }
+
+        .menubar-dropdown-content .sub-section {
+            display: none;
+            overflow: hidden;
+        }
+
+        .menubar-dropdown-content .sub-section.show {
+            display: block;
         }
 
         /* tab strip + right info */
@@ -1127,6 +1159,19 @@
             }
         }
 
+
+        /* Search Filtering Class - For Robust Search */
+        .search-hidden {
+            display: none !important;
+        }
+
+        /* Highlight matching text (optional) */
+        .search-match>a {
+            background-color: #ffffff !important;
+            /* Yellow-200 */
+            color: #313131 !important;
+        }
+
         /* ==================================================== */
     </style>
 </head>
@@ -1185,299 +1230,405 @@
                 Stok
                 <div class="menubar-dropdown-content">
                     <div class="sub-header">İşlemler</div>
-                    <a href="#" onclick="openScreen('Seri/Lot Giriş Haraketleri')"><i class="bi bi-circle"></i> Seri/Lot
-                        Giriş</a>
-                    <a href="#" onclick="openScreen('Seri/Lot Çıkış Haraketleri')"><i class="bi bi-circle"></i> Seri/Lot
-                        Çıkış</a>
-                    <a href="#" onclick="openScreen('Depo Transferi')"><i class="bi bi-circle"></i> Depo Transferi</a>
-                    <a href="#" onclick="openScreen('Stok Giriş Haraketleri')"><i class="bi bi-circle"></i> Stok
-                        Giriş</a>
-                    <a href="#" onclick="openScreen('Stok Çıkış Haraketleri')"><i class="bi bi-circle"></i> Stok
-                        Çıkış</a>
-                    <a href="#" onclick="openScreen('Stok Sayımı ve Düzenleme')"><i class="bi bi-circle"></i> Stok
-                        Sayımı</a>
-                    <a href="#" onclick="openScreen('Stok Fiyat Güncelleme')"><i class="bi bi-circle"></i> Fiyat
-                        Güncelleme</a>
-                    <a href="#" onclick="openScreen('Barkod Basımı')"><i class="bi bi-circle"></i> Barkod Basımı</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Seri/Lot Giriş Haraketleri')"><i class="bi bi-circle"></i>
+                            Seri/Lot
+                            Giriş</a>
+                        <a href="#" onclick="openScreen('Seri/Lot Çıkış Haraketleri')"><i class="bi bi-circle"></i>
+                            Seri/Lot
+                            Çıkış</a>
+                        <a href="#" onclick="openScreen('Depo Transferi')"><i class="bi bi-circle"></i> Depo
+                            Transferi</a>
+                        <a href="#" onclick="openScreen('Stok Giriş Haraketleri')"><i class="bi bi-circle"></i> Stok
+                            Giriş</a>
+                        <a href="#" onclick="openScreen('Stok Çıkış Haraketleri')"><i class="bi bi-circle"></i> Stok
+                            Çıkış</a>
+                        <a href="#" onclick="openScreen('Stok Sayımı ve Düzenleme')"><i class="bi bi-circle"></i> Stok
+                            Sayımı</a>
+                        <a href="#" onclick="openScreen('Stok Fiyat Güncelleme')"><i class="bi bi-circle"></i> Fiyat
+                            Güncelleme</a>
+                        <a href="#" onclick="openScreen('Barkod Basımı')"><i class="bi bi-circle"></i> Barkod Basımı</a>
+                    </div>
 
                     <div class="sub-header">Tanımlar</div>
-                    <a href="#" onclick="openScreen('Stok Tanımları')"><i class="bi bi-circle"></i> Stok Tanımları</a>
-                    <a href="#" onclick="openScreen('Depo Tanımları')"><i class="bi bi-circle"></i> Depo Tanımları</a>
-                    <a href="#" onclick="openScreen('Lokasyon Tanımları')"><i class="bi bi-circle"></i> Lokasyon
-                        Tanımları</a>
-                    <a href="#" onclick="openScreen('Hizmet Tanımları')"><i class="bi bi-circle"></i> Hizmet
-                        Tanımları</a>
-                    <a href="#" onclick="openScreen('Marka-Model Tanımları')"><i class="bi bi-circle"></i>
-                        Marka-Model</a>
-                    <a href="#" onclick="openScreen('Birim Tanımları')"><i class="bi bi-circle"></i> Birim Tanımları</a>
-                    <a href="#" onclick="openScreen('Grup Tanımları')"><i class="bi bi-circle"></i> Grup Tanımları</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Stok Tanımları')"><i class="bi bi-circle"></i> Stok
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Depo Tanımları')"><i class="bi bi-circle"></i> Depo
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Lokasyon Tanımları')"><i class="bi bi-circle"></i> Lokasyon
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Hizmet Tanımları')"><i class="bi bi-circle"></i> Hizmet
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Marka-Model Tanımları')"><i class="bi bi-circle"></i>
+                            Marka-Model</a>
+                        <a href="#" onclick="openScreen('Birim Tanımları')"><i class="bi bi-circle"></i> Birim
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Grup Tanımları')"><i class="bi bi-circle"></i> Grup
+                            Tanımları</a>
+                    </div>
 
                     <div class="sub-header">Raporlar</div>
-                    <a href="#" onclick="openScreen('Envanter Raporu')"><i class="bi bi-circle"></i> Envanter Raporu</a>
-                    <a href="#" onclick="openScreen('Stok Haraket Raporu')"><i class="bi bi-circle"></i> Haraket
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Seri/Lot Bazlı Envanter')"><i class="bi bi-circle"></i> Seri/Lot
-                        Envanter</a>
-                    <a href="#" onclick="openScreen('Depo Bazlı Envanter')"><i class="bi bi-circle"></i> Depo
-                        Envanter</a>
-                    <a href="#" onclick="openScreen('Stok Sayım Raporu')"><i class="bi bi-circle"></i> Sayım Raporu</a>
-                    <a href="#" onclick="openScreen('Hizmet Haraket Raporu')"><i class="bi bi-circle"></i> Hizmet
-                        Raporu</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Envanter Raporu')"><i class="bi bi-circle"></i> Envanter
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Stok Haraket Raporu')"><i class="bi bi-circle"></i> Haraket
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Seri/Lot Bazlı Envanter')"><i class="bi bi-circle"></i>
+                            Seri/Lot
+                            Envanter</a>
+                        <a href="#" onclick="openScreen('Depo Bazlı Envanter')"><i class="bi bi-circle"></i> Depo
+                            Envanter</a>
+                        <a href="#" onclick="openScreen('Stok Sayım Raporu')"><i class="bi bi-circle"></i> Sayım
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Hizmet Haraket Raporu')"><i class="bi bi-circle"></i> Hizmet
+                            Raporu</a>
+                    </div>
                 </div>
             </span>
             <span class="menuitem">
                 Satın Alma
                 <div class="menubar-dropdown-content">
                     <div class="sub-header">İşlemler</div>
-                    <a href="#" onclick="openScreen('Satın Alma Teklif')"><i class="bi bi-circle"></i> Teklif</a>
-                    <a href="#" onclick="openScreen('Satın Alma Sipariş')"><i class="bi bi-circle"></i> Sipariş</a>
-                    <a href="#" onclick="openScreen('Satın Alma İrsaliye')"><i class="bi bi-circle"></i> İrsaliye</a>
-                    <a href="#" onclick="openScreen('Satın Alma Fatura')"><i class="bi bi-circle"></i> Fatura</a>
-                    <a href="#" onclick="openScreen('Alıştan İade Faturası')"><i class="bi bi-circle"></i> Alıştan
-                        İade</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Satın Alma Teklif')"><i class="bi bi-circle"></i> Teklif</a>
+                        <a href="#" onclick="openScreen('Satın Alma Sipariş')"><i class="bi bi-circle"></i> Sipariş</a>
+                        <a href="#" onclick="openScreen('Satın Alma İrsaliye')"><i class="bi bi-circle"></i>
+                            İrsaliye</a>
+                        <a href="#" onclick="openScreen('Satın Alma Fatura')"><i class="bi bi-circle"></i> Fatura</a>
+                        <a href="#" onclick="openScreen('Alıştan İade Faturası')"><i class="bi bi-circle"></i> Alıştan
+                            İade</a>
+                    </div>
 
                     <div class="sub-header">Tanımlar</div>
-                    <a href="#" onclick="openScreen('Satın Alma Koşulları')"><i class="bi bi-circle"></i> Satın Alma
-                        Koşulları</a>
-                    <a href="#" onclick="openScreen('Satıcı Bilgileri')"><i class="bi bi-circle"></i> Satıcı
-                        Bilgileri</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Satın Alma Koşulları')"><i class="bi bi-circle"></i> Satın Alma
+                            Koşulları</a>
+                        <a href="#" onclick="openScreen('Satıcı Bilgileri')"><i class="bi bi-circle"></i> Satıcı
+                            Bilgileri</a>
+                    </div>
 
                     <div class="sub-header">Raporlar</div>
-                    <a href="#" onclick="openScreen('Satın Alma Teklif Raporu')"><i class="bi bi-circle"></i> Teklif
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Satın Alma Sipariş Raporu')"><i class="bi bi-circle"></i> Sipariş
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Satın Alma Fatura Raporu')"><i class="bi bi-circle"></i> Fatura
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Alış Analizi')"><i class="bi bi-circle"></i> Alış Analizi</a>
-                    <a href="#" onclick="openScreen('Tedarikçi Performans Raporu')"><i class="bi bi-circle"></i>
-                        Tedarikçi Performans</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Satın Alma Teklif Raporu')"><i class="bi bi-circle"></i> Teklif
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Satın Alma Sipariş Raporu')"><i class="bi bi-circle"></i>
+                            Sipariş
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Satın Alma Fatura Raporu')"><i class="bi bi-circle"></i> Fatura
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Alış Analizi')"><i class="bi bi-circle"></i> Alış Analizi</a>
+                        <a href="#" onclick="openScreen('Tedarikçi Performans Raporu')"><i class="bi bi-circle"></i>
+                            Tedarikçi Performans</a>
+                    </div>
                 </div>
             </span>
             <span class="menuitem">
                 Satış
                 <div class="menubar-dropdown-content">
                     <div class="sub-header">İşlemler</div>
-                    <a href="#" onclick="openScreen('Satış Teklif')"><i class="bi bi-circle"></i> Teklif</a>
-                    <a href="#" onclick="openScreen('Satış Sipariş')"><i class="bi bi-circle"></i> Sipariş</a>
-                    <a href="#" onclick="openScreen('Satış İrsaliye')"><i class="bi bi-circle"></i> İrsaliye</a>
-                    <a href="#" onclick="openScreen('Satış Fatura')"><i class="bi bi-circle"></i> Fatura</a>
-                    <a href="#" onclick="openScreen('Satıştan İade Faturası')"><i class="bi bi-circle"></i> Satıştan
-                        İade</a>
-                    <a href="#" onclick="openScreen('Hızlı Satış')"><i class="bi bi-circle"></i> Hızlı Satış</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Satış Teklif')"><i class="bi bi-circle"></i> Teklif</a>
+                        <a href="#" onclick="openScreen('Satış Sipariş')"><i class="bi bi-circle"></i> Sipariş</a>
+                        <a href="#" onclick="openScreen('Satış İrsaliye')"><i class="bi bi-circle"></i> İrsaliye</a>
+                        <a href="#" onclick="openScreen('Satış Fatura')"><i class="bi bi-circle"></i> Fatura</a>
+                        <a href="#" onclick="openScreen('Satıştan İade Faturası')"><i class="bi bi-circle"></i> Satıştan
+                            İade</a>
+                        <a href="#" onclick="openScreen('Hızlı Satış')"><i class="bi bi-circle"></i> Hızlı Satış</a>
+                    </div>
 
                     <div class="sub-header">Tanımlar</div>
-                    <a href="#" onclick="openScreen('Satış Tanımları')"><i class="bi bi-circle"></i> Satış Tanımları</a>
-                    <a href="#" onclick="openScreen('Kampanya Tanımları')"><i class="bi bi-circle"></i> Kampanya
-                        Tanımları</a>
-                    <a href="#" onclick="openScreen('Pazarlamacı Tanımları')"><i class="bi bi-circle"></i>
-                        Pazarlamacılar</a>
-                    <a href="#" onclick="openScreen('Müşteri Fiyat Listeleri')"><i class="bi bi-circle"></i> Fiyat
-                        Listeleri</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Satış Tanımları')"><i class="bi bi-circle"></i> Satış
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Kampanya Tanımları')"><i class="bi bi-circle"></i> Kampanya
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Pazarlamacı Tanımları')"><i class="bi bi-circle"></i>
+                            Pazarlamacılar</a>
+                        <a href="#" onclick="openScreen('Müşteri Fiyat Listeleri')"><i class="bi bi-circle"></i> Fiyat
+                            Listeleri</a>
+                    </div>
 
                     <div class="sub-header">Raporlar</div>
-                    <a href="#" onclick="openScreen('Satış Teklif Raporu')"><i class="bi bi-circle"></i> Teklif
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Satış Sipariş Raporu')"><i class="bi bi-circle"></i> Sipariş
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Satış Fatura Raporu')"><i class="bi bi-circle"></i> Fatura
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Satış Analizi')"><i class="bi bi-circle"></i> Satış Analizi</a>
-                    <a href="#" onclick="openScreen('Pazarlamacı Kar-Zarar')"><i class="bi bi-circle"></i> Pazarlamacı
-                        Kar-Zarar</a>
-                    <a href="#" onclick="openScreen('Müşteri Satış Raporu')"><i class="bi bi-circle"></i> Müşteri
-                        Satışları</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Satış Teklif Raporu')"><i class="bi bi-circle"></i> Teklif
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Satış Sipariş Raporu')"><i class="bi bi-circle"></i> Sipariş
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Satış Fatura Raporu')"><i class="bi bi-circle"></i> Fatura
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Satış Analizi')"><i class="bi bi-circle"></i> Satış Analizi</a>
+                        <a href="#" onclick="openScreen('Pazarlamacı Kar-Zarar')"><i class="bi bi-circle"></i>
+                            Pazarlamacı
+                            Kar-Zarar</a>
+                        <a href="#" onclick="openScreen('Müşteri Satış Raporu')"><i class="bi bi-circle"></i> Müşteri
+                            Satışları</a>
+                    </div>
                 </div>
             </span>
             <span class="menuitem">
                 Üretim
                 <div class="menubar-dropdown-content">
                     <div class="sub-header">İşlemler</div>
-                    <a href="#" onclick="openScreen('Üretim Reçetesi')"><i class="bi bi-circle"></i> Üretim Reçetesi</a>
-                    <a href="#" onclick="openScreen('Üretim Emri')"><i class="bi bi-circle"></i> Üretim Emri</a>
-                    <a href="#" onclick="openScreen('Üretim Sonu Kaydı')"><i class="bi bi-circle"></i> Üretim Sonu</a>
-                    <a href="#" onclick="openScreen('Parçalayarak Üretim Sonu Kaydı')"><i class="bi bi-circle"></i>
-                        Parçalayarak Üretim</a>
-                    <a href="#" onclick="openScreen('Fire-Atık Girişi')"><i class="bi bi-circle"></i> Fire-Atık
-                        Girişi</a>
-                    <a href="#" onclick="openScreen('MRP Hesaplama')"><i class="bi bi-circle"></i> MRP Hesaplama</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Üretim Reçetesi')"><i class="bi bi-circle"></i> Üretim
+                            Reçetesi</a>
+                        <a href="#" onclick="openScreen('Üretim Emri')"><i class="bi bi-circle"></i> Üretim Emri</a>
+                        <a href="#" onclick="openScreen('Üretim Sonu Kaydı')"><i class="bi bi-circle"></i> Üretim
+                            Sonu</a>
+                        <a href="#" onclick="openScreen('Parçalayarak Üretim Sonu Kaydı')"><i class="bi bi-circle"></i>
+                            Parçalayarak Üretim</a>
+                        <a href="#" onclick="openScreen('Fire-Atık Girişi')"><i class="bi bi-circle"></i> Fire-Atık
+                            Girişi</a>
+                        <a href="#" onclick="openScreen('MRP Hesaplama')"><i class="bi bi-circle"></i> MRP Hesaplama</a>
+                    </div>
 
                     <div class="sub-header">Tanımlar</div>
-                    <a href="#" onclick="openScreen('İş İstasyonu Tanımları')"><i class="bi bi-circle"></i> İş
-                        İstasyonları</a>
-                    <a href="#" onclick="openScreen('Operasyon Tanımları')"><i class="bi bi-circle"></i>
-                        Operasyonlar</a>
-                    <a href="#" onclick="openScreen('Makine Tanımları')"><i class="bi bi-circle"></i> Makineler</a>
-                    <a href="#" onclick="openScreen('Personel Tanımları')"><i class="bi bi-circle"></i> Personel</a>
-                    <a href="#" onclick="openScreen('Vardiya Tanımları')"><i class="bi bi-circle"></i> Vardiyalar</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('İş İstasyonu Tanımları')"><i class="bi bi-circle"></i> İş
+                            İstasyonları</a>
+                        <a href="#" onclick="openScreen('Operasyon Tanımları')"><i class="bi bi-circle"></i>
+                            Operasyonlar</a>
+                        <a href="#" onclick="openScreen('Makine Tanımları')"><i class="bi bi-circle"></i> Makineler</a>
+                        <a href="#" onclick="openScreen('Personel Tanımları')"><i class="bi bi-circle"></i> Personel</a>
+                        <a href="#" onclick="openScreen('Vardiya Tanımları')"><i class="bi bi-circle"></i>
+                            Vardiyalar</a>
+                    </div>
 
                     <div class="sub-header">Raporlar</div>
-                    <a href="#" onclick="openScreen('Üretim Raporu')"><i class="bi bi-circle"></i> Üretim Raporu</a>
-                    <a href="#" onclick="openScreen('MRP Raporu')"><i class="bi bi-circle"></i> MRP Raporu</a>
-                    <a href="#" onclick="openScreen('Üretim Maliyet Analizi')"><i class="bi bi-circle"></i> Maliyet
-                        Analizi</a>
-                    <a href="#" onclick="openScreen('Üretim Genel Analizi')"><i class="bi bi-circle"></i> Genel
-                        Analiz</a>
-                    <a href="#" onclick="openScreen('Fire-Atık Raporu')"><i class="bi bi-circle"></i> Fire-Atık
-                        Raporu</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Üretim Raporu')"><i class="bi bi-circle"></i> Üretim Raporu</a>
+                        <a href="#" onclick="openScreen('MRP Raporu')"><i class="bi bi-circle"></i> MRP Raporu</a>
+                        <a href="#" onclick="openScreen('Üretim Maliyet Analizi')"><i class="bi bi-circle"></i> Maliyet
+                            Analizi</a>
+                        <a href="#" onclick="openScreen('Üretim Genel Analizi')"><i class="bi bi-circle"></i> Genel
+                            Analiz</a>
+                        <a href="#" onclick="openScreen('Fire-Atık Raporu')"><i class="bi bi-circle"></i> Fire-Atık
+                            Raporu</a>
+                    </div>
                 </div>
             </span>
             <span class="menuitem">
                 Servis
                 <div class="menubar-dropdown-content">
                     <div class="sub-header">İşlemler</div>
-                    <a href="#" onclick="openScreen('Servis Fişi')"><i class="bi bi-circle"></i> Servis Fişi</a>
-                    <a href="#" onclick="openScreen('Servis Randevu Kayıt')"><i class="bi bi-circle"></i> Randevu
-                        Kayıt</a>
-                    <a href="#" onclick="openScreen('Servis Bakım Sözleşmesi')"><i class="bi bi-circle"></i> Bakım
-                        Sözleşmesi</a>
-                    <a href="#" onclick="openScreen('Arıza Takip')"><i class="bi bi-circle"></i> Arıza Takip</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Servis Fişi')"><i class="bi bi-circle"></i> Servis Fişi</a>
+                        <a href="#" onclick="openScreen('Servis Randevu Kayıt')"><i class="bi bi-circle"></i> Randevu
+                            Kayıt</a>
+                        <a href="#" onclick="openScreen('Servis Bakım Sözleşmesi')"><i class="bi bi-circle"></i> Bakım
+                            Sözleşmesi</a>
+                        <a href="#" onclick="openScreen('Arıza Takip')"><i class="bi bi-circle"></i> Arıza Takip</a>
+                    </div>
 
                     <div class="sub-header">Tanımlar</div>
-                    <a href="#" onclick="openScreen('İşlem Tanımları')"><i class="bi bi-circle"></i> İşlem Tanımları</a>
-                    <a href="#" onclick="openScreen('Araç Tanımları')"><i class="bi bi-circle"></i> Araç Tanımları</a>
-                    <a href="#" onclick="openScreen('Servis Elemanı Tanımları')"><i class="bi bi-circle"></i> Servis
-                        Elemanları</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('İşlem Tanımları')"><i class="bi bi-circle"></i> İşlem
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Araç Tanımları')"><i class="bi bi-circle"></i> Araç
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Servis Elemanı Tanımları')"><i class="bi bi-circle"></i> Servis
+                            Elemanları</a>
+                    </div>
 
                     <div class="sub-header">Raporlar</div>
-                    <a href="#" onclick="openScreen('Fiş Raporu')"><i class="bi bi-circle"></i> Fiş Raporu</a>
-                    <a href="#" onclick="openScreen('Servis Analizi')"><i class="bi bi-circle"></i> Servis Analizi</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Fiş Raporu')"><i class="bi bi-circle"></i> Fiş Raporu</a>
+                        <a href="#" onclick="openScreen('Servis Analizi')"><i class="bi bi-circle"></i> Servis
+                            Analizi</a>
+                    </div>
                 </div>
             </span>
             <span class="menuitem">
                 Finans
                 <div class="menubar-dropdown-content">
                     <div class="sub-header">İşlemler</div>
-                    <a href="#" onclick="openScreen('Cari Virman')"><i class="bi bi-circle"></i> Cari Virman</a>
-                    <a href="#" onclick="openScreen('Cari Tahsilat')"><i class="bi bi-circle"></i> Cari Tahsilat</a>
-                    <a href="#" onclick="openScreen('Cari Tediye')"><i class="bi bi-circle"></i> Cari Tediye</a>
-                    <a href="#" onclick="openScreen('Kasa İşlemleri')"><i class="bi bi-circle"></i> Kasa İşlemleri</a>
-                    <a href="#" onclick="openScreen('Banka İşlemleri')"><i class="bi bi-circle"></i> Banka İşlemleri</a>
-                    <a href="#" onclick="openScreen('Çek/Senet İşlemleri')"><i class="bi bi-circle"></i> Çek/Senet</a>
-                    <a href="#" onclick="openScreen('Taksit İşlemleri')"><i class="bi bi-circle"></i> Taksit
-                        İşlemleri</a>
-                    <a href="#" onclick="openScreen('Doviz İşlemleri')"><i class="bi bi-circle"></i> Döviz İşlemleri</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Cari Virman')"><i class="bi bi-circle"></i> Cari Virman</a>
+                        <a href="#" onclick="openScreen('Cari Tahsilat')"><i class="bi bi-circle"></i> Cari Tahsilat</a>
+                        <a href="#" onclick="openScreen('Cari Tediye')"><i class="bi bi-circle"></i> Cari Tediye</a>
+                        <a href="#" onclick="openScreen('Kasa İşlemleri')"><i class="bi bi-circle"></i> Kasa
+                            İşlemleri</a>
+                        <a href="#" onclick="openScreen('Banka İşlemleri')"><i class="bi bi-circle"></i> Banka
+                            İşlemleri</a>
+                        <a href="#" onclick="openScreen('Çek/Senet İşlemleri')"><i class="bi bi-circle"></i>
+                            Çek/Senet</a>
+                        <a href="#" onclick="openScreen('Taksit İşlemleri')"><i class="bi bi-circle"></i> Taksit
+                            İşlemleri</a>
+                        <a href="#" onclick="openScreen('Doviz İşlemleri')"><i class="bi bi-circle"></i> Döviz
+                            İşlemleri</a>
+                    </div>
 
                     <div class="sub-header">Tanımlar</div>
-                    <a href="#" onclick="openScreen('Cari Tanımları')"><i class="bi bi-circle"></i> Cari Tanımları</a>
-                    <a href="#" onclick="openScreen('Kasa Tanımları')"><i class="bi bi-circle"></i> Kasa Tanımları</a>
-                    <a href="#" onclick="openScreen('Banka Tanımları')"><i class="bi bi-circle"></i> Banka Tanımları</a>
-                    <a href="#" onclick="openScreen('Döviz Tanımları')"><i class="bi bi-circle"></i> Döviz Tanımları</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Cari Tanımları')"><i class="bi bi-circle"></i> Cari
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Kasa Tanımları')"><i class="bi bi-circle"></i> Kasa
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Banka Tanımları')"><i class="bi bi-circle"></i> Banka
+                            Tanımları</a>
+                        <a href="#" onclick="openScreen('Döviz Tanımları')"><i class="bi bi-circle"></i> Döviz
+                            Tanımları</a>
+                    </div>
 
                     <div class="sub-header">Raporlar</div>
-                    <a href="#" onclick="openScreen('Cari Haraket Raporu')"><i class="bi bi-circle"></i> Haraket
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Bankalar Listesi')"><i class="bi bi-circle"></i> Bankalar
-                        Listesi</a>
-                    <a href="#" onclick="openScreen('Finansal Analiz')"><i class="bi bi-circle"></i> Finansal Analiz</a>
-                    <a href="#" onclick="openScreen('Kasa Raporu(Genel)')"><i class="bi bi-circle"></i> Kasa Raporu</a>
-                    <a href="#" onclick="openScreen('Çek/Senet Raporu')"><i class="bi bi-circle"></i> Çek/Senet
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Döviz Kur Arama')"><i class="bi bi-circle"></i> Döviz Raporları</a>
-                    <a href="#" onclick="openScreen('Yönetici Ekranı')"><i class="bi bi-circle"></i> Yönetici Ekranı</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Cari Haraket Raporu')"><i class="bi bi-circle"></i> Haraket
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Bankalar Listesi')"><i class="bi bi-circle"></i> Bankalar
+                            Listesi</a>
+                        <a href="#" onclick="openScreen('Finansal Analiz')"><i class="bi bi-circle"></i> Finansal
+                            Analiz</a>
+                        <a href="#" onclick="openScreen('Kasa Raporu(Genel)')"><i class="bi bi-circle"></i> Kasa
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Çek/Senet Raporu')"><i class="bi bi-circle"></i> Çek/Senet
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Döviz Kur Arama')"><i class="bi bi-circle"></i> Döviz
+                            Raporları</a>
+                        <a href="#" onclick="openScreen('Yönetici Ekranı')"><i class="bi bi-circle"></i> Yönetici
+                            Ekranı</a>
+                    </div>
                 </div>
             </span>
             <span class="menuitem">
                 CRM
                 <div class="menubar-dropdown-content">
                     <div class="sub-header">İşlemler</div>
-                    <a href="#" onclick="openScreen('Müşteri İlişkilendirme Yönetimi')"><i class="bi bi-circle"></i>
-                        İlişkilendirme</a>
-                    <a href="#" onclick="openScreen('Aktivite Kayıt')"><i class="bi bi-circle"></i> Aktivite Kayıt</a>
-                    <a href="#" onclick="openScreen('Müşteri Destek Kayıt')"><i class="bi bi-circle"></i> Destek
-                        Kayıt</a>
-                    <a href="#" onclick="openScreen('Ajanda')"><i class="bi bi-circle"></i> Ajanda</a>
-                    <a href="#" onclick="openScreen('Anket Girişi')"><i class="bi bi-circle"></i> Anket Girişi</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Müşteri İlişkilendirme Yönetimi')"><i class="bi bi-circle"></i>
+                            İlişkilendirme</a>
+                        <a href="#" onclick="openScreen('Aktivite Kayıt')"><i class="bi bi-circle"></i> Aktivite
+                            Kayıt</a>
+                        <a href="#" onclick="openScreen('Müşteri Destek Kayıt')"><i class="bi bi-circle"></i> Destek
+                            Kayıt</a>
+                        <a href="#" onclick="openScreen('Ajanda')"><i class="bi bi-circle"></i> Ajanda</a>
+                        <a href="#" onclick="openScreen('Anket Girişi')"><i class="bi bi-circle"></i> Anket Girişi</a>
+                    </div>
 
                     <div class="sub-header">Tanımlar</div>
-                    <a href="#" onclick="openScreen('Müşteri Listesi Tanımları')"><i class="bi bi-circle"></i> Müşteri
-                        Listeleri</a>
-                    <a href="#" onclick="openScreen('Kapmanya Tanımları')"><i class="bi bi-circle"></i> Kampanyalar</a>
-                    <a href="#" onclick="openScreen('Proje ve Satış Takip Tanımları')"><i class="bi bi-circle"></i>
-                        Proje Takip</a>
-                    <a href="#" onclick="openScreen('Anket Tanımları')"><i class="bi bi-circle"></i> Anket Tanımları</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Müşteri Listesi Tanımları')"><i class="bi bi-circle"></i>
+                            Müşteri
+                            Listeleri</a>
+                        <a href="#" onclick="openScreen('Kapmanya Tanımları')"><i class="bi bi-circle"></i>
+                            Kampanyalar</a>
+                        <a href="#" onclick="openScreen('Proje ve Satış Takip Tanımları')"><i class="bi bi-circle"></i>
+                            Proje Takip</a>
+                        <a href="#" onclick="openScreen('Anket Tanımları')"><i class="bi bi-circle"></i> Anket
+                            Tanımları</a>
+                    </div>
 
                     <div class="sub-header">Raporlar</div>
-                    <a href="#" onclick="openScreen('Aktivite Raporu')"><i class="bi bi-circle"></i> Aktivite Raporu</a>
-                    <a href="#" onclick="openScreen('Müşteri Destek Raporu')"><i class="bi bi-circle"></i> Destek
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Müşteri Kayıp Raporu')"><i class="bi bi-circle"></i> Kayıp
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Müşteri Karlılık Raporu')"><i class="bi bi-circle"></i> Karlılık
-                        Raporu</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Aktivite Raporu')"><i class="bi bi-circle"></i> Aktivite
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Müşteri Destek Raporu')"><i class="bi bi-circle"></i> Destek
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Müşteri Kayıp Raporu')"><i class="bi bi-circle"></i> Kayıp
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Müşteri Karlılık Raporu')"><i class="bi bi-circle"></i>
+                            Karlılık
+                            Raporu</a>
+                    </div>
                 </div>
             </span>
             <span class="menuitem">
                 Raporlar
                 <div class="menubar-dropdown-content">
                     <div class="sub-header">Genel Raporlar</div>
-                    <a href="#" onclick="openScreen('Özel Raporlar')"><i class="bi bi-circle"></i> Özel Raporlar</a>
-                    <a href="#" onclick="openScreen('Dizaynlarım')"><i class="bi bi-circle"></i> Dizaynlarım</a>
-                    <a href="#" onclick="openScreen('Hızlı Raporlar')"><i class="bi bi-circle"></i> Hızlı Raporlar</a>
-                    <a href="#" onclick="openScreen('Favori Raporlar')"><i class="bi bi-circle"></i> Favori Raporlar</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Özel Raporlar')"><i class="bi bi-circle"></i> Özel Raporlar</a>
+                        <a href="#" onclick="openScreen('Dizaynlarım')"><i class="bi bi-circle"></i> Dizaynlarım</a>
+                        <a href="#" onclick="openScreen('Hızlı Raporlar')"><i class="bi bi-circle"></i> Hızlı
+                            Raporlar</a>
+                        <a href="#" onclick="openScreen('Favori Raporlar')"><i class="bi bi-circle"></i> Favori
+                            Raporlar</a>
+                    </div>
 
                     <div class="sub-header">Müşteri ve Satış Raporları</div>
-                    <a href="#" onclick="openScreen('Mevcut Müşteri Listesi')"><i class="bi bi-circle"></i> Müşteri
-                        Listesi</a>
-                    <a href="#" onclick="openScreen('Kampanya Raporu')"><i class="bi bi-circle"></i> Kampanya Raporu</a>
-                    <a href="#" onclick="openScreen('Proje ve Satış Takip Raporu')"><i class="bi bi-circle"></i> Proje
-                        Takip</a>
-                    <a href="#" onclick="openScreen('Müşteri Destek Raporu')"><i class="bi bi-circle"></i> Destek
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Aktivite Raporu')"><i class="bi bi-circle"></i> Aktivite Raporu</a>
-                    <a href="#" onclick="openScreen('Anket Raporu')"><i class="bi bi-circle"></i> Anket Raporu</a>
-                    <a href="#" onclick="openScreen('Müşteri Karlılık Raporu')"><i class="bi bi-circle"></i> Karlılık
-                        Raporu</a>
-                    <a href="#" onclick="openScreen('Müşteri ve Ürün Genel İlişki')"><i class="bi bi-circle"></i> Ürün
-                        İlişki</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Mevcut Müşteri Listesi')"><i class="bi bi-circle"></i> Müşteri
+                            Listesi</a>
+                        <a href="#" onclick="openScreen('Kampanya Raporu')"><i class="bi bi-circle"></i> Kampanya
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Proje ve Satış Takip Raporu')"><i class="bi bi-circle"></i>
+                            Proje
+                            Takip</a>
+                        <a href="#" onclick="openScreen('Müşteri Destek Raporu')"><i class="bi bi-circle"></i> Destek
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Aktivite Raporu')"><i class="bi bi-circle"></i> Aktivite
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Anket Raporu')"><i class="bi bi-circle"></i> Anket Raporu</a>
+                        <a href="#" onclick="openScreen('Müşteri Karlılık Raporu')"><i class="bi bi-circle"></i>
+                            Karlılık
+                            Raporu</a>
+                        <a href="#" onclick="openScreen('Müşteri ve Ürün Genel İlişki')"><i class="bi bi-circle"></i>
+                            Ürün
+                            İlişki</a>
+                    </div>
 
                     <div class="sub-header">Satış Analizleri</div>
-                    <a href="#" onclick="openScreen('En Çok Satılan Ürünler')"><i class="bi bi-circle"></i> Çok
-                        Satanlar</a>
-                    <a href="#" onclick="openScreen('Müşteri Bazında en çok Satılan Ürünler')"><i
-                            class="bi bi-circle"></i> Müşteri Bazlı Satış</a>
-                    <a href="#" onclick="openScreen('Müşteri Bazında Satılmayan ürünler')"><i class="bi bi-circle"></i>
-                        Satılmayan Ürünler</a>
-                    <a href="#" onclick="openScreen('Çapraz Satış Raporu')"><i class="bi bi-circle"></i> Çapraz
-                        Satış</a>
-                    <a href="#" onclick="openScreen('En Çok Satış Yapılan Ürün Grupları')"><i class="bi bi-circle"></i>
-                        Grup Satışları</a>
-                    <a href="#" onclick="openScreen('Ürün Bazında en çok Satış yapılan Müşteriler')"><i
-                            class="bi bi-circle"></i> Ürün Bazlı Müşteri</a>
-                    <a href="#" onclick="openScreen('En Çok satış yapılan Müşteri Grupları')"><i
-                            class="bi bi-circle"></i> Müşteri Grupları</a>
-                    <a href="#" onclick="openScreen('En Çok Satış Yapılan İlçe-İl Grupları')"><i
-                            class="bi bi-circle"></i> Bölgesel Satış</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('En Çok Satılan Ürünler')"><i class="bi bi-circle"></i> Çok
+                            Satanlar</a>
+                        <a href="#" onclick="openScreen('Müşteri Bazında en çok Satılan Ürünler')"><i
+                                class="bi bi-circle"></i> Müşteri Bazlı Satış</a>
+                        <a href="#" onclick="openScreen('Müşteri Bazında Satılmayan ürünler')"><i
+                                class="bi bi-circle"></i>
+                            Satılmayan Ürünler</a>
+                        <a href="#" onclick="openScreen('Çapraz Satış Raporu')"><i class="bi bi-circle"></i> Çapraz
+                            Satış</a>
+                        <a href="#" onclick="openScreen('En Çok Satış Yapılan Ürün Grupları')"><i
+                                class="bi bi-circle"></i>
+                            Grup Satışları</a>
+                        <a href="#" onclick="openScreen('Ürün Bazında en çok Satış yapılan Müşteriler')"><i
+                                class="bi bi-circle"></i> Ürün Bazlı Müşteri</a>
+                        <a href="#" onclick="openScreen('En Çok satış yapılan Müşteri Grupları')"><i
+                                class="bi bi-circle"></i> Müşteri Grupları</a>
+                        <a href="#" onclick="openScreen('En Çok Satış Yapılan İlçe-İl Grupları')"><i
+                                class="bi bi-circle"></i> Bölgesel Satış</a>
+                    </div>
 
                     <div class="sub-header">Pazarlamacı ve Servis</div>
-                    <a href="#" onclick="openScreen('Ürün Bazında Pazarlamacı Miktarları')"><i class="bi bi-circle"></i>
-                        Pazarlamacı Miktar</a>
-                    <a href="#" onclick="openScreen('Pazarlamacı Bazında En Çok Satılan Ürünler')"><i
-                            class="bi bi-circle"></i> Pazarlamacı Satış</a>
-                    <a href="#" onclick="openScreen('Müşteri Servis Raporu')"><i class="bi bi-circle"></i> Servis
-                        Raporu</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Ürün Bazında Pazarlamacı Miktarları')"><i
+                                class="bi bi-circle"></i>
+                            Pazarlamacı Miktar</a>
+                        <a href="#" onclick="openScreen('Pazarlamacı Bazında En Çok Satılan Ürünler')"><i
+                                class="bi bi-circle"></i> Pazarlamacı Satış</a>
+                        <a href="#" onclick="openScreen('Müşteri Servis Raporu')"><i class="bi bi-circle"></i> Servis
+                            Raporu</a>
+                    </div>
                 </div>
             </span>
             <span class="menuitem">
                 İthalat
                 <div class="menubar-dropdown-content">
                     <div class="sub-header">İşlemler</div>
-                    <a href="#" onclick="openScreen('İthalat Dosyası')"><i class="bi bi-circle"></i> İthalat Dosyası</a>
-                    <a href="#" onclick="openScreen('Stok Millileştirme')"><i class="bi bi-circle"></i> Stok
-                        Millileştirme</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('İthalat Dosyası')"><i class="bi bi-circle"></i> İthalat
+                            Dosyası</a>
+                        <a href="#" onclick="openScreen('Stok Millileştirme')"><i class="bi bi-circle"></i> Stok
+                            Millileştirme</a>
+                    </div>
 
                     <div class="sub-header">Tanımlar</div>
-                    <a href="#" onclick="openScreen('Dağıtım Anahtarları')"><i class="bi bi-circle"></i> Dağıtım
-                        Anahtarları</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('Dağıtım Anahtarları')"><i class="bi bi-circle"></i> Dağıtım
+                            Anahtarları</a>
+                    </div>
 
                     <div class="sub-header">Raporlar</div>
-                    <a href="#" onclick="openScreen('İthalat Dosya Listesi')"><i class="bi bi-circle"></i> Dosya
-                        Listesi</a>
-                    <a href="#" onclick="openScreen('Stok Millileştirme Listesi')"><i class="bi bi-circle"></i>
-                        Millileştirme
-                        Listesi</a>
-                    <a href="#" onclick="openScreen('İthalat Envanter Listesi')"><i class="bi bi-circle"></i> Envanter
-                        Listesi</a>
+                    <div class="sub-section">
+                        <a href="#" onclick="openScreen('İthalat Dosya Listesi')"><i class="bi bi-circle"></i> Dosya
+                            Listesi</a>
+                        <a href="#" onclick="openScreen('Stok Millileştirme Listesi')"><i class="bi bi-circle"></i>
+                            Millileştirme
+                            Listesi</a>
+                        <a href="#" onclick="openScreen('İthalat Envanter Listesi')"><i class="bi bi-circle"></i>
+                            Envanter
+                            Listesi</a>
+                    </div>
                 </div>
             </span>
             <span class="menuitem">
@@ -1938,7 +2089,77 @@
                     <div class="pro-menu-wrap" id="mainMenuContainer">
                         <nav class="menu open-current-submenu">
                             <ul>
-                                <li class="menu-header"><span>Wolvox ERP</span></li>
+                                <li class="menu-header"
+                                    style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span>Wolvox ERP</span>
+
+                                    <input type="text" id="menuSearchInput" placeholder="Ara..."
+                                        oninput="doSearch(this)"
+                                        style="width: 140px; padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px;">
+                                    <span id="search-debug" style="font-size:10px; margin-left:3px;"></span>
+                                    <script>
+                                        function doSearch(el) {
+                                            try {
+                                                var val = el.value.toLowerCase().replace(/İ/g, 'i').replace(/I/g, 'ı').trim();
+                                                var box = document.getElementById('mainMenuContainer');
+                                                if (!box) return;
+
+                                                var items = box.querySelectorAll('.menu-item');
+                                                var lists = box.querySelectorAll('.sub-menu-list');
+                                                var debug = document.getElementById('search-debug');
+
+                                                if (val === '') {
+                                                    items.forEach(function (i) {
+                                                        i.classList.remove('search-hidden', 'search-match');
+                                                        i.style.display = '';
+                                                    });
+                                                    lists.forEach(function (l) { l.style.display = ''; });
+                                                    el.style.borderColor = '#ccc';
+                                                    if (debug) debug.innerText = '';
+                                                    return;
+                                                }
+
+                                                var count = 0;
+                                                // Reset all first
+                                                items.forEach(function (i) {
+                                                    i.classList.add('search-hidden');
+                                                    i.style.display = '';
+                                                });
+
+                                                items.forEach(function (item) {
+                                                    // Match Logic
+                                                    var txt = item.textContent.toLowerCase().replace(/İ/g, 'i').replace(/I/g, 'ı');
+                                                    if (txt.indexOf(val) > -1) {
+                                                        count++;
+                                                        item.classList.remove('search-hidden');
+                                                        item.classList.add('search-match');
+
+                                                        // Walk up to show parents
+                                                        var p = item.parentElement;
+                                                        while (p && p !== box) {
+                                                            if (p.classList.contains('menu-item')) {
+                                                                p.classList.remove('search-hidden');
+                                                                p.classList.add('open');
+                                                            }
+                                                            if (p.classList.contains('sub-menu-list')) {
+                                                                p.style.display = 'block';
+                                                            }
+                                                            p = p.parentElement;
+                                                        }
+                                                    }
+                                                });
+
+                                                el.style.borderColor = count > 0 ? 'green' : 'red';
+                                                if (debug) {
+                                                    debug.innerText = count + ' bul';
+                                                    debug.style.color = count > 0 ? 'green' : 'red';
+                                                }
+                                            } catch (e) {
+                                                alert(e);
+                                            }
+                                        }
+                                    </script>
+                                </li>
                                 <li class="menu-item sub-menu">
                                     <a href="#">
                                         <span class="menu-icon">
@@ -5128,7 +5349,7 @@
                                         <ul>
                                             <li class="menu-item">
                                                 <a href="#">
-                                                    <span class="menu-title">Yönetici Ekran</span>
+                                                    <span class="menu-title">Yönetici Ekranı</span>
                                                 </a>
                                             </li>
                                             <li class="menu-item">
@@ -5591,7 +5812,9 @@
     <!-- RIGHT -->
     <section class="right">
         <div class="workhead">
-            <span style="flex:1">Wolvox ERP</span>
+            <div style="display: flex; align-items: center; gap: 15px; flex: 1;">
+                <span style="font-weight: bold; color: #334155; font-size: 13px;">Wolvox ERP</span>
+            </div>
             <button class="hamb" id="hamb2" title="Menü">
                 <div></div>
             </button>
@@ -5986,24 +6209,1168 @@
                                 style="height: 24px; background: #f8f9fa; border-top: 1px solid var(--line2); display: flex; align-items: center; padding: 0 10px; font-size: 11px;">
                                 <span id="stok-count-bottom">Listelenen Kayıt Sayısı: 0</span>
                             </div>
+
+                            <!-- FATURA HAREKETLERI SECTION -->
+                            <div id="faturaHareketleriSection"
+                                style="height: 150px; border-top: 2px solid var(--line2); overflow: hidden; display: flex; flex-direction: column; background: #fff;">
+                                <div
+                                    style="background: #f1f3f5; padding: 4px 10px; font-size: 11px; font-weight: bold; border-bottom: 1px solid var(--line2); color: var(--blue); display: flex; align-items: center; gap: 6px;">
+                                    <i class="bi bi-list-check"></i> Fatura Hareketleri
+                                </div>
+                                <div style="flex: 1; overflow: auto;">
+                                    <table
+                                        style="width: 100%; border-collapse: collapse; font-size: 10px; white-space: nowrap;">
+                                        <thead style="background: #f8f9fa; position: sticky; top: 0; z-index: 5;">
+                                            <tr style="background: #f1f3f5;">
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">::</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Stok Kodu</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Stok Adı</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Barkodu</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Stok Adı
+                                                    Y.Dışı</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Miktarı</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Birimi</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Temel Mik.
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Temel Brm.
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">KPB Fiyatı
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">KDV Hrc.Fiyat
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">İnd.Fiyatı
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Ara Tutarı
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">İnd.Ara Toplam
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Toplam Tutar
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">KDV'li Toplam
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Simge</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Alış Kuru</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Satış Kuru
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Fiyatı</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="faturaHareketleriBody">
+                                            <tr>
+                                                <td colspan="20"
+                                                    style="padding: 10px; text-align: center; color: #999;">Hareket
+                                                    bulunamadı.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- ALT TOPLAMLAR SECTION -->
+                            <div id="altToplamlarSection"
+                                style="height: 100px; border-top: 2px solid var(--line2); overflow: hidden; display: flex; flex-direction: column; background: #fff;">
+                                <div
+                                    style="background: #f1f3f5; padding: 4px 10px; font-size: 11px; font-weight: bold; border-bottom: 1px solid var(--line2); color: var(--blue); display: flex; align-items: center; gap: 6px;">
+                                    <i class="bi bi-calculator"></i> Alt Toplamlar
+                                </div>
+                                <div style="flex: 1; overflow: auto;">
+                                    <table
+                                        style="width: 100%; border-collapse: collapse; font-size: 10px; white-space: nowrap;">
+                                        <thead style="background: #f8f9fa; position: sticky; top: 0; z-index: 5;">
+                                            <tr style="background: #f1f3f5;">
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">::</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Hesap</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Alınan Miktar
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Alış Tutarı
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Alış Tutarı
+                                                    (KDV'li)</th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Satılan Miktar
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Satış Tutarı
+                                                </th>
+                                                <th style="padding: 4px; border: 1px solid var(--line2);">Satış Tutarı
+                                                    (KDV'li)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="altToplamlarBody">
+                                            <tr>
+                                                <td colspan="8" style="padding: 10px; text-align: center; color: #999;">
+                                                    Toplam bilgisi yok.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div> <!-- End of stokTanimlarListesiView -->
+
+            <!-- YÖNETİCİ EKRANI VIEW -->
+            <div id="yoneticiEkraniView"
+                style="display:none; flex-direction: column; gap: 10px; padding: 10px; background: #f0f2f5; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+                <style>
+                    .dashboard-grid {
+                        display: grid;
+                        grid-template-columns: repeat(4, 1fr);
+                        gap: 15px;
+                    }
+
+                    .analysis-container {
+                        display: flex;
+                        gap: 15px;
+                        flex: 1;
+                        min-height: 400px;
+                        margin-bottom: 20px;
+                    }
+
+                    .stat-card {
+                        background: #fff;
+                        padding: 15px;
+                        border-radius: 8px;
+                        border: 1px solid var(--line);
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+
+                    .stat-info {
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .stat-value {
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: #1a1a1a;
+                    }
+
+                    .stat-label {
+                        font-size: 11px;
+                        color: #8e8e8e;
+                        margin-top: 2px;
+                    }
+
+                    .stat-icon {
+                        font-size: 28px;
+                        color: #d1d1d1;
+                    }
+
+                    @media (max-width: 1200px) {
+                        .dashboard-grid {
+                            grid-template-columns: repeat(2, 1fr);
+                        }
+                    }
+
+                    @media (max-width: 768px) {
+                        .dashboard-grid {
+                            grid-template-columns: 1fr;
+                        }
+
+                        .analysis-container {
+                            flex-direction: column;
+                        }
+
+                        /* Force scrolling on mobile */
+                        #yoneticiEkraniView {
+                            position: fixed !important;
+                            top: 120px !important;
+                            left: 0 !important;
+                            right: 0 !important;
+                            bottom: 0 !important;
+                            height: auto !important;
+                            overflow-y: scroll !important;
+                            -webkit-overflow-scrolling: touch !important;
+                            z-index: 999 !important;
+                        }
+
+                        /* Mobile filter bar adjustments */
+                        #yoneticiEkraniView>div:first-of-type {
+                            flex-direction: column !important;
+                            align-items: stretch !important;
+                            gap: 8px !important;
+                        }
+
+                        /* Date range on mobile */
+                        #yoneticiEkraniView>div:first-of-type>div:first-child {
+                            width: 100% !important;
+                            justify-content: center !important;
+                        }
+
+                        /* Dropdowns full width on mobile */
+                        #yoneticiEkraniView select {
+                            width: 100% !important;
+                            min-width: auto !important;
+                        }
+
+                        /* Buttons row on mobile */
+                        #yoneticiEkraniView>div:first-of-type>button {
+                            margin-left: 0 !important;
+                            flex: 1;
+                        }
+
+                        /* Stat cards - better spacing on mobile */
+                        .stat-card {
+                            padding: 12px !important;
+                        }
+
+                        .stat-value {
+                            font-size: 16px !important;
+                        }
+
+                        .stat-label {
+                            font-size: 10px !important;
+                        }
+
+                        .stat-icon {
+                            font-size: 24px !important;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+
+                        /* Extra small screens */
+                        .stat-value {
+                            font-size: 14px !important;
+                        }
+
+                        .stat-label {
+                            font-size: 9px !important;
+                        }
+
+                        .stat-icon {
+                            font-size: 20px !important;
+                        }
+
+                        /* Smaller padding for analysis cards */
+                        .analysis-card {
+                            padding: 10px !important;
+                        }
+
+                        .analysis-card-header {
+                            font-size: 11px !important;
+                        }
+
+                        .analysis-card-footer {
+                            font-size: 10px !important;
+                        }
+                    }
+                </style>
+                <!-- Filter Bar -->
+                <div
+                    style="background: #fff; padding: 10px; border-radius: 8px; border: 1px solid var(--line); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <div
+                        style="display: flex; align-items: center; background: #e9ecef; border-radius: 6px; padding: 4px 10px; gap: 10px; border: 1px solid #ced4da;">
+                        <span style="font-size: 13px; color: #495057;">01.01.2026 00:00</span>
+                        <span style="color: #6c757d;">/</span>
+                        <span style="font-size: 13px; color: #495057;">31.12.2026 23:59</span>
+                    </div>
+                    <select
+                        style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ced4da; font-size: 13px; min-width: 150px; color: #495057; background: #fff;">
+                        <option>Şube Seçimi</option>
+                    </select>
+                    <select
+                        style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ced4da; font-size: 13px; min-width: 80px; color: #495057; background: #fff;">
+                        <option>TL</option>
+                    </select>
+                    <select
+                        style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ced4da; font-size: 13px; min-width: 150px; color: #495057; background: #fff;">
+                        <option>Bu Yıl</option>
+                    </select>
+                    <button onclick="deselectAllDashboardCards()"
+                        style="margin-left: auto; padding: 6px 20px; border: 1px solid #ced4da; background: #f8f9fa; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; color: #495057;">Filtrele</button>
+                    <button onclick="openDashboardSettings()"
+                        style="padding: 8px 12px; border: 1px solid #ced4da; background: #f8f9fa; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
+                        <div style="width: 18px; height: 2px; background: #495057; border-radius: 2px;"></div>
+                        <div style="width: 18px; height: 2px; background: #495057; border-radius: 2px;"></div>
+                        <div style="width: 18px; height: 2px; background: #495057; border-radius: 2px;"></div>
+                    </button>
+                </div>
+
+                <!-- Status Cards Grid -->
+                <div class="dashboard-grid">
+                    <div class="stat-card" data-chart-id="stat-satis-tutari">
+                        <div class="stat-info">
+                            <div class="stat-value">3.681,60 TL</div>
+                            <div class="stat-label">Satış Tutarı</div>
+                        </div>
+                        <i class="bi bi-cart-check stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stat-alis-tutari">
+                        <div class="stat-info">
+                            <div class="stat-value">0,00 TL</div>
+                            <div class="stat-label">Alış Tutarı</div>
+                        </div>
+                        <i class="bi bi-cart stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stat-masraf-toplam">
+                        <div class="stat-info">
+                            <div class="stat-value">0,00 TL</div>
+                            <div class="stat-label">Masraf Faturaları Toplamı</div>
+                        </div>
+                        <i class="bi bi-cash-stack stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stat-satis-iade">
+                        <div class="stat-info">
+                            <div class="stat-value">0,00 TL</div>
+                            <div class="stat-label">Satış İadeleri Tutarı</div>
+                        </div>
+                        <i class="bi bi-arrow-counterclockwise stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stat-alis-iade">
+                        <div class="stat-info">
+                            <div class="stat-value">0,00 TL</div>
+                            <div class="stat-label">Alış İadeleri Tutarı</div>
+                        </div>
+                        <i class="bi bi-arrow-clockwise stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stat-tahsilat-toplam">
+                        <div class="stat-info">
+                            <div class="stat-value">0,00 TL</div>
+                            <div class="stat-label">Tahsilat Toplamı</div>
+                        </div>
+                        <i class="bi bi-journal-check stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stat-tediye-toplam">
+                        <div class="stat-info">
+                            <div class="stat-value">0,00 TL</div>
+                            <div class="stat-label">Tediye Toplamı</div>
+                        </div>
+                        <i class="bi bi-journal-minus stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stok-satis-tutari">
+                        <div class="stat-info">
+                            <div class="stat-value">3.068,00 TL</div>
+                            <div class="stat-label">Stok Satış Tutarı</div>
+                        </div>
+                        <i class="bi bi-box stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stok-satis-kar-tutari">
+                        <div class="stat-info">
+                            <div class="stat-value">-1.250,18 TL</div>
+                            <div class="stat-label">Stok Satış Kar Tutarı</div>
+                        </div>
+                        <i class="bi bi-percent stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stok-satis-kar-orani">
+                        <div class="stat-info">
+                            <div class="stat-value">% -28,95</div>
+                            <div class="stat-label">Stok Satış Kar Oranı</div>
+                        </div>
+                        <i class="bi bi-graph-up stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stat-kasa-bakiyesi">
+                        <div class="stat-info">
+                            <div class="stat-value">52.019.171,32 TL</div>
+                            <div class="stat-label">Kasa Bakiyesi</div>
+                        </div>
+                        <i class="bi bi-bank stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stat-banka-bakiyesi">
+                        <div class="stat-info">
+                            <div class="stat-value">1.237.500,99 TL</div>
+                            <div class="stat-label">Banka Bakiyesi</div>
+                        </div>
+                        <i class="bi bi-bank2 stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stat-restoran-satis">
+                        <div class="stat-info">
+                            <div class="stat-value">0,00 TL</div>
+                            <div class="stat-label">Restoran Toplam Satış</div>
+                        </div>
+                        <i class="bi bi-cup-hot stat-icon"></i>
+                    </div>
+                    <div class="stat-card" data-chart-id="stat-restoran-acik-fis">
+                        <div class="stat-info">
+                            <div class="stat-value">3.410,00 TL</div>
+                            <div class="stat-label">Restoran Açık Fişler Toplamı</div>
+                        </div>
+                        <i class="bi bi-receipt stat-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Dynamic Analysis Grid (Image 4) -->
+                <div id="dashboardAnalysisGrid" class="dashboard-grid" style="margin-top: 20px;">
+                    <!-- Stok Satış Tutarı -->
+                    <div class="analysis-card" data-chart-id="stok-satis-tutari">
+                        <div class="analysis-card-header"><span>Stok Satış Tutarı</span><i class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 80%; background: #3b82f6; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 40%; background: #3b82f6; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 60%; background: #3b82f6; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Bilgisayar Satış</span><span style="font-weight: bold; color: #334155;">15.250
+                                        TL</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Yazılım Lisans</span><span style="font-weight: bold; color: #334155;">8.400
+                                        TL</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Teknik Servis</span><span style="font-weight: bold; color: #334155;">3.200
+                                        TL</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (Adet) -->
+                    <div class="analysis-card" data-chart-id="top-selling-adet">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (Adet)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 100%; background: #4fd1c5; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 75%; background: #4fd1c5; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 50%; background: #4fd1c5; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>iPhone 15 Pro</span><span style="font-weight: bold; color: #334155;">42
+                                        Adet</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Samsung S24</span><span style="font-weight: bold; color: #334155;">35
+                                        Adet</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>AirPods Pro</span><span style="font-weight: bold; color: #334155;">28
+                                        Adet</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (Tutar) -->
+                    <div class="analysis-card" data-chart-id="top-selling-tutar">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 90%; background: #68d391; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 30%; background: #68d391; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 60%; background: #68d391; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>MacBook Pro 14"</span><span style="font-weight: bold; color: #334155;">85.000
+                                        TL</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Dell XPS 15</span><span style="font-weight: bold; color: #334155;">62.500
+                                        TL</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Asus ROG Strix</span><span style="font-weight: bold; color: #334155;">48.200
+                                        TL</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (Marka Bazında/Adet) -->
+                    <div class="analysis-card" data-chart-id="top-selling-marka-adet">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (Marka Bazında/Adet)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 100%; background: #4fd1c5; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 60%; background: #4fd1c5; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Apple</span><span style="font-weight: bold; color: #334155;">125 Adet</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Samsung</span><span style="font-weight: bold; color: #334155;">98 Adet</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (Marka Bazında/Tutar) -->
+                    <div class="analysis-card" data-chart-id="top-selling-marka-tutar">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (Marka Bazında/Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 100%; background: #68d391; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Microsoft</span><span style="font-weight: bold; color: #334155;">145.000
+                                        TL</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (Grup Bazında/Adet) -->
+                    <div class="analysis-card" data-chart-id="top-selling-grup-adet">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (Grup Bazında/Adet)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 100%; background: #ed64a1; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 40%; background: #ed64a1; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 80%; background: #ed64a1; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Elektronik</span><span style="font-weight: bold; color: #334155;">245
+                                        Adet</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Aksesuar</span><span style="font-weight: bold; color: #334155;">180
+                                        Adet</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Yazılım</span><span style="font-weight: bold; color: #334155;">65 Adet</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (Grup Bazında/Tutar) -->
+                    <div class="analysis-card" data-chart-id="top-selling-grup-tutar">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (Grup Bazında/Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 90%; background: #68d391; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 60%; background: #68d391; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Bilgisayar Grubu</span><span
+                                        style="font-weight: bold; color: #334155;">420.000 TL</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Tablet Grubu</span><span style="font-weight: bold; color: #334155;">115.000
+                                        TL</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+
+                    <!-- En Az Satılan Ürünler (Adet) -->
+                    <div class="analysis-card" data-chart-id="min-selling-adet">
+                        <div class="analysis-card-header"><span>En Az Satılan Ürünler (Adet)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 80%; background: #f6ad55; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 100%; background: #f6ad55; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>USB Kablo</span><span style="font-weight: bold; color: #334155;">2 Adet</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Mouse Pad</span><span style="font-weight: bold; color: #334155;">1 Adet</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Az Satılan Ürünler (Tutar) -->
+                    <div class="analysis-card" data-chart-id="min-selling-tutar">
+                        <div class="analysis-card-header"><span>En Az Satılan Ürünler (Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 100%; background: #f67280; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 40%; background: #f67280; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Mutfak Robotu</span><span style="font-weight: bold; color: #334155;">1.200
+                                        TL</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Ütü Masası</span><span style="font-weight: bold; color: #334155;">450
+                                        TL</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Az Satılan Ürünler (Marka Bazında/Adet) -->
+                    <div class="analysis-card" data-chart-id="min-selling-marka-adet">
+                        <div class="analysis-card-header"><span>En Az Satılan Ürünler (Marka Bazında/Adet)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Siemens</span><span style="font-weight: bold; color: #334155;">5 Adet</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Bosh</span><span style="font-weight: bold; color: #334155;">3 Adet</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Profilo</span><span style="font-weight: bold; color: #334155;">1 Adet</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Az Satılan Ürünler (Marka Bazında/Tutar) -->
+                    <div class="analysis-card" data-chart-id="min-selling-marka-tutar">
+                        <div class="analysis-card-header"><span>En Az Satılan Ürünler (Marka Bazında/Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Miele</span><span style="font-weight: bold; color: #334155;">12.500 TL</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Gaggenau</span><span style="font-weight: bold; color: #334155;">8.400
+                                        TL</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Az Satılan Ürünler (Grup Bazında/Adet) -->
+                    <div class="analysis-card" data-chart-id="min-selling-grup-adet">
+                        <div class="analysis-card-header"><span>En Az Satılan Ürünler (Grup Bazında/Adet)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body"
+                            style="flex-direction: column; align-items: stretch; padding: 15px;">
+                            <div
+                                style="display: flex; align-items: flex-end; gap: 8px; height: 60px; padding: 0 10px 10px 10px; border-bottom: 1px solid #f1f5f9; margin-bottom: 10px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 2px;"></div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0; border-bottom: 1px solid #f8f9fa;">
+                                    <span>Mobilya Grubu</span><span style="font-weight: bold; color: #334155;">3
+                                        Adet</span>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 11px; color: #64748b; padding: 2px 0;">
+                                    <span>Hırdavat Grubu</span><span style="font-weight: bold; color: #334155;">1
+                                        Adet</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Az Satılan Ürünler (Grup Bazında/Tutar) -->
+                    <div class="analysis-card" data-chart-id="min-selling-grup-tutar">
+                        <div class="analysis-card-header"><span>En Az Satılan Ürünler (Grup Bazında/Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+
+                    <!-- En Çok Satılan Ürünler (Ülke Bazında/Adet) -->
+                    <div class="analysis-card" data-chart-id="top-selling-ulke-adet">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (Ülke Bazında/Adet)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (Ülke Bazında/Tutar) -->
+                    <div class="analysis-card" data-chart-id="top-selling-ulke-tutar">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (Ülke Bazında/Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (İl Bazında/Adet) -->
+                    <div class="analysis-card" data-chart-id="top-selling-il-adet">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (İl Bazında/Adet)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (İl Bazında/Tutar) -->
+                    <div class="analysis-card" data-chart-id="top-selling-il-tutar">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (İl Bazında/Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (İlçe Bazında/Adet) -->
+                    <div class="analysis-card" data-chart-id="top-selling-ilce-adet">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (İlçe Bazında/Adet)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <!-- En Çok Satılan Ürünler (İlçe Bazında/Tutar) -->
+                    <div class="analysis-card" data-chart-id="top-selling-ilce-tutar">
+                        <div class="analysis-card-header"><span>En Çok Satılan Ürünler (İlçe Bazında/Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+
+                    <!-- Kar Analizleri -->
+                    <div class="analysis-card" data-chart-id="stok-satis-kar-orani">
+                        <div class="analysis-card-header"><span>Stok Satış Kar Oranı</span><i class="bi bi-gear"></i>
+                        </div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <div class="analysis-card" data-chart-id="stok-satis-kar-tutari">
+                        <div class="analysis-card-header"><span>Stok Satış Kar Tutarı</span><i class="bi bi-gear"></i>
+                        </div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <div class="analysis-card" data-chart-id="top-profit-stok-oran">
+                        <div class="analysis-card-header"><span>En Çok Kar Edilen Ürünler (Stok/Oran)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <div class="analysis-card" data-chart-id="top-profit-stok-tutar">
+                        <div class="analysis-card-header"><span>En Çok Kar Edilen Ürünler (Stok/Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <div class="analysis-card" data-chart-id="top-profit-marka-oran">
+                        <div class="analysis-card-header"><span>En Çok Kar Edilen Ürünler (Marka/Oran)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <div class="analysis-card" data-chart-id="top-profit-marka-tutar">
+                        <div class="analysis-card-header"><span>En Çok Kar Edilen Ürünler (Marka/Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <div class="analysis-card" data-chart-id="top-profit-grup-oran">
+                        <div class="analysis-card-header"><span>En Çok Kar Edilen Ürünler (Grup/Oran)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                    <div class="analysis-card" data-chart-id="top-profit-grup-tutar">
+                        <div class="analysis-card-header"><span>En Çok Kar Edilen Ürünler (Grup/Tutar)</span><i
+                                class="bi bi-gear"></i></div>
+                        <div class="analysis-card-body">
+                            <div style="display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 20px;">
+                                <div style="flex: 1; height: 60%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 90%; background: #9f7aea; border-radius: 4px;"></div>
+                                <div style="flex: 1; height: 40%; background: #9f7aea; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div class="analysis-card-footer"><span>Detaylar</span><i class="bi bi-gear"></i></div>
+                    </div>
+                </div>
+
             </div>
 
-            <defs>
-                <linearGradient id="g" x1="0" x2="1">
-                    <stop offset="0" stop-color="#0b5aa2" />
-                    <stop offset="1" stop-color="#1aa36a" />
-                </linearGradient>
-            </defs>
-            <circle cx="100" cy="100" r="86" fill="none" stroke="url(#g)" stroke-width="10" />
-            <path d="M65 120 L92 70 L108 70 L135 120 L124 120 L100 83 L76 120 Z" fill="url(#g)" />
-            <text x="100" y="182" text-anchor="middle" font-size="18" fill="#0b5aa2" font-weight="700"></text>
-            </svg>
+            <style>
+                .analysis-card {
+                    background: #fff;
+                    border-radius: 8px;
+                    border: 1px solid var(--line);
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                }
+
+                .analysis-card-header {
+                    padding: 10px 15px;
+                    background: #f8f9fa;
+                    border-bottom: 1px solid #eee;
+                    font-size: 12px;
+                    font-weight: bold;
+                    color: #475569;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                .analysis-card-body {
+                    padding: 20px;
+                    min-height: 200px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .analysis-card-footer {
+                    padding: 8px 15px;
+                    border-top: 1px solid #f0f0f0;
+                    font-size: 11px;
+                    color: #94a3b8;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    cursor: pointer;
+                }
+
+                .chart-placeholder {
+                    width: 100%;
+                    height: 150px;
+                    background: #f1f5f9;
+                    border-radius: 6px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            </style>
+        </div> <!-- End of yoneticiEkraniView -->
+        </div> <!-- End of workspace -->
+    </section> <!-- End of section class="right" -->
+    </div> <!-- End of main -->
+
+    <!-- Dashboard Settings Modal (Image 3) -->
+    <div id="modal-dashboard-settings" class="modal-overlay">
+        <div class="modal-box" style="max-width: 500px; width: 90%; padding: 0; overflow: hidden;">
+            <div
+                style="padding: 15px 20px; background: #f8f9fa; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: bold; color: #334155;">Seçenekler</span>
+                <i class="bi bi-x-lg" onclick="closeModal('modal-dashboard-settings')" style="cursor: pointer;"></i>
+            </div>
+            <div style="padding: 20px; max-height: 70vh; overflow-y: auto;">
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 13px; color: #64748b;">Maliyet Türü</span>
+                        <select id="setting-maliyet"
+                            style="width: 250px; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+                            <option>Ortalama ağırlıklı alış fiyatı</option>
+                            <option>Son alış fiyatı</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 13px; color: #64748b;">Kayıt Sayısı</span>
+                        <input type="number" id="setting-limit" value="5"
+                            style="width: 250px; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+                    </div>
+
+                    <div style="margin-top: 10px; border: 1px solid #eee; border-radius: 6px; background: #fafafa;">
+                        <div id="analysis-checklist" style="display: flex; flex-direction: column; padding: 5px;">
+                            <!-- Items will be generated via script to keep HTML clean or added manually if small enough. 
+                                 User asked for ALL 27+ items. I'll add them manually for now to ensure they are there. -->
+                            <!-- Item list according to Image 2 -->
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-satis-tutari"> Satış Tutarı</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-alis-tutari"> Alış Tutarı</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-masraf-toplam"> Masraf Faturaları
+                                Toplamı</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-satis-iade"> Satış İadeleri Tutarı</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-alis-iade"> Alış İadeleri Tutarı</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-tahsilat-toplam"> Tahsilat Toplamı</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-tediye-toplam"> Tediye Toplamı</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-kasa-bakiyesi"> Kasa Bakiyesi</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-banka-bakiyesi"> Banka Bakiyesi</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-restoran-satis"> Restoran Toplam
+                                Satış</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stat-restoran-acik-fis"> Restoran Açık Fişler
+                                Toplamı</label>
+
+                            <hr style="margin: 5px 0; border: none; border-top: 1px solid #eee;">
+
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stok-satis-tutari"> Stok Satış Tutarı</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stok-satis-kar-orani"> Stok Satış Kar
+                                Oranı</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="stok-satis-kar-tutari"> Stok Satış Kar
+                                Tutarı</label>
+
+                            <hr style="margin: 5px 0; border: none; border-top: 1px solid #eee;">
+
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-adet"> En Çok Satılan Ürünler
+                                (Adet)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-tutar"> En Çok Satılan Ürünler
+                                (Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-marka-adet"> En Çok Satılan Ürünler
+                                (Marka Bazında/Adet)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-marka-tutar"> En Çok Satılan Ürünler
+                                (Marka Bazında/Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-grup-adet"> En Çok Satılan Ürünler
+                                (Grup Bazında/Adet)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-grup-tutar"> En Çok Satılan Ürünler
+                                (Grup Bazında/Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="min-selling-adet"> En Az Satılan Ürünler
+                                (Adet)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="min-selling-tutar"> En Az Satılan Ürünler
+                                (Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="min-selling-marka-adet"> En Az Satılan Ürünler
+                                (Marka Bazında/Adet)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="min-selling-marka-tutar"> En Az Satılan Ürünler
+                                (Marka Bazında/Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="min-selling-grup-adet"> En Az Satılan Ürünler
+                                (Grup Bazında/Adet)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="min-selling-grup-tutar"> En Az Satılan Ürünler
+                                (Grup Bazında/Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-ulke-adet"> En Çok Satılan Ürünler
+                                (Ülke Bazında/Adet)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-ulke-tutar"> En Çok Satılan Ürünler
+                                (Ülke Bazında/Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-il-adet"> En Çok Satılan Ürünler (İl
+                                Bazında/Adet)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-il-tutar"> En Çok Satılan Ürünler
+                                (İl Bazında/Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-ilce-adet"> En Çok Satılan Ürünler
+                                (İlçe Bazında/Adet)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-selling-ilce-tutar"> En Çok Satılan Ürünler
+                                (İlçe Bazında/Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-profit-stok-oran"> En Çok Kar Edilen Ürünler
+                                (Stok/Oran)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-profit-stok-tutar"> En Çok Kar Edilen
+                                Ürünler (Stok/Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-profit-marka-oran"> En Çok Kar Edilen
+                                Ürünler (Marka/Oran)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-profit-marka-tutar"> En Çok Kar Edilen
+                                Ürünler (Marka/Tutar)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-profit-grup-oran"> En Çok Kar Edilen Ürünler
+                                (Grup/Oran)</label>
+                            <label
+                                style="display:flex;align-items:center;gap:10px;padding:5px 8px;cursor:pointer;font-size:12px;border-bottom:1px solid #f0f0f0;"><input
+                                    type="checkbox" checked data-chart="top-profit-grup-tutar"> En Çok Kar Edilen
+                                Ürünler (Grup/Tutar)</label>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 15px; margin-top: 5px; font-size: 13px;">
+                        <span style="color: #3b82f6; cursor: pointer; text-decoration: underline;"
+                            onclick="toggleAllFilters(true)">Tümünü Seç</span>
+                        <span style="color: #ef4444; cursor: pointer; text-decoration: underline;"
+                            onclick="toggleAllFilters(false)">Kaldır</span>
+                    </div>
+                </div>
+            </div>
+            <div
+                style="padding: 15px 20px; background: #f8f9fa; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 10px;">
+                <button onclick="applyDashboardSettings()"
+                    style="padding: 8px 25px; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; border-radius: 4px; cursor: pointer; font-weight: bold;">Tamam</button>
+                <button onclick="closeModal('modal-dashboard-settings')"
+                    style="padding: 8px 15px; background: #fff; color: #d32f2f; border: 1px solid #ef9a9a; border-radius: 4px; cursor: pointer;">İptal</button>
+            </div>
         </div>
-    </section>
-    </div>
     </div>
 
     <!-- Context Menu -->
@@ -6034,6 +7401,7 @@
         const screenView = document.getElementById('screenView');
         const businessView = document.getElementById('businessView');
         const stokTanimlarListesiView = document.getElementById('stokTanimlarListesiView');
+        const yoneticiEkraniView = document.getElementById('yoneticiEkraniView');
         const screenTitle = document.getElementById('screenTitle');
         const screenPath = document.getElementById('screenPath');
         const btnBack = document.getElementById('btnBack');
@@ -6050,6 +7418,7 @@
             screenView.style.display = 'none';
             businessView.style.display = 'none';
             stokTanimlarListesiView.style.display = 'none';
+            yoneticiEkraniView.style.display = 'none';
 
             // Toggle left panel
             if (document.getElementById('mainMenuContainer')) document.getElementById('mainMenuContainer').style.display = '';
@@ -6075,14 +7444,25 @@
             } else if (normalizedTitle === 'Stok Tanımlar Listesi') {
                 screenView.style.display = 'none';
                 businessView.style.display = 'none';
+                yoneticiEkraniView.style.display = 'none';
                 stokTanimlarListesiView.style.display = 'flex';
                 // Show filter panel, hide menu
                 if (mainMenu) mainMenu.style.display = 'none';
                 if (filterPanel) filterPanel.style.display = 'flex';
+            } else if (normalizedTitle === 'Yönetici Ekranı') {
+                screenView.style.display = 'none';
+                businessView.style.display = 'none';
+                stokTanimlarListesiView.style.display = 'none';
+                yoneticiEkraniView.style.display = 'flex';
+                screenTitle.textContent = normalizedTitle;
+                screenPath.textContent = 'Wolvox ERP  ›  ' + normalizedTitle;
+                if (mainMenu) mainMenu.style.display = 'flex'; // Keep sidebar visible
+                if (filterPanel) filterPanel.style.display = 'none';
             } else {
                 screenView.style.display = '';
                 businessView.style.display = 'none';
                 stokTanimlarListesiView.style.display = 'none';
+                yoneticiEkraniView.style.display = 'none';
                 screenTitle.textContent = normalizedTitle;
                 screenPath.textContent = 'Wolvox ERP  ›  ' + normalizedTitle;
                 if (mainMenu) mainMenu.style.display = '';
@@ -6212,6 +7592,48 @@
                 </tr>
             `;
 
+            // Populate Fatura Hareketleri
+            const hareketBody = document.getElementById('faturaHareketleriBody');
+            hareketBody.innerHTML = `
+                <tr>
+                    <td style="padding: 4px; border: 1px solid var(--line2);"><i class="bi bi-caret-right-fill" style="color:var(--blue)"></i></td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">ST00001</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">Klasik Burger</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">86900072</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">Stok kartı yurt adı. denem</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">1,00</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">ADET</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">1,00</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">ADET</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">361,20</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">$</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">43,3158</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">43,3939</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">Fiyatı</td>
+                </tr>
+            `;
+
+            // Populate Alt Toplamlar
+            const toplamBody = document.getElementById('altToplamlarBody');
+            toplamBody.innerHTML = `
+                <tr style="background: #fffbe6; font-weight: bold;">
+                    <td style="padding: 4px; border: 1px solid var(--line2);"><i class="bi bi-caret-right-fill" style="color:var(--green)"></i></td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">TL</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">0,000</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">0,000</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">0,000</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">2,000</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">3.068,000</td>
+                    <td style="padding: 4px; border: 1px solid var(--line2);">3.681,600</td>
+                </tr>
+            `;
+
             const countTop = document.getElementById('stok-count-top');
             const countBottom = document.getElementById('stok-count-bottom');
             if (countTop) countTop.textContent = 'Listelenen Kayıt Sayısı: 4';
@@ -6250,6 +7672,18 @@
                     <td colspan="15" style="padding: 20px; text-align: center; color: var(--muted);">Liste boş. Filtreleyerek kayıtları görebilirsiniz.</td>
                 </tr>
             `;
+
+            // Clear Detail Sections
+            const hareketBody = document.getElementById('faturaHareketleriBody');
+            if (hareketBody) {
+                hareketBody.innerHTML = `<tr><td colspan="20" style="padding: 10px; text-align: center; color: #999;">Hareket bulunamadı.</td></tr>`;
+            }
+
+            const toplamBody = document.getElementById('altToplamlarBody');
+            if (toplamBody) {
+                toplamBody.innerHTML = `<tr><td colspan="8" style="padding: 10px; text-align: center; color: #999;">Toplam bilgisi yok.</td></tr>`;
+            }
+
             const countTop = document.getElementById('stok-count-top');
             const countBottom = document.getElementById('stok-count-bottom');
             if (countTop) countTop.textContent = 'Listelenen Kayıt Sayısı: 0';
@@ -6445,6 +7879,41 @@
         }
 
         // ---------- Modal Logic ----------
+        function openDashboardSettings() {
+            openModal('modal-dashboard-settings');
+        }
+
+        function toggleAllDashboardFilters(cb) {
+            const checkboxes = document.querySelectorAll('#analysis-checklist input[type="checkbox"]');
+            checkboxes.forEach(chk => chk.checked = cb.checked);
+        }
+
+
+        function toggleAllFilters(state) {
+            const checkboxes = document.querySelectorAll('#analysis-checklist input[type="checkbox"]');
+            checkboxes.forEach(chk => chk.checked = state);
+        }
+
+        function deselectAllDashboardCards() {
+            // Deselect all checkboxes in the settings modal
+            toggleAllFilters(false);
+            // Apply the deselection to hide all cards
+            applyDashboardSettings();
+        }
+
+        function applyDashboardSettings() {
+            const checkboxes = document.querySelectorAll('#analysis-checklist input[type="checkbox"]');
+            checkboxes.forEach(chk => {
+                const chartId = chk.getAttribute('data-chart');
+                // Target both analysis-card and stat-card with matching data-chart-id
+                const cards = document.querySelectorAll(`[data-chart-id="${chartId}"]`);
+                cards.forEach(card => {
+                    card.style.display = chk.checked ? '' : 'none';
+                });
+            });
+            closeModal('modal-dashboard-settings');
+        }
+
         function openModal(id) {
             document.getElementById(id).classList.add('open');
             // Pre-fill input if needed (optional)
@@ -6775,8 +8244,20 @@
                 topMenuBar.classList.toggle('show');
             });
 
-            // Navbar click handling
+            // Navbar click handling for both desktop and mobile
             topMenuBar.addEventListener('click', (e) => {
+                // Handle sub-header clicks (İşlemler, Tanımlar, Raporlar)
+                const subHeader = e.target.closest('.sub-header');
+                if (subHeader) {
+                    e.stopPropagation();
+                    const subSection = subHeader.nextElementSibling;
+                    if (subSection && subSection.classList.contains('sub-section')) {
+                        subHeader.classList.toggle('expanded');
+                        subSection.classList.toggle('show');
+                    }
+                    return;
+                }
+
                 const link = e.target.closest('a');
                 if (link) {
                     // It's a click on a sub-menu item
@@ -6785,23 +8266,29 @@
                     // but we ensure consistency and menu closing here.
                     topMenuBar.classList.remove('show');
                     if (window.innerWidth <= 980) closeMenu();
+                    // Close all dropdowns after clicking a link
+                    document.querySelectorAll('.menuitem.show').forEach(item => {
+                        item.classList.remove('show');
+                    });
                     return;
                 }
 
                 const item = e.target.closest('.menuitem');
                 if (item) {
-                    // If it's a mobile view, maybe toggle the dropdown visibility?
-                    // For now, let's just make sure it doesn't break.
-                    // If the item itself is clicked (not a link), we don't necessarily want to open a screen 
-                    // unless it's a leaf node. But our header items are all folders now.
+                    e.stopPropagation();
 
-                    if (window.innerWidth <= 980) {
-                        // Toggle sub-menu visibility on mobile
-                        const content = item.querySelector('.menubar-dropdown-content');
-                        if (content) {
-                            const isVisible = window.getComputedStyle(content).display !== 'none';
-                            content.style.display = isVisible ? 'none' : 'block';
-                        }
+                    // Check if this item has a dropdown
+                    const hasDropdown = item.querySelector('.menubar-dropdown-content');
+                    if (hasDropdown) {
+                        // Close all other dropdowns
+                        document.querySelectorAll('.menuitem.show').forEach(otherItem => {
+                            if (otherItem !== item) {
+                                otherItem.classList.remove('show');
+                            }
+                        });
+
+                        // Toggle this dropdown
+                        item.classList.toggle('show');
                     }
                 }
             });
@@ -6810,13 +8297,181 @@
             document.addEventListener('click', (e) => {
                 if (!topMenuBar.contains(e.target) && !btnTopMenu.contains(e.target)) {
                     topMenuBar.classList.remove('show');
+                    // Close all dropdowns
+                    document.querySelectorAll('.menuitem.show').forEach(item => {
+                        item.classList.remove('show');
+                    });
                 }
             });
         }
 
-        showHome();
-    </script>
 
+        showHome();
+
+        // -------------------------------------------------------------
+        // SIDEBAR MENU SEARCH FILTER - ROBUST VERSION
+        // -------------------------------------------------------------
+
+        // -------------------------------------------------------------
+        // SIDEBAR MENU SEARCH FILTER - ROBUST VERSION (Class Based)
+        // -------------------------------------------------------------
+
+        // -------------------------------------------------------------
+        // SIDEBAR MENU SEARCH FILTER - GLOBAL & ROBUST
+        // -------------------------------------------------------------
+
+
+        // -------------------------------------------------------------
+        // SIDEBAR MENU SEARCH FILTER - GLOBAL & ROBUST
+        // -------------------------------------------------------------
+
+
+        // -------------------------------------------------------------
+        // SIDEBAR MENU SEARCH FILTER - ROBUST EVENT LISTENER VERSION
+        // -------------------------------------------------------------
+
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log("DOM loaded, initializing search...");
+
+            const inputEl = document.getElementById('menuSearchInput');
+            if (inputEl) {
+                // Remove old inline handlers validity
+                inputEl.oninput = null;
+                inputEl.onkeydown = null;
+
+                // Bind INPUT event (Real-time and clearing)
+                inputEl.addEventListener('input', function (e) {
+                    globalSearchMenu(this);
+                });
+
+                // Bind ENTER key (User preference)
+                inputEl.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        globalSearchMenu(this);
+                    }
+                });
+
+                // Visual confirmation it's ready
+                inputEl.style.border = '1px solid #3b82f6';
+            } else {
+                console.error("Search input not found!");
+            }
+        });
+
+        window.globalSearchMenu = function (inputEl) {
+            try {
+                // Feedback
+                inputEl.style.borderColor = '#3b82f6';
+
+                function normalizeForSearch(text) {
+                    if (!text) return "";
+                    return text
+                        .replace(/İ/g, 'i').replace(/I/g, 'ı')
+                        .toLowerCase()
+                        .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
+                        .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
+                        .replace(/[^a-z0-9]/g, '');
+                }
+
+                const searchText = normalizeForSearch(inputEl.value || "");
+
+                const container = document.getElementById('mainMenuContainer') || document.querySelector('.pro-menu-wrap');
+                if (!container) return;
+
+                const allItems = container.querySelectorAll('.menu-item');
+                const allSubLists = container.querySelectorAll('.sub-menu-list');
+
+                // --- RESET MODE ---
+                if (!searchText) {
+                    allItems.forEach(item => {
+                        item.classList.remove('search-hidden');
+                        item.classList.remove('search-match');
+                        item.style.display = '';
+
+                        if (item.classList.contains('search-expanded')) {
+                            item.classList.remove('open', 'search-expanded');
+                        }
+                    });
+                    // Clear forced display on lists
+                    allSubLists.forEach(list => {
+                        list.style.display = '';
+                    });
+
+                    inputEl.style.borderColor = '#ccc';
+                    const debugEl = document.getElementById('search-debug-info');
+                    if (debugEl) debugEl.textContent = "";
+                    return;
+                }
+
+                // --- SEARCH MODE ---
+
+                // 1. First, hide EVERYTHING
+                allItems.forEach(item => {
+                    item.classList.add('search-hidden');
+                    item.classList.remove('search-match');
+                    item.style.display = ''; // Ensure no inline display overrides class
+                });
+
+                let matchCount = 0;
+
+                // 2. Check for matches
+                allItems.forEach(item => {
+                    // Check clean visible text
+                    const titleEl = item.querySelector('.menu-title');
+                    const textToCheck = titleEl ? titleEl.innerText : item.innerText;
+
+                    if (normalizeForSearch(textToCheck).includes(searchText)) {
+                        matchCount++;
+
+                        // Reveal Self
+                        item.classList.remove('search-hidden');
+                        item.classList.add('search-match');
+
+                        // Reveal Parents (Bubble up)
+                        let parent = item.parentElement;
+                        while (parent && parent !== container) {
+
+                            // Unhide parent LIs
+                            if (parent.classList.contains('menu-item')) {
+                                parent.classList.remove('search-hidden');
+                                if (!parent.classList.contains('open')) {
+                                    parent.classList.add('open', 'search-expanded');
+                                }
+                            }
+
+                            // Force show parent sub-menu-lists
+                            if (parent.classList.contains('sub-menu-list')) {
+                                parent.style.display = 'block';
+                            }
+
+                            parent = parent.parentElement;
+                        }
+                    }
+                });
+
+                // Color feedback
+                inputEl.style.borderColor = matchCount > 0 ? '#22c55e' : '#ef4444';
+
+                // Debug
+                let debugEl = document.getElementById('search-debug-info');
+                if (!debugEl) {
+                    debugEl = document.createElement('span');
+                    debugEl.id = 'search-debug-info';
+                    debugEl.style.fontSize = '10px';
+                    debugEl.style.marginLeft = '5px';
+                    inputEl.parentNode.appendChild(debugEl);
+                }
+                debugEl.textContent = matchCount > 0 ? `(${matchCount})` : "(0)";
+                debugEl.style.color = matchCount > 0 ? 'green' : 'red';
+
+            } catch (err) {
+                console.error("Search Logic Error:", err);
+                alert("Search Error: " + err.message);
+            }
+        };
+
+        console.log("Global search (v5-Events) initialized.");
+    </script>
 </body>
 
 </html>
