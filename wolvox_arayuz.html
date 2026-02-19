@@ -9082,6 +9082,7 @@
                 screenView.style.display = 'none';
                 businessView.style.display = '';
                 stokTanimlarListesiView.style.display = 'none';
+                if (document.getElementById('satisFaturasiView')) document.getElementById('satisFaturasiView').style.display = 'none';
                 if (mainMenu) mainMenu.style.display = '';
                 if (filterPanel) filterPanel.style.display = 'none';
             } else if (normalizedTitle === 'Stok Tanımlar Listesi') {
@@ -9089,6 +9090,7 @@
                 businessView.style.display = 'none';
                 yoneticiEkraniView.style.display = 'none';
                 stokTanimlarListesiView.style.display = 'flex';
+                if (document.getElementById('satisFaturasiView')) document.getElementById('satisFaturasiView').style.display = 'none';
                 // Show filter panel, hide menu
                 if (mainMenu) mainMenu.style.display = 'none';
                 if (filterPanel) filterPanel.style.display = 'flex';
