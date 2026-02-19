@@ -786,9 +786,11 @@
             }
 
             .main {
-                display: block;
-                /* Stack or just use full width for right */
-                overflow: visible;
+                display: flex;
+                /* Restored from block to maintain flex chain */
+                flex-direction: row;
+                overflow: hidden;
+                /* Changed from visible to allow inner scroll */
             }
 
             .left {
@@ -811,6 +813,17 @@
             .right {
                 width: 100% !important;
                 margin-left: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                flex: 1 !important;
+                min-height: 0 !important;
+            }
+
+            .workspace {
+                flex: 1 !important;
+                overflow-y: auto !important;
+                min-height: 0 !important;
+                padding-bottom: 20px !important;
             }
 
             .topright {
@@ -1199,6 +1212,40 @@
             background-color: #ffffff !important;
             /* Yellow-200 */
             color: #313131 !important;
+        }
+
+        /* Sales Invoice Mobile Fixes */
+        @media (max-width: 980px) {
+            .invoice-tabs-container {
+                overflow-x: auto !important;
+                white-space: nowrap !important;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                flex-wrap: nowrap !important;
+                padding-bottom: 2px !important;
+            }
+
+            .invoice-tabs-container::-webkit-scrollbar {
+                display: none;
+            }
+
+            .invoice-tabs-container>div {
+                flex-shrink: 0 !important;
+            }
+
+            .invoice-tab-content-wrapper {
+                overflow-y: auto !important;
+                flex: 1 !important;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .invoice-form-grid {
+                flex-direction: column !important;
+            }
+
+            .invoice-form-col {
+                min-width: 100% !important;
+            }
         }
 
         /* ==================================================== */
@@ -1763,6 +1810,30 @@
                                 .sf-tab {
                                     white-space: nowrap;
                                     flex-shrink: 0;
+                                    padding: 6px 12px;
+                                    font-size: 11px;
+                                    cursor: pointer;
+                                    color: #555;
+                                    border: 1px solid transparent;
+                                    border-bottom: none;
+                                    border-top-left-radius: 4px;
+                                    border-top-right-radius: 4px;
+                                    transition: all 0.2s;
+                                }
+
+                                .sf-tab:hover {
+                                    background: rgba(255, 255, 255, 0.5);
+                                }
+
+                                .sf-tab.active {
+                                    background: #fff !important;
+                                    border: 1px solid var(--line) !important;
+                                    border-bottom: 1px solid #fff !important;
+                                    margin-bottom: -1px;
+                                    color: var(--blue) !important;
+                                    font-weight: bold !important;
+                                    position: relative;
+                                    z-index: 2;
                                 }
 
                                 @media (max-width: 768px) {
@@ -1789,21 +1860,14 @@
                                     }
                                 }
                             </style>
-                            <div class="sf-tab" id="tab-ozelalan" onclick="switchFilterTab('ozelalan')"
-                                style="padding: 4px 8px; font-size: 10px; cursor: pointer;">Özel Alan Flt.</div>
-                            <div class="sf-tab" id="tab-siralama" onclick="switchFilterTab('siralama')"
-                                style="padding: 4px 8px; font-size: 10px; cursor: pointer;">Sıralama</div>
-                            <div class="sf-tab" id="tab-yetkili" onclick="switchFilterTab('yetkili')"
-                                style="padding: 4px 8px; font-size: 10px; cursor: pointer;">Yetkili</div>
-                            <div class="sf-tab active" id="tab-f1" onclick="switchFilterTab('f1')"
-                                style="padding: 4px 8px; font-size: 10px; cursor: pointer; background: #fff; border: 1px solid var(--line); border-bottom: none; font-weight: bold;">
-                                Filtre 1</div>
-                            <div class="sf-tab" id="tab-f2" onclick="switchFilterTab('f2')"
-                                style="padding: 4px 8px; font-size: 10px; cursor: pointer;">Filtre 2</div>
-                            <div class="sf-tab" id="tab-f3" onclick="switchFilterTab('f3')"
-                                style="padding: 4px 8px; font-size: 10px; cursor: pointer;">Filtre 3</div>
-                            <div class="sf-tab" id="tab-ozel" onclick="switchFilterTab('ozel')"
-                                style="padding: 4px 8px; font-size: 10px; cursor: pointer;">Özel</div>
+                            <div class="sf-tab" id="tab-ozelalan" onclick="switchFilterTab('ozelalan')">Özel Alan Flt.
+                            </div>
+                            <div class="sf-tab" id="tab-siralama" onclick="switchFilterTab('siralama')">Sıralama</div>
+                            <div class="sf-tab" id="tab-yetkili" onclick="switchFilterTab('yetkili')">Yetkili</div>
+                            <div class="sf-tab active" id="tab-f1" onclick="switchFilterTab('f1')">Filtre 1</div>
+                            <div class="sf-tab" id="tab-f2" onclick="switchFilterTab('f2')">Filtre 2</div>
+                            <div class="sf-tab" id="tab-f3" onclick="switchFilterTab('f3')">Filtre 3</div>
+                            <div class="sf-tab" id="tab-ozel" onclick="switchFilterTab('ozel')">Özel</div>
                         </div>
                         <div id="stokFilterContent" style="flex: 1; overflow-y: auto; padding: 10px; font-size: 11px;">
                             <!-- TAB 1 CONTENT -->
@@ -1838,6 +1902,10 @@
                                     <select id="sf-grup"
                                         style="width: 100%; border: 1px solid #ccc; padding: 2px; border-radius: 2px;">
                                         <option value=""></option>
+                                        <option value="İÇECEK">İÇECEK</option>
+                                        <option value="TEMİZLİK">TEMİZLİK</option>
+                                        <option value="GIDA">GIDA</option>
+                                        <option value="KIRTASİYE">KIRTASİYE</option>
                                     </select>
                                 </div>
                                 <div style="margin-bottom: 8px;">
@@ -6495,25 +6563,33 @@
                 <!-- Filter Bar -->
                 <div
                     style="background: #fff; padding: 10px; border-radius: 8px; border: 1px solid var(--line); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                    <div
+                    <div id="db-date-display"
                         style="display: flex; align-items: center; background: #e9ecef; border-radius: 6px; padding: 4px 10px; gap: 10px; border: 1px solid #ced4da;">
-                        <span style="font-size: 13px; color: #495057;">01.01.2026 00:00</span>
+                        <span id="db-start-date" style="font-size: 13px; color: #495057;">01.01.2026 00:00</span>
                         <span style="color: #6c757d;">/</span>
-                        <span style="font-size: 13px; color: #495057;">31.12.2026 23:59</span>
+                        <span id="db-end-date" style="font-size: 13px; color: #495057;">31.12.2026 23:59</span>
                     </div>
-                    <select
+                    <select id="db-branch"
                         style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ced4da; font-size: 13px; min-width: 150px; color: #495057; background: #fff;">
-                        <option>Şube Seçimi</option>
+                        <option value="all">Tüm Şubeler</option>
+                        <option value="A">A Şubesi</option>
+                        <option value="B">B Şubesi</option>
+                        <option value="C">C Şubesi</option>
                     </select>
-                    <select
+                    <select id="db-currency"
                         style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ced4da; font-size: 13px; min-width: 80px; color: #495057; background: #fff;">
-                        <option>TL</option>
+                        <option value="TL">TL</option>
+                        <option value="USD">Dolar</option>
+                        <option value="EUR">Euro</option>
                     </select>
-                    <select
+                    <select id="db-date"
                         style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ced4da; font-size: 13px; min-width: 150px; color: #495057; background: #fff;">
-                        <option>Bu Yıl</option>
+                        <option value="year">Bu Yıl</option>
+                        <option value="month">Bu Ay</option>
+                        <option value="week">Bu Hafta</option>
+                        <option value="jan2025">2025 Ocak Ayı</option>
                     </select>
-                    <button onclick="deselectAllDashboardCards()"
+                    <button onclick="updateDashboard()"
                         style="margin-left: auto; padding: 6px 20px; border: 1px solid #ced4da; background: #f8f9fa; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; color: #495057;">Filtrele</button>
                     <button onclick="openDashboardSettings()"
                         style="padding: 8px 12px; border: 1px solid #ced4da; background: #f8f9fa; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center;">
@@ -7206,7 +7282,7 @@
 
         <!-- SATIS FATURASI VIEW -->
         <div id="satisFaturasiView"
-            style="display:none; flex-direction:column; background:#fff; height:100%; overflow:hidden;">
+            style="display:none; flex-direction:column; background:#fff; height:100%; overflow:visible !important; ">
             <!-- Top Section Container (Header + Tabs + Forms) -->
             <style>
                 /* Invoice Dropdown Styles */
@@ -7221,11 +7297,11 @@
                     background-color: #fff;
                     min-width: 160px;
                     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-                    z-index: 1000;
+                    z-index: 1000000 !important;
                     border: 1px solid #ccc;
                     border-radius: 4px;
                     right: 0;
-                    /* Align right */
+                    transform: translateZ(0);
                 }
 
                 .invoice-dropdown-content.show {
@@ -7255,17 +7331,151 @@
                 .invoice-dropdown-content a:hover {
                     background-color: #f1f5f9;
                 }
+
+                /* MOBILE RESPONSIVE STYLES FOR SALES INVOICE */
+                @media (max-width: 900px) {
+                    #satisFaturasiView {
+                        height: auto !important;
+                        min-height: min-content !important;
+                        overflow: visible !important;
+                        padding-bottom: 50px !important;
+                        /* Extra padding for footer buttons */
+                        /* Removed display: block !important to prevent overlap with other screens */
+                    }
+
+                    /* Important: Reset height/flex for scrollability */
+                    #satisFaturasiView div {
+                        height: auto !important;
+                        min-height: 0 !important;
+                        overflow: visible !important;
+                        flex: none !important;
+                    }
+
+                    /* Tab content visibility logic: default hidden */
+                    .invoice-tab-content {
+                        padding: 10px !important;
+                        display: none;
+                    }
+
+                    .invoice-tab-content.active {
+                        display: block !important;
+                    }
+
+                    /* Movements container minimum height */
+                    #hareketler-container {
+                        min-height: 500px !important;
+                        border-top: 2px solid #ccc !important;
+                        margin-top: 10px !important;
+                        display: block !important;
+                    }
+
+                    /* Table should SCROLL HORIZONTALLY but NOT clip vertically */
+                    #hareketler-container table {
+                        display: block !important;
+                        overflow-x: auto !important;
+                        -webkit-overflow-scrolling: touch;
+                        width: 100% !important;
+                    }
+
+                    /* Footer container stacking */
+                    #satisFaturasiView>div:last-child {
+                        height: auto !important;
+                        position: relative !important;
+                        background: #fff !important;
+                        display: block !important;
+                        border-top: 2px solid #ccc !important;
+                        margin-top: 10px !important;
+                        padding-bottom: 30px !important;
+                    }
+
+                    .invoice-tab-content {
+                        padding: 10px !important;
+                    }
+
+                    .invoice-form-grid {
+                        flex-direction: column !important;
+                        gap: 15px !important;
+                        display: flex !important;
+                    }
+
+                    .invoice-form-col {
+                        min-width: 100% !important;
+                        flex: 1 1 100% !important;
+                    }
+
+                    /* Header Buttons Stacking */
+                    #satisFaturasiView .invoice-header-buttons {
+                        justify-content: flex-start !important;
+                        gap: 4px !important;
+                        overflow-x: auto !important;
+                        padding-bottom: 5px !important;
+                        width: 100% !important;
+                        display: flex !important;
+                    }
+
+                    #satisFaturasiView .invoice-header-buttons button,
+                    #satisFaturasiView .invoice-header-buttons .invoice-dropdown {
+                        flex: 0 0 auto !important;
+                        min-width: fit-content !important;
+                    }
+
+                    /* Fix inputs width on mobile */
+                    #satisFaturasiView input,
+                    #satisFaturasiView select {
+                        max-width: 100% !important;
+                    }
+
+                    /* Footer Buttons Stacking */
+                    #satisFaturasiView .menubar,
+                    #satisFaturasiView .footer-status-bar {
+                        flex-wrap: wrap !important;
+                        height: auto !important;
+                        gap: 10px !important;
+                        padding: 10px !important;
+                        display: flex !important;
+                    }
+
+                    /* Totals Area Stacking */
+                    #satisFaturasiView .totals-grid {
+                        grid-template-columns: 1fr 1fr !important;
+                        gap: 10px !important;
+                        display: grid !important;
+                    }
+
+                    /* Responsive footer action buttons */
+                    #satisFaturasiView .footer-actions {
+                        flex-wrap: wrap !important;
+                        justify-content: center !important;
+                        padding: 10px !important;
+                        gap: 10px !important;
+                        display: flex !important;
+                    }
+
+                    /* Footer summary box wrapping */
+                    #satisFaturasiView .footer-summary-flex {
+                        flex-direction: column !important;
+                        align-items: flex-end !important;
+                        gap: 10px !important;
+                        padding: 10px !important;
+                        display: flex !important;
+                    }
+
+                    #satisFaturasiView .footer-summary-flex>div {
+                        width: 100% !important;
+                    }
+                }
             </style>
             <div
-                style="border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);background:#fff;display:flex;flex-direction:column;flex:0 0 auto;overflow:visible;">
+                style="border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);background:#fff;display:flex;flex-direction:column;flex:1;min-height:0;overflow:visible !important;position:relative;z-index:10 !important;">
                 <!-- Header -->
                 <div
-                    style="background:linear-gradient(to right, #1e40af, #3b82f6); padding:4px 12px; display:flex; align-items:center; gap:10px; color:#fff; border-bottom:1px solid #1d4ed8;">
+                    style="background:linear-gradient(to right, #1e40af, #1d4584); padding:2px 10px; display:flex; align-items:center; gap:10px; color:#fff; border-bottom:1px solid #1d4ed8; position: relative; z-index: 999999 !important; overflow: visible !important;">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <i class="bi bi-file-earmark-text" style="font-size:16px;"></i>
                         <b style="font-size:12px;text-shadow:0 1px 2px rgba(0,0,0,0.3);">Yurt İçi Satış Faturası</b>
                     </div>
-                    <div style="margin-left:auto;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;">
+                    <div class="invoice-header-buttons"
+                        style="margin-left:auto;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;">
                         <button onclick="alert('Cari Bul penceresi açılıyor...')"
                             style="border:1px solid #1e3a8a;background:linear-gradient(#fff,#e2e8f0);padding:2px 8px;border-radius:3px;cursor:pointer;font-size:11px;font-weight:bold;display:flex;align-items:center;gap:4px;color:#1e3a8a;">
                             <i class="bi bi-search"></i> Cari Bul</button>
@@ -7327,55 +7537,58 @@
                 </div>
 
                 <!-- Inner Tabs -->
-                <div style="display:flex;gap:2px;padding:4px 6px 0;background:#f0f2f5;border-bottom:1px solid #cfd6df;">
+                <div class="invoice-tabs-container"
+                    style="display:flex;gap:2px;padding:0 6px 0;background:#f0f2f5;border-bottom:1px solid #cfd6df;">
                     <!-- Active Tab -->
                     <div id="tab-header-genel" onclick="openInvoiceTab('genel')"
-                        style="padding:4px 10px;background:#fff;border:1px solid #cfd6df;border-bottom:1px solid #fff;border-radius:4px 4px 0 0;font-size:11px;font-weight:700;color:#333;cursor:pointer;">
+                        style="padding:2px 10px;background:#fff;border:1px solid #cfd6df;border-bottom:1px solid #fff;border-radius:4px 4px 0 0;font-size:11px;font-weight:700;color:#333;cursor:pointer;">
                         Genel Bilgiler</div>
                     <div id="tab-header-adres" onclick="openInvoiceTab('adres')"
-                        style="padding:4px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
+                        style="padding:2px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
                         Adres Bilgileri</div>
                     <div id="tab-header-ekbilgiler" onclick="openInvoiceTab('ekbilgiler')"
-                        style="padding:4px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
+                        style="padding:2px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
                         Ek Bilgiler 1</div>
                     <div id="tab-header-iskontolar" onclick="openInvoiceTab('iskontolar')"
-                        style="padding:4px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
+                        style="padding:2px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
                         Iskontolar</div>
                     <div id="tab-header-pazarlama" onclick="openInvoiceTab('pazarlama')"
-                        style="padding:4px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
+                        style="padding:2px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
                         Pazarlama</div>
                     <div id="tab-header-not" onclick="openInvoiceTab('not')"
-                        style="padding:4px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
+                        style="padding:2px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
                         Not</div>
                     <div id="tab-header-ozeltanimlar" onclick="openInvoiceTab('ozeltanimlar')"
-                        style="padding:4px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
+                        style="padding:2px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
                         Özel Tanımlar</div>
                     <div id="tab-header-fiyatdegistirme" onclick="openInvoiceTab('fiyatdegistirme')"
-                        style="padding:4px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
+                        style="padding:2px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
                         Fiyat Değiştirme</div>
                     <div id="tab-header-baglantilar" onclick="openInvoiceTab('baglantilar')"
-                        style="padding:4px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
+                        style="padding:2px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
                         Bağlantılar</div>
                     <div id="tab-header-crm" onclick="openInvoiceTab('crm')"
-                        style="padding:4px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
+                        style="padding:2px 10px;background:#e9ecef;border:1px solid transparent;border-radius:4px 4px 0 0;font-size:11px;color:#666;cursor:pointer;border-bottom:1px solid #cfd6df;">
                         CRM</div>
                 </div>
 
                 <!-- Content -->
-                <div style="padding:4px 15px; background:#fff; flex:1; min-height:0;">
+                <div class="invoice-tab-content-wrapper"
+                    style="display: flex; flex-direction: column; justify-content: flex-start !important; padding:0; background:#ffffff; flex:1; min-height:0; overflow:hidden; border-bottom:1px solid #e0e0e0; position:relative;">
 
                     <!-- TAB CONTENTS -->
                     <!-- Genel Bilgiler Tab -->
-                    <div id="tab-content-genel">
+                    <div id="tab-content-genel" class="invoice-tab-content"
+                        style="display: flex; flex-direction: column; justify-content: flex-start !important; padding:10px 15px; ">
                         <!-- Top Form Area -->
-                        <div style="display:flex;gap:10px;align-items:flex-start;justify-content:space-between;">
+                        <div class="invoice-form-grid" style="display:flex; gap:10px; flex-wrap:wrap; ">
 
                             <!-- Left Column: Cari Bilgileri -->
-                            <div style="flex:1;min-width:320px;display:flex;flex-direction:column;gap:2px;">
+                            <div class="invoice-form-col"
+                                style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:1px;background:#fff;border:1px solid #ccc;padding:4px;border-radius:4px;">
                                 <h4
-                                    style="font-size:10.5px;font-weight:bold;color:#333;border-bottom:1px solid #ccc;padding-bottom:1px;margin-bottom:2px;">
+                                    style="font-size:10.5px;font-weight:bold;color:#333;;border-bottom:1px solid #333;padding-bottom:1px;margin-bottom:2px;">
                                     Bilg.Cr.Kodu 1</h4>
-
                                 <div style="display:flex;gap:8px;align-items:center;">
                                     <label
                                         style="width:100px;font-size:10.5px;font-weight:700;color:#444;text-align:right;">Cari
@@ -7435,12 +7648,14 @@
                                             style="flex:1;border:1px solid #ccc;padding:3px;font-size:11px;border-radius:2px;">
                                     </div>
                                 </div>
+
                             </div>
 
                             <!-- Middle Column: Fatura Bilgileri -->
-                            <div style="flex:1;min-width:320px;display:flex;flex-direction:column;gap:2px;">
+                            <div class="invoice-form-col"
+                                style="flex:1;min-width:300px;display:flex;flex-direction:column;gap:1px;background:#fff;border:1px solid #ccc;padding:4px;border-radius:4px;">
                                 <h4
-                                    style="font-size:10.5px;font-weight:bold;color:#333;border-bottom:1px solid #ccc;padding-bottom:1px;margin-bottom:2px;">
+                                    style="font-size:10.5px;font-weight:bold;color:#333;border-bottom:1px solid #333;padding-bottom:1px;margin-bottom:2px;">
                                     Bilg.Kodu 246</h4>
 
                                 <div style="display:flex;gap:10px;align-items:center;">
@@ -7515,7 +7730,8 @@
                             </div>
 
                             <!-- Right Column: Settings -->
-                            <div style="flex:1;min-width:350px;display:flex;flex-direction:column;gap:2px;">
+                            <div class="invoice-form-col"
+                                style="flex:1;min-width:320px;display:flex;flex-direction:column;gap:1px;">
                                 <div style="display:flex;gap:10px;align-items:center;">
                                     <label
                                         style="width:80px;font-size:11px;font-weight:700;color:#444;text-align:right;">KDV
@@ -7602,7 +7818,8 @@
                     </div>
 
                     <!-- Middle Toolbar -->
-                    <div style="margin:10px 0;display:flex;align-items:center;justify-content:center;">
+                    <div class="invoice-table-wrapper"
+                        style="margin:10px 0;display:flex;align-items:center;justify-content:center;">
                         <div style="border-top:1px solid #ccc;border-bottom:1px solid #ccc;height:3px;width:100%;">
                         </div>
                         <div
@@ -7615,10 +7832,12 @@
                 <!-- Other Tab Contents follow here -->
 
                 <!-- Other Tab Contents (Placeholders) -->
-                <div id="tab-content-adres" style="display:none;padding:4px 8px;">
-                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <div id="tab-content-adres" class="invoice-tab-content"
+                    style="display:none; flex-direction: column; justify-content: flex-start !important; padding:10px 15px;">
+                    <div class="invoice-form-grid" style="display:flex; gap:10px; flex-wrap:wrap;">
                         <!-- Left: Cari Adresi -->
-                        <div style="flex:1; min-width:300px; border:1px solid #cfd6df; padding:6px; background:#fff;">
+                        <div class="invoice-form-col"
+                            style="flex:1; min-width:300px; border:1px solid #cfd6df; padding:6px; background:#fff;">
                             <h4
                                 style="margin-top:0; margin-bottom:4px; font-size:10.5px; color:#333; border-bottom:1px solid #eee; padding-bottom:2px;">
                                 Cari Adresi</h4>
@@ -7652,7 +7871,8 @@
                             </div>
                         </div>
                         <!-- Right: Sevk Adresi -->
-                        <div style="flex:1; min-width:300px; border:1px solid #cfd6df; padding:6px; background:#fff;">
+                        <div class="invoice-form-col"
+                            style="flex:1; min-width:300px; border:1px solid #cfd6df; padding:6px; background:#fff;">
                             <h4
                                 style="margin-top:0; margin-bottom:4px; font-size:10.5px; color:#333; border-bottom:1px solid #eee; padding-bottom:2px;">
                                 Sevk Adresi</h4>
@@ -7710,8 +7930,9 @@
                 </div>
 
                 <!-- Ek Bilgiler 1 Tab -->
-                <div id="tab-content-ekbilgiler" style="display:none;padding:10px;">
-                    <div style="display:flex; gap:10px; align-items:flex-start;">
+                <div id="tab-content-ekbilgiler" class="invoice-tab-content"
+                    style="display:none; flex-direction: column; justify-content: flex-start !important; padding:10px 15px;">
+                    <div class="invoice-form-grid" style="display:flex; gap:10px; align-items:flex-start;">
                         <!-- Left Form Fields -->
                         <div style="flex:2; display:flex; flex-direction:column; gap:4px;">
                             <div style="display:flex; align-items:center;">
@@ -7854,19 +8075,20 @@
                 </div>
 
                 <!-- Iskontolar Tab -->
-                <div id="tab-content-iskontolar" style="display:none;padding:4px 15px;">
-                    <div style="display:flex; gap:10px; flex-wrap:wrap; max-width:850px;">
-                        <!-- KDV Öncesi -->
+                <div id="tab-content-iskontolar" class="invoice-tab-content"
+                    style="display:none; flex-direction: column; justify-content: flex-start !important; padding:10px 15px;">
+                    <div class="invoice-form-grid" style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <!-- KDV Öncesi (Part 1) -->
                         <div
-                            style="flex:1; min-width:300px; max-width:400px; border:1px solid #eee; padding:5px 8px; background:#fff; border-radius:4px;">
+                            style="flex:1; min-width:280px; border:1px solid #eee; padding:5px 8px; background:#fff; border-radius:4px;">
                             <h4
                                 style="font-size:11px; color:#333; border-bottom:1px solid #ccc; margin-bottom:5px; padding-bottom:3px;">
                                 KDV Öncesi</h4>
                             <div
                                 style="display:flex; font-size:11px; font-weight:bold; color:#555; margin-bottom:5px; padding:0 5px;">
                                 <span style="flex:1;">İskontolar</span>
-                                <span style="width:60px; text-align:center;">Oranlar</span>
-                                <span style="width:120px; text-align:right;">Toplamlar</span>
+                                <span style="width:50px; text-align:center;">Oranlar</span>
+                                <span style="width:110px; text-align:right;">Toplamlar</span>
                             </div>
 
                             <!-- Items -->
@@ -7876,15 +8098,15 @@
                                         style="vertical-align:middle;"> Cari İskontosu</label>
                                 <div style="display:flex; align-items:center; gap:2px;">
                                     <input type="text" value="0,00"
-                                        style="width:50px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
+                                        style="width:45px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
                                     <button
-                                        style="border:1px solid #ccc; background:#eee; padding:0 5px; font-size:10px; border-radius:2px; cursor:pointer;">V</button>
+                                        style="border:1px solid #ccc; background:#eee; padding:0 4px; font-size:10px; border-radius:2px; cursor:pointer;">V</button>
                                 </div>
-                                <div style="width:120px; text-align:right; font-size:11px;">
+                                <div style="width:110px; text-align:right; font-size:11px;">
                                     <span
-                                        style="display:inline-block; width:60px; text-align:right; font-weight:bold;">0,00TL</span>
+                                        style="display:inline-block; width:55px; text-align:right; font-weight:bold;">0,00TL</span>
                                     <span
-                                        style="display:inline-block; width:50px; text-align:right; color:#888;">0,00$</span>
+                                        style="display:inline-block; width:45px; text-align:right; color:#888;">0,00$</span>
                                 </div>
                             </div>
                             <div
@@ -7893,15 +8115,15 @@
                                         style="vertical-align:middle;"> İskonto 1 %</label>
                                 <div style="display:flex; align-items:center; gap:2px;">
                                     <input type="text" value="0,00"
-                                        style="width:50px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
+                                        style="width:45px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
                                     <button
-                                        style="border:1px solid #ccc; background:#eee; padding:0 5px; font-size:10px; border-radius:2px; cursor:pointer;">V</button>
+                                        style="border:1px solid #ccc; background:#eee; padding:0 4px; font-size:10px; border-radius:2px; cursor:pointer;">V</button>
                                 </div>
-                                <div style="width:120px; text-align:right; font-size:11px;">
+                                <div style="width:110px; text-align:right; font-size:11px;">
                                     <span
-                                        style="display:inline-block; width:60px; text-align:right; font-weight:bold;">0,00TL</span>
+                                        style="display:inline-block; width:55px; text-align:right; font-weight:bold;">0,00TL</span>
                                     <span
-                                        style="display:inline-block; width:50px; text-align:right; color:#888;">0,00$</span>
+                                        style="display:inline-block; width:45px; text-align:right; color:#888;">0,00$</span>
                                 </div>
                             </div>
                             <div
@@ -7910,15 +8132,15 @@
                                         style="vertical-align:middle;"> İskonto 2 %</label>
                                 <div style="display:flex; align-items:center; gap:2px;">
                                     <input type="text" value="0,00"
-                                        style="width:50px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
+                                        style="width:45px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
                                     <button
-                                        style="border:1px solid #ccc; background:#eee; padding:0 5px; font-size:10px; border-radius:2px; cursor:pointer;">V</button>
+                                        style="border:1px solid #ccc; background:#eee; padding:0 4px; font-size:10px; border-radius:2px; cursor:pointer;">V</button>
                                 </div>
-                                <div style="width:120px; text-align:right; font-size:11px;">
+                                <div style="width:110px; text-align:right; font-size:11px;">
                                     <span
-                                        style="display:inline-block; width:60px; text-align:right; font-weight:bold;">0,00TL</span>
+                                        style="display:inline-block; width:55px; text-align:right; font-weight:bold;">0,00TL</span>
                                     <span
-                                        style="display:inline-block; width:50px; text-align:right; color:#888;">0,00$</span>
+                                        style="display:inline-block; width:45px; text-align:right; color:#888;">0,00$</span>
                                 </div>
                             </div>
                             <div
@@ -7927,39 +8149,50 @@
                                         style="vertical-align:middle;"> İskonto 3 %</label>
                                 <div style="display:flex; align-items:center; gap:2px;">
                                     <input type="text" value="0,00"
-                                        style="width:50px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
+                                        style="width:45px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
                                     <button
-                                        style="border:1px solid #ccc; background:#eee; padding:0 5px; font-size:10px; border-radius:2px; cursor:pointer;">V</button>
+                                        style="border:1px solid #ccc; background:#eee; padding:0 4px; font-size:10px; border-radius:2px; cursor:pointer;">V</button>
                                 </div>
-                                <div style="width:120px; text-align:right; font-size:11px;">
+                                <div style="width:110px; text-align:right; font-size:11px;">
                                     <span
-                                        style="display:inline-block; width:60px; text-align:right; font-weight:bold;">0,00TL</span>
+                                        style="display:inline-block; width:55px; text-align:right; font-weight:bold;">0,00TL</span>
                                     <span
-                                        style="display:inline-block; width:50px; text-align:right; color:#888;">0,00$</span>
+                                        style="display:inline-block; width:45px; text-align:right; color:#888;">0,00$</span>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- KDV Öncesi (Part 2) -->
+                        <div
+                            style="flex:1; min-width:280px; border:1px solid #eee; padding:5px 8px; background:#fff; border-radius:4px; ">
+                            <h4
+                                style="font-size:11px; color:#333; border-bottom:1px solid #ccc; margin-bottom:5px; padding-bottom:3px; ">
+                                KDV Öncesi</h4>
+                            <div
+                                style="display:flex; font-size:11px; font-weight:bold; color:#555; margin-bottom:5px; padding:0 5px; ">
+                                <span style="flex:1;">İskontolar</span>
+                                <span style="width:110px; text-align:right;">Toplamlar</span>
                             </div>
                             <div
                                 style="display:flex; align-items:center; gap:5px; margin-bottom:2px; border-bottom:1px solid #f5f5f5; padding-bottom:1px;">
                                 <label style="flex:1; font-size:11px; cursor:pointer;"><input type="checkbox"
                                         style="vertical-align:middle;"> Stok İskontosu %</label>
-                                <div style="width:72px;"></div> <!-- Spacer -->
-                                <div style="width:120px; text-align:right; font-size:11px;">
+                                <div style="width:110px; text-align:right; font-size:11px;">
                                     <span
-                                        style="display:inline-block; width:60px; text-align:right; font-weight:bold;">0,00TL</span>
+                                        style="display:inline-block; width:55px; text-align:right; font-weight:bold;">0,00TL</span>
                                     <span
-                                        style="display:inline-block; width:50px; text-align:right; color:#888;">0,00$</span>
+                                        style="display:inline-block; width:45px; text-align:right; color:#888;">0,00$</span>
                                 </div>
                             </div>
                             <div
                                 style="display:flex; align-items:center; gap:5px; margin-bottom:2px; border-bottom:1px solid #f5f5f5; padding-bottom:1px;">
                                 <label style="flex:1; font-size:11px; cursor:pointer;"><input type="checkbox"
                                         style="vertical-align:middle;"> Özel İskonto</label>
-                                <div style="width:72px;"></div> <!-- Spacer -->
-                                <div style="width:120px; text-align:right; font-size:11px;">
+                                <div style="width:110px; text-align:right; font-size:11px;">
                                     <span
-                                        style="display:inline-block; width:60px; text-align:right; font-weight:bold;">0,00TL</span>
+                                        style="display:inline-block; width:55px; text-align:right; font-weight:bold;">0,00TL</span>
                                     <span
-                                        style="display:inline-block; width:50px; text-align:right; color:#888;">0,00$</span>
+                                        style="display:inline-block; width:45px; text-align:right; color:#888;">0,00$</span>
                                 </div>
                             </div>
 
@@ -7970,7 +8203,7 @@
 
                         <!-- KDV Sonrası -->
                         <div
-                            style="flex:1; min-width:280px; max-width:350px; border:1px solid #eee; padding:5px 8px; background:#fff; border-radius:4px;">
+                            style="flex:1; min-width:260px; border:1px solid #eee; padding:5px 8px; background:#fff; border-radius:4px;  ">
                             <h4
                                 style="font-size:11px; color:#333; border-bottom:1px solid #ccc; margin-bottom:5px; padding-bottom:3px;">
                                 KDV Sonrası</h4>
@@ -7980,13 +8213,13 @@
                                         style="vertical-align:middle;"> İskonto %</label>
                                 <div style="display:flex; align-items:center; gap:2px;">
                                     <input type="text" value="0,00"
-                                        style="width:50px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
+                                        style="width:45px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
                                 </div>
-                                <div style="width:120px; text-align:right; font-size:11px;">
+                                <div style="width:110px; text-align:right; font-size:11px;">
                                     <span
-                                        style="display:inline-block; width:60px; text-align:right; font-weight:bold;">0,00TL</span>
+                                        style="display:inline-block; width:55px; text-align:right; font-weight:bold;">0,00TL</span>
                                     <span
-                                        style="display:inline-block; width:50px; text-align:right; color:#888;">0,00$</span>
+                                        style="display:inline-block; width:45px; text-align:right; color:#888;">0,00$</span>
                                 </div>
                             </div>
                             <div
@@ -7995,13 +8228,13 @@
                                         style="vertical-align:middle;"> Stopaj %</label>
                                 <div style="display:flex; align-items:center; gap:2px;">
                                     <input type="text" value="0,00"
-                                        style="width:50px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
+                                        style="width:45px; text-align:right; border:1px solid #ccc; padding:2px; font-size:11px; border-radius:2px;">
                                 </div>
-                                <div style="width:120px; text-align:right; font-size:11px;">
+                                <div style="width:110px; text-align:right; font-size:11px;">
                                     <span
-                                        style="display:inline-block; width:60px; text-align:right; font-weight:bold;">0,00TL</span>
+                                        style="display:inline-block; width:55px; text-align:right; font-weight:bold;">0,00TL</span>
                                     <span
-                                        style="display:inline-block; width:50px; text-align:right; color:#888;">0,00$</span>
+                                        style="display:inline-block; width:45px; text-align:right; color:#888;">0,00$</span>
                                 </div>
                             </div>
                         </div>
@@ -8009,12 +8242,13 @@
 
                 </div>
                 <!-- Pazarlama Tab -->
-                <div id="tab-content-pazarlama" style="display:none;padding:8px;">
-                    <div style="display:flex; gap:20px;">
+                <div id="tab-content-pazarlama" class="invoice-tab-content"
+                    style="display:none; flex-direction: column; justify-content: flex-start !important; padding:10px 15px;">
+                    <div class="invoice-form-grid" style="display:flex; gap:30px; align-items: flex-start;">
                         <!-- Left: Pazarlamacı Kullan -->
-                        <div style="border:1px solid #cfd6df; padding:10px; background:#fff; width:200px;">
+                        <div style="border:1px solid #cfd6df; padding:4px 10px; background:#fff; width:200px;">
                             <h4
-                                style="margin-top:0; margin-bottom:10px; font-size:11px; color:#333; border-bottom:1px solid #eee; padding-bottom:5px;">
+                                style="margin-top:0px; margin-bottom:10px; font-size:11px; color:#333; border-bottom:1px solid #eee; padding-bottom:5px;">
                                 Pazarlamacı Kullan</h4>
                             <div style="display:flex; flex-direction:column; gap:5px;">
                                 <label style="font-size:11px; cursor:pointer;"><input type="radio" name="pazarlamaci"
@@ -8027,7 +8261,7 @@
                         </div>
 
                         <!-- Right: Personel & Oranlar -->
-                        <div style="border:1px solid #cfd6df; padding:10px; background:#fff; min-width:300px;">
+                        <div style="border:1px solid #cfd6df; padding:4px 10px; background:#fff; min-width:300px;">
                             <div style="display:flex; align-items:center; margin-bottom:10px;">
                                 <label
                                     style="width:80px; font-size:11px; font-weight:bold; text-align:right; margin-right:5px; color:#555;">Personel
@@ -8070,15 +8304,18 @@
                 </div>
 
                 <!-- Not Tab -->
-                <div id="tab-content-not" style="display:none;padding:8px;">
+                <div id="tab-content-not" class="invoice-tab-content"
+                    style="display:none; flex-direction: column; justify-content: flex-start; padding:10px 15px;">
                     <textarea
-                        style="width:100%; height:150px; border:1px solid #ccc; padding:5px; font-family:inherit; font-size:12px;"
+                        style="width:100%; height:150px; border:1px solid #ccc; padding:5px; font-family:inherit; font-size:12px; "
                         placeholder="Not giriniz..."></textarea>
                 </div>
 
                 <!-- Özel Tanımlar Tab -->
-                <div id="tab-content-ozeltanimlar" style="display:none;padding:8px;">
-                    <div style="display:flex; flex-direction:column; gap:5px; max-width:600px;">
+                <div id="tab-content-ozeltanimlar" class="invoice-tab-content"
+                    style="display:none; flex-direction: column; justify-content: flex-start !important; padding:10px 15px;">
+                    <div class="invoice-form-grid"
+                        style="display:flex; flex-direction:column; gap:3px; max-width:600px; align-items: flex-start;">
                         <div style="display:flex; align-items:center;">
                             <label
                                 style="width:120px; font-size:11px; font-weight:bold; text-align:right; margin-right:10px; color:#555;">dsds</label>
@@ -8113,10 +8350,12 @@
                 </div>
 
                 <!-- Fiyat Değiştirme Tab -->
-                <div id="tab-content-fiyatdegistirme" style="display:none;padding:8px;">
-                    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                <div id="tab-content-fiyatdegistirme" class="invoice-tab-content"
+                    style="display:none; flex-direction: column; justify-content: flex-start !important; padding:10px 15px;">
+                    <div class="invoice-form-grid"
+                        style="display:flex; gap:20px; flex-wrap:wrap; align-items: flex-start;">
                         <!-- Fiyat Değiştirme Section -->
-                        <div style="border:1px solid #cfd6df; padding:10px; background:#fff; width:300px;">
+                        <div style="border:1px solid #cfd6df; padding:4px 10px; background:#fff; width:300px;">
                             <h4
                                 style="margin-top:0; margin-bottom:10px; font-size:11px; color:#333; border-bottom:1px solid #eee; padding-bottom:5px;">
                                 Fiyat Değiştirme</h4>
@@ -8183,10 +8422,11 @@
                 </div>
 
                 <!-- Bağlantılar Tab -->
-                <div id="tab-content-baglantilar" style="display:none;padding:1px 15px;position:relative;z-index:10;">
+                <div id="tab-content-baglantilar" class="invoice-tab-content"
+                    style="display:none; flex-direction: column; justify-content: flex-start !important; padding:10px 15px;position:relative;z-index:10;">
                     <!-- Toolbar -->
                     <div
-                        style="background:#f4f4f4;border:1px solid #ccc;border-bottom:none;padding:3px;display:flex;gap:5px; margin-top:2px;">
+                        style="background:#f4f4f4;border:1px solid #ccc;border-bottom:none;padding:2px;display:flex;gap:5px; ">
                         <button onclick="addConnectionRow()"
                             style="border:1px solid #ccc;background:#e0f7fa;cursor:pointer;font-size:10px;padding:2px 6px;border-radius:2px;font-weight:bold;color:#006064;"><i
                                 class="bi bi-plus-lg"></i> Satır Ekle</button>
@@ -8218,11 +8458,17 @@
                     </div>
                 </div>
 
+                <!-- CRM Tab -->
+                <div id="tab-content-crm" class="invoice-tab-content"
+                    style="display:none; flex-direction: column; justify-content: flex-start !important; padding:10px 15px;">
+                    <div style="font-size:11px; color:#666;">CRM modülü içeriği buraya gelecek.
+                    </div>
+                </div>
+
             </div> <!-- Close scrollable content wrapper (line 7246) -->
 
-            <!-- Persistent Grid/Table Area (Hareketler) -->
             <div id="hareketler-container"
-                style="display:flex;flex-direction:column;border-top:5px solid #e0e0e0;margin-top:0;flex:1 1 150px;min-height:150px;overflow:hidden;">
+                style="display:flex;flex-direction:column;border-top:5px solid #e0e0e0;margin-top:0;flex:1;min-height:0;overflow:hidden;position:relative;z-index:1 !important;">
                 <!-- Tabs for grid -->
                 <div
                     style="display:flex;gap:8px;border-bottom:1px solid #ccc;margin-bottom:0;background:#f5f5f5;padding-top:3px;padding-left:8px;">
@@ -8452,14 +8698,18 @@
 
                 function openInvoiceTab(tabName) {
                     // Hide all contents
-                    const contents = ['genel', 'adres', 'ekbilgiler', 'iskontolar', 'pazarlama', 'not', 'ozeltanimlar', 'fiyatdegistirme', 'baglantilar'];
+                    const contents = ['genel', 'adres', 'ekbilgiler', 'iskontolar', 'pazarlama', 'not', 'ozeltanimlar', 'fiyatdegistirme', 'baglantilar', 'crm'];
                     contents.forEach(t => {
                         const el = document.getElementById('tab-content-' + t);
-                        if (el) el.style.display = 'none';
+                        if (el) {
+                            el.style.removeProperty('display');
+                            el.style.display = 'none';
+                            el.classList.remove('active');
+                        }
                     });
 
                     // Reset all headers
-                    const headers = ['genel', 'adres', 'ekbilgiler', 'iskontolar', 'pazarlama', 'not', 'ozeltanimlar', 'fiyatdegistirme', 'baglantilar'];
+                    const headers = ['genel', 'adres', 'ekbilgiler', 'iskontolar', 'pazarlama', 'not', 'ozeltanimlar', 'fiyatdegistirme', 'baglantilar', 'crm'];
                     headers.forEach(t => {
                         const el = document.getElementById('tab-header-' + t);
                         if (el) {
@@ -8472,7 +8722,10 @@
 
                     // Show selected content
                     const content = document.getElementById('tab-content-' + tabName);
-                    if (content) content.style.display = 'block';
+                    if (content) {
+                        content.style.setProperty('display', 'flex', 'important');
+                        content.classList.add('active');
+                    }
 
                     // Highlight selected header
                     const header = document.getElementById('tab-header-' + tabName);
@@ -8482,48 +8735,16 @@
                         header.style.fontWeight = '700';
                         header.style.color = '#333';
                     }
-
-                    // Trigger scale update when tab changes (might affect height)
-                    updateInvoiceScale();
                 }
 
-                function updateInvoiceScale() {
-                    const view = document.getElementById('satisFaturasiView');
-                    if (!view || view.style.display === 'none') return;
-
-                    const workspace = view.parentElement;
-                    const baseWidth = 1440; // Target width for the "photo" look
-                    const currentWidth = workspace.offsetWidth;
-
-                    if (currentWidth < baseWidth) {
-                        const scale = (currentWidth - 28) / baseWidth; // -28 for some padding
-                        view.style.transform = `scale(${scale})`;
-                        view.style.width = `${baseWidth}px`;
-                        // Adjust parent height to accommodate scaled content if necessary
-                        // However, we want it to fit the workspace height, so we might need to adjust view height
-                        view.style.height = `${(workspace.offsetHeight - 20) / scale}px`;
-                    } else {
-                        view.style.transform = 'none';
-                        view.style.width = '100%';
-                        view.style.height = '100%';
-                    }
-                }
-
-                window.addEventListener('resize', updateInvoiceScale);
-
-                // Override showView to trigger scale
-                const originalShowView = window.showView;
-                window.showView = function (viewId) {
-                    if (typeof originalShowView === 'function') {
-                        originalShowView(viewId);
-                    }
-                    if (viewId === 'satisFaturasiView') {
-                        setTimeout(updateInvoiceScale, 50);
-                    }
-                };
+                // Removed updateInvoiceScale and showView override
 
                 function toggleInvoiceDropdown(id) {
                     const dropdown = document.getElementById(id);
+                    // Close Kayıt Bilgileri if open
+                    const kayitPopup = document.getElementById('kayit-bilgileri-popup');
+                    if (kayitPopup) kayitPopup.style.display = 'none';
+
                     if (dropdown.classList.contains('show')) {
                         dropdown.classList.remove('show');
                     } else {
@@ -8565,10 +8786,10 @@
                         <div style="font-size:11px;color:#666;padding:4px 12px;cursor:pointer;">Stok Bakiyeleri</div>
                     </div>
 
-                    <div
+                    <div class="footer-summary-flex"
                         style="background:#fff;border:1px solid #ccc;padding:2px 10px;display:flex;justify-content:space-between;align-items:center;">
                         <!-- Alt Toplamlar Grid -->
-                        <div
+                        <div class="totals-grid"
                             style="display:grid;grid-template-columns:auto 80px auto 80px auto 80px;column-gap:15px;row-gap:1px;font-size:10.5px;">
                             <!-- Row 1 -->
                             <div style="text-align:right;color:#333;">Toplam</div>
@@ -8616,7 +8837,7 @@
                 </div>
 
                 <!-- Persistent Footer Button Bar (Very Bottom) -->
-                <div
+                <div class="footer-status-bar"
                     style="background:#f0f2f5; padding:4px 12px; display:flex; align-items:center; gap:10px; color:#333; border-top:1px solid #cfd6df;">
                     <!-- Left Side Status -->
                     <div style="display:flex; gap:20px; font-size:11px; font-weight:bold; color:#444;">
@@ -8631,7 +8852,7 @@
                     <div style="flex:1;"></div>
 
                     <!-- Action Buttons (Matching Image 1) -->
-                    <div style="display:flex; gap:5px;">
+                    <div class="footer-actions" style="display:flex; gap:5px;">
                         <button
                             style="height:26px; padding:0 10px; background:linear-gradient(#fff, #f3f4f6); border:1px solid #9ca3af; border-radius:3px; cursor:pointer; font-weight:bold; font-size:10.5px; display:flex; align-items:center; gap:5px; color:#374151;">
                             <!-- + yeşil daire -->
@@ -8763,6 +8984,13 @@
                         <script>
                             function toggleKayitBilgileri(e) {
                                 e.stopPropagation();
+
+                                // Close any open invoice dropdowns
+                                const dropdowns = document.getElementsByClassName("invoice-dropdown-content");
+                                for (let i = 0; i < dropdowns.length; i++) {
+                                    dropdowns[i].classList.remove('show');
+                                }
+
                                 const popup = document.getElementById('kayit-bilgileri-popup');
                                 popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
                             }
@@ -9022,12 +9250,27 @@
             return text.replace(/\s+/g, ' ').trim();
         }
 
+        // Helper to show/hide views with responsive display types
+        function setViewVisibility(elementId, show) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            if (show) {
+                // Apply 'block' on mobile for simpler stacking, 'flex' on desktop
+                el.style.display = (window.innerWidth < 900) ? 'block' : 'flex';
+            } else {
+                el.style.display = 'none';
+            }
+        }
+
         async function showHome() {
             // Restore sidebar
             const apps = document.querySelectorAll('.app-window');
 
             // Hide all specific views
-            if (document.getElementById('satisFaturasiView')) document.getElementById('satisFaturasiView').style.display = 'none';
+            setViewVisibility('satisFaturasiView', false);
+            setViewVisibility('stokTanimlarListesiView', false);
+            setViewVisibility('yoneticiEkraniView', false);
+            setViewVisibility('businessView', false);
 
             screenTitle.textContent = 'Wolvox ERP';
             screenPath.textContent = 'Wolvox ERP';
@@ -9080,36 +9323,42 @@
 
             if (normalizedTitle === 'İşletme Bilgi Kaydı') {
                 screenView.style.display = 'none';
-                businessView.style.display = '';
-                stokTanimlarListesiView.style.display = 'none';
-                if (document.getElementById('satisFaturasiView')) document.getElementById('satisFaturasiView').style.display = 'none';
+                setViewVisibility('businessView', true);
+                setViewVisibility('stokTanimlarListesiView', false);
+                setViewVisibility('yoneticiEkraniView', false);
+                setViewVisibility('satisFaturasiView', false);
                 if (mainMenu) mainMenu.style.display = '';
                 if (filterPanel) filterPanel.style.display = 'none';
             } else if (normalizedTitle === 'Stok Tanımlar Listesi') {
                 screenView.style.display = 'none';
-                businessView.style.display = 'none';
-                yoneticiEkraniView.style.display = 'none';
-                stokTanimlarListesiView.style.display = 'flex';
-                if (document.getElementById('satisFaturasiView')) document.getElementById('satisFaturasiView').style.display = 'none';
+                setViewVisibility('businessView', false);
+                setViewVisibility('yoneticiEkraniView', false);
+                setViewVisibility('stokTanimlarListesiView', true);
+                setViewVisibility('satisFaturasiView', false);
                 // Show filter panel, hide menu
                 if (mainMenu) mainMenu.style.display = 'none';
                 if (filterPanel) filterPanel.style.display = 'flex';
+
+                // Ensure Filtre 1 is active by default
+                switchFilterTab('f1');
+                filterStokTable(); // Initial populate
             } else if (normalizedTitle === 'Yönetici Ekranı') {
                 screenView.style.display = 'none';
-                businessView.style.display = 'none';
-                stokTanimlarListesiView.style.display = 'none';
-                yoneticiEkraniView.style.display = 'flex';
-                if (document.getElementById('satisFaturasiView')) document.getElementById('satisFaturasiView').style.display = 'none';
+                setViewVisibility('businessView', false);
+                setViewVisibility('stokTanimlarListesiView', false);
+                setViewVisibility('yoneticiEkraniView', true);
+                setViewVisibility('satisFaturasiView', false);
                 screenTitle.textContent = normalizedTitle;
                 screenPath.textContent = 'Wolvox ERP  ›  ' + normalizedTitle;
                 if (mainMenu) mainMenu.style.display = 'flex'; // Keep sidebar visible
                 if (filterPanel) filterPanel.style.display = 'none';
+                updateDashboard(); // Initial populate
             } else if (normalizedTitle === 'Satış Fatura' || normalizedTitle === 'Yurt İçi Satış Faturası') {
                 screenView.style.display = 'none';
-                businessView.style.display = 'none';
-                stokTanimlarListesiView.style.display = 'none';
-                yoneticiEkraniView.style.display = 'none';
-                if (document.getElementById('satisFaturasiView')) document.getElementById('satisFaturasiView').style.display = 'flex';
+                setViewVisibility('businessView', false);
+                setViewVisibility('stokTanimlarListesiView', false);
+                setViewVisibility('yoneticiEkraniView', false);
+                setViewVisibility('satisFaturasiView', true);
 
                 screenTitle.textContent = normalizedTitle;
                 screenPath.textContent = 'Wolvox ERP  ›  ' + normalizedTitle;
@@ -9122,15 +9371,15 @@
                 const workspace = document.querySelector('.workspace');
                 if (workspace) {
                     workspace.style.padding = '0';
-                    workspace.style.overflow = 'hidden';
+                    workspace.style.overflow = 'auto';
                 }
 
             } else {
                 screenView.style.display = '';
-                businessView.style.display = 'none';
-                stokTanimlarListesiView.style.display = 'none';
-                yoneticiEkraniView.style.display = 'none';
-                if (document.getElementById('satisFaturasiView')) document.getElementById('satisFaturasiView').style.display = 'none';
+                setViewVisibility('businessView', false);
+                setViewVisibility('stokTanimlarListesiView', false);
+                setViewVisibility('yoneticiEkraniView', false);
+                setViewVisibility('satisFaturasiView', false);
                 screenTitle.textContent = normalizedTitle;
                 screenPath.textContent = 'Wolvox ERP  ›  ' + normalizedTitle;
                 if (mainMenu) mainMenu.style.display = '';
@@ -9163,149 +9412,151 @@
         function switchFilterTab(tabId) {
             // Hide all panes
             document.querySelectorAll('.filter-pane').forEach(p => p.style.display = 'none');
-            // Show target
-            const target = document.getElementById('filter-' + tabId);
-            if (target) target.style.display = 'block';
+            // Show target pane
+            const targetPane = document.getElementById('filter-' + tabId);
+            if (targetPane) targetPane.style.display = 'block';
 
-            // Reset tab styles
-            document.querySelectorAll('.sf-tab').forEach(t => {
-                t.style.background = 'transparent';
-                t.style.border = 'none';
-                t.style.borderBottom = 'none';
-                t.style.fontWeight = 'normal';
-            });
+            // Reset tab classes
+            document.querySelectorAll('.sf-tab').forEach(t => t.classList.remove('active'));
 
+            // Set active tab
             const activeTab = document.getElementById('tab-' + tabId);
-
             if (activeTab) {
-                activeTab.style.background = '#fff';
-                activeTab.style.border = '1px solid var(--line)';
-                activeTab.style.borderBottom = 'none';
-                activeTab.style.fontWeight = 'bold';
+                activeTab.classList.add('active');
                 activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
         }
 
+        const stokData = [
+            { id: 1, kod: 'STK-001', ad: 'Coca Cola 2.5L', syd: 'Cola 2.5L', barkod: '8690000000123', ana: 'ASTK-001', grup: 'İÇECEK', ara: 'SOĞUK', alt: 'KOLA', miktar: '150,00', birim: 'ADET', f1: '25,00 TL', f2: '22,50 TL', f3: '20,00 TL', f4: '18,00 TL' },
+            { id: 2, kod: 'STK-002', ad: 'Ariel Matik 5KG', syd: 'Ariel 5KG', barkod: '8690000000456', ana: 'ASTK-002', grup: 'TEMİZLİK', ara: 'DETERJAN', alt: 'TOZ', miktar: '85,00', birim: 'ADET', f1: '145,00 TL', f2: '140,00 TL', f3: '138,00 TL', f4: '135,00 TL' },
+            { id: 3, kod: 'STK-003', ad: 'Ülker Bisküvi', syd: 'Ulker Biscuit', barkod: '8690000000789', ana: 'ASTK-003', grup: 'GIDA', ara: 'ATIŞTIRMALIK', alt: 'BİSKÜVİ', miktar: '200,00', birim: 'ADET', f1: '15,00 TL', f2: '12,00 TL', f3: '10,00 TL', f4: '9,00 TL' },
+            { id: 4, kod: 'STK-004', ad: 'Faber Castell Kurşun Kalem', syd: 'Faber Pencil', barkod: '8690000000999', ana: 'ASTK-004', grup: 'KIRTASİYE', ara: 'KALEM', alt: 'KURŞUN', miktar: '500,00', birim: 'ADET', f1: '12,00 TL', f2: '10,00 TL', f3: '9,00 TL', f4: '8,00 TL' },
+            { id: 5, kod: 'STK-005', ad: 'Sütaş Süt 1L', syd: 'Sutas Milk 1L', barkod: '8690000000111', ana: 'ASTK-001', grup: 'GIDA', ara: 'SÜT ÜRÜNLERİ', alt: 'SÜT', miktar: '100,00', birim: 'ADET', f1: '35,00 TL', f2: '32,00 TL', f3: '30,00 TL', f4: '28,00 TL' }
+        ];
+
+        const stokHareketData = [
+            { kod: 'STK-001', ad: 'Coca Cola 2.5L', barkod: '8690000000123', syd: 'Cola 2.5L', miktar: '2,00', brm: 'ADET', tmik: '2,00', tbrm: 'ADET', kpb: '25,00', kdvHrc: '25,00', ind: '25,00', ara: '50,00', indAra: '50,00', top: '50,00', kdli: '60,00', sim: '₺', akur: '1,00', skur: '1,00', tip: 'Satış' },
+            { kod: 'STK-003', ad: 'Ülker Bisküvi', barkod: '8690000000789', syd: 'Ulker Biscuit', miktar: '5,00', brm: 'ADET', tmik: '5,00', tbrm: 'ADET', kpb: '15,00', kdvHrc: '15,00', ind: '15,00', ara: '75,00', indAra: '75,00', top: '75,00', kdli: '82,50', sim: '₺', akur: '1,00', skur: '1,00', tip: 'Satış' },
+            { kod: 'STK-002', ad: 'Ariel Matik 5KG', barkod: '8690000000456', syd: 'Ariel 5KG', miktar: '1,00', brm: 'ADET', tmik: '1,00', tbrm: 'ADET', kpb: '145,00', kdvHrc: '145,00', ind: '145,00', ara: '145,00', indAra: '145,00', top: '145,00', kdli: '159,50', sim: '₺', akur: '1,00', skur: '1,00', tip: 'Alış' }
+        ];
+
         function filterStokTable() {
-            // Demo filtering logic: show 4 mock rows
-            const tbody = document.querySelector('#stokTanimlarListesiView tbody');
-            tbody.innerHTML = `
-                <tr>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">1</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">STK-001</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">Örnek Stok Adı 1</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">Example Stock Name 1</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">8690000000123</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">ASTK-001</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">GIDA</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">ATIŞTIRMALIK</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">BİSKÜVİ</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">150,00</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">ADET</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">25,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">22,50 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">20,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">18,00 TL</td>
-                </tr>
-                <tr>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">2</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">STK-002</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">Örnek Stok Adı 2</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">Example Stock Name 2</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">8690000000456</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">ASTK-002</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">TEMİZLİK</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">DETERJAN</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">SIVI</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">85,00</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">LİTRE</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">45,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">40,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">38,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">35,00 TL</td>
-                </tr>
-                <tr>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">3</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">STK-003</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">Örnek Stok Adı 3</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">Example Stock Name 3</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">8690000000789</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">ASTK-003</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">İÇECEK</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">SOĞUK</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">KOLA</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">200,00</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">ADET</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">35,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">32,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">30,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">28,00 TL</td>
-                </tr>
-                <tr>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">4</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">STK-004</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">Örnek Stok Adı 4</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">Example Stock Name 4</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">8690000000999</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">ASTK-004</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">KIRTASİYE</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">KALEM</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">KURŞUN</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">500,00</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">ADET</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">12,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">10,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">9,00 TL</td>
-                    <td style="padding: 6px; border: 1px solid var(--line2);">8,00 TL</td>
-                </tr>
-            `;
+            const adF = (document.getElementById('sf-ad')?.value || '').toLowerCase();
+            const kodF = (document.getElementById('sf-kod')?.value || '').toLowerCase();
+            const barkodF = (document.getElementById('sf-barkod')?.value || '').toLowerCase();
+            const grupElement = document.getElementById('sf-grup');
+            const grupF = (grupElement?.value || '').toLowerCase();
 
-            // Populate Fatura Hareketleri
-            const hareketBody = document.getElementById('faturaHareketleriBody');
-            hareketBody.innerHTML = `
-                <tr>
-                    <td style="padding: 4px; border: 1px solid var(--line2);"><i class="bi bi-caret-right-fill" style="color:var(--blue)"></i></td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">ST00001</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">Klasik Burger</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">86900072</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">Stok kartı yurt adı. denem</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">1,00</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">ADET</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">1,00</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">ADET</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">301,00</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">361,20</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">$</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">43,3158</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">43,3939</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">Fiyatı</td>
-                </tr>
-            `;
+            // Filter main stock list
+            const filteredStok = stokData.filter(item => {
+                const matchAd = item.ad.toLowerCase().includes(adF);
+                const matchKod = item.kod.toLowerCase().includes(kodF);
+                const matchBarkod = item.barkod.toLowerCase().includes(barkodF);
+                const matchGrup = item.grup.toLowerCase().includes(grupF);
+                return matchAd && matchKod && matchBarkod && matchGrup;
+            });
 
-            // Populate Alt Toplamlar
-            const toplamBody = document.getElementById('altToplamlarBody');
-            toplamBody.innerHTML = `
-                <tr style="background: #fffbe6; font-weight: bold;">
-                    <td style="padding: 4px; border: 1px solid var(--line2);"><i class="bi bi-caret-right-fill" style="color:var(--green)"></i></td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">TL</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">0,000</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">0,000</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">0,000</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">2,000</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">3.068,000</td>
-                    <td style="padding: 4px; border: 1px solid var(--line2);">3.681,600</td>
-                </tr>
-            `;
+            // Filter movements list
+            const filteredHareket = stokHareketData.filter(item => {
+                const matchAd = item.ad.toLowerCase().includes(adF);
+                const matchKod = item.kod.toLowerCase().includes(kodF);
+                const matchBarkod = item.barkod.toLowerCase().includes(barkodF);
+                return matchAd && matchKod && matchBarkod;
+            });
+
+            // Update main table
+            const tbody = document.querySelector('#stokTanimlarListesiView table tbody');
+            if (tbody) {
+                if (filteredStok.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="15" style="padding: 20px; text-align: center; color: var(--muted);">Sonuç bulunamadı.</td></tr>`;
+                } else {
+                    tbody.innerHTML = filteredStok.map(item => `
+                        <tr>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.id}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.kod}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.ad}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.syd}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.barkod}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.ana}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.grup}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.ara}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.alt}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.miktar}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.birim}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.f1}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.f2}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.f3}</td>
+                            <td style="padding: 6px; border: 1px solid var(--line2);">${item.f4}</td>
+                        </tr>
+                    `).join('');
+                }
+            }
 
             const countTop = document.getElementById('stok-count-top');
             const countBottom = document.getElementById('stok-count-bottom');
-            if (countTop) countTop.textContent = 'Listelenen Kayıt Sayısı: 4';
-            if (countBottom) countBottom.textContent = 'Listelenen Kayıt Sayısı: 4';
+            if (countTop) countTop.textContent = 'Listelenen Kayıt Sayısı: ' + filteredStok.length;
+            if (countBottom) countBottom.textContent = 'Listelenen Kayıt Sayısı: ' + filteredStok.length;
+
+            // Update movements table
+            const hareketBody = document.getElementById('faturaHareketleriBody');
+            if (hareketBody) {
+                if (filteredHareket.length === 0) {
+                    hareketBody.innerHTML = `<tr><td colspan="20" style="padding: 10px; text-align: center; color: #999;">Hareket bulunamadı.</td></tr>`;
+                } else {
+                    hareketBody.innerHTML = filteredHareket.map(h => `
+                        <tr>
+                            <td style="padding: 4px; border: 1px solid var(--line2);"><i class="bi bi-caret-right-fill" style="color:var(--blue)"></i></td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.kod}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.ad}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.barkod}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.syd}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.miktar}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.brm}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.tmik}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.tbrm}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.kpb}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.kdvHrc}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.ind}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.ara}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.indAra}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.top}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.kdli}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.sim}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.akur}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.skur}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${h.tip}</td>
+                        </tr>
+                    `).join('');
+                }
+            }
+
+            // Update totals
+            const toplamBody = document.getElementById('altToplamlarBody');
+            if (toplamBody) {
+                if (filteredHareket.length === 0) {
+                    toplamBody.innerHTML = `<tr><td colspan="8" style="padding: 10px; text-align: center; color: #999;">Toplam bilgisi yok.</td></tr>`;
+                } else {
+                    // Calculate simple mock totals
+                    const totalAra = filteredHareket.reduce((acc, h) => acc + parseFloat(h.ara.replace(',', '.')), 0).toFixed(2).replace('.', ',');
+                    const totalKdv = (filteredHareket.reduce((acc, h) => acc + (parseFloat(h.kdli.replace(',', '.')) - parseFloat(h.ara.replace(',', '.'))), 0)).toFixed(2).replace('.', ',');
+                    const totalGenel = filteredHareket.reduce((acc, h) => acc + parseFloat(h.kdli.replace(',', '.')), 0).toFixed(2).replace('.', ',');
+                    const totalMiktar = filteredHareket.reduce((acc, h) => acc + parseFloat(h.miktar.replace(',', '.')), 0).toFixed(2).replace('.', ',');
+
+                    toplamBody.innerHTML = `
+                        <tr style="background: #fffbe6; font-weight: bold;">
+                            <td style="padding: 4px; border: 1px solid var(--line2);"><i class="bi bi-caret-right-fill" style="color:var(--green)"></i></td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">₺</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${totalMiktar}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${totalAra}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${totalGenel}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${totalMiktar}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${totalAra}</td>
+                            <td style="padding: 4px; border: 1px solid var(--line2);">${totalGenel}</td>
+                        </tr>
+                    `;
+                }
+            }
         }
 
         function clearStokFilter() {
@@ -9333,29 +9584,12 @@
                 else cb.checked = false;
             });
 
-            // Reset table
-            const tbody = document.querySelector('#stokTanimlarListesiView tbody');
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="15" style="padding: 20px; text-align: center; color: var(--muted);">Liste boş. Filtreleyerek kayıtları görebilirsiniz.</td>
-                </tr>
-            `;
-
-            // Clear Detail Sections
             const hareketBody = document.getElementById('faturaHareketleriBody');
-            if (hareketBody) {
-                hareketBody.innerHTML = `<tr><td colspan="20" style="padding: 10px; text-align: center; color: #999;">Hareket bulunamadı.</td></tr>`;
-            }
-
             const toplamBody = document.getElementById('altToplamlarBody');
-            if (toplamBody) {
-                toplamBody.innerHTML = `<tr><td colspan="8" style="padding: 10px; text-align: center; color: #999;">Toplam bilgisi yok.</td></tr>`;
-            }
+            if (hareketBody) hareketBody.innerHTML = `<tr><td colspan="20" style="padding: 10px; text-align: center; color: #999;">Hareket bulunamadı.</td></tr>`;
+            if (toplamBody) toplamBody.innerHTML = `<tr><td colspan="8" style="padding: 10px; text-align: center; color: #999;">Toplam bilgisi yok.</td></tr>`;
 
-            const countTop = document.getElementById('stok-count-top');
-            const countBottom = document.getElementById('stok-count-bottom');
-            if (countTop) countTop.textContent = 'Listelenen Kayıt Sayısı: 0';
-            if (countBottom) countBottom.textContent = 'Listelenen Kayıt Sayısı: 0';
+            filterStokTable();
         }
 
         function filterBusinessTable() {
@@ -9547,6 +9781,124 @@
         }
 
         // ---------- Modal Logic ----------
+        const dashboardMockData = {
+            'year': {
+                'stat-satis-tutari': 368160.00,
+                'stat-alis-tutari': 125000.00,
+                'stat-masraf-toplam': 45000.00,
+                'stat-satis-iade': 12000.00,
+                'stat-alis-iade': 0.00,
+                'stat-tahsilat-toplam': 210000.00,
+                'stat-tediye-toplam': 80000.00,
+                'stok-satis-tutari': 306800.00
+            },
+            'month': {
+                'stat-satis-tutari': 32450.00,
+                'stat-alis-tutari': 11200.00,
+                'stat-masraf-toplam': 3800.00,
+                'stat-satis-iade': 1100.00,
+                'stat-alis-iade': 0.00,
+                'stat-tahsilat-toplam': 18500.00,
+                'stat-tediye-toplam': 7200.00,
+                'stok-satis-tutari': 28500.00
+            },
+            'week': {
+                'stat-satis-tutari': 7820.00,
+                'stat-alis-tutari': 2450.00,
+                'stat-masraf-toplam': 850.00,
+                'stat-satis-iade': 240.00,
+                'stat-alis-iade': 0.00,
+                'stat-tahsilat-toplam': 4200.00,
+                'stat-tediye-toplam': 1500.00,
+                'stok-satis-tutari': 6100.00
+            },
+            'jan2025': {
+                'stat-satis-tutari': 28900.00,
+                'stat-alis-tutari': 9800.00,
+                'stat-masraf-toplam': 3100.00,
+                'stat-satis-iade': 950.00,
+                'stat-alis-iade': 0.00,
+                'stat-tahsilat-toplam': 16200.00,
+                'stat-tediye-toplam': 6400.00,
+                'stok-satis-tutari': 24300.00
+            }
+        };
+
+        function updateDashboard() {
+            const branch = document.getElementById('db-branch').value;
+            const currency = document.getElementById('db-currency').value;
+            const dateRange = document.getElementById('db-date').value;
+
+            // 1. Update date display
+            const startDateEl = document.getElementById('db-start-date');
+            const endDateEl = document.getElementById('db-end-date');
+
+            if (dateRange === 'year') {
+                startDateEl.textContent = '01.01.2026 00:00';
+                endDateEl.textContent = '31.12.2026 23:59';
+            } else if (dateRange === 'month') {
+                startDateEl.textContent = '01.02.2026 00:00';
+                endDateEl.textContent = '28.02.2026 23:59';
+            } else if (dateRange === 'week') {
+                startDateEl.textContent = '16.02.2026 00:00';
+                endDateEl.textContent = '22.02.2026 23:59';
+            } else if (dateRange === 'jan2025') {
+                startDateEl.textContent = '01.01.2025 00:00';
+                endDateEl.textContent = '31.01.2025 23:59';
+            }
+
+            // 2. Mock Multipliers
+            let multiplier = 1.0;
+            if (branch === 'A') multiplier = 0.4;
+            if (branch === 'B') multiplier = 0.35;
+            if (branch === 'C') multiplier = 0.25;
+
+            let currencyRate = 1.0;
+            let symbol = 'TL';
+            if (currency === 'USD') { currencyRate = 0.033; symbol = '$'; }
+            if (currency === 'EUR') { currencyRate = 0.031; symbol = '€'; }
+
+            // 3. Update Stat Cards (Selection based on dateRange)
+            const baseValues = dashboardMockData[dateRange] || dashboardMockData['year'];
+
+            document.querySelectorAll('.stat-card').forEach(card => {
+                const id = card.getAttribute('data-chart-id');
+                const baseValue = baseValues[id] || 0;
+                const finalValue = (baseValue * multiplier * currencyRate).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                const valueEl = card.querySelector('.stat-value');
+                if (valueEl) {
+                    valueEl.textContent = `${finalValue} ${symbol}`;
+                }
+            });
+
+            // 4. Update Analysis Cards (Charts & Lists)
+            document.querySelectorAll('.analysis-card').forEach(card => {
+                // Update Bar Heights (Mock Effect)
+                const bars = card.querySelectorAll('.analysis-card-body > div:first-child > div');
+                bars.forEach(bar => {
+                    const randomHeight = Math.floor(Math.random() * 70) + 20; // 20% to 90%
+                    bar.style.height = (randomHeight * multiplier) + '%';
+                });
+
+                // Update List Values
+                const listItems = card.querySelectorAll('.analysis-card-body > div:last-child > div');
+                listItems.forEach(item => {
+                    const valSpan = item.querySelector('span:last-child');
+                    if (valSpan) {
+                        const originalText = valSpan.textContent;
+                        const numericPart = parseFloat(originalText.replace(/[^0-9,]/g, '').replace(',', '.'));
+                        if (!isNaN(numericPart)) {
+                            const newValue = (numericPart * multiplier * currencyRate);
+                            const unit = originalText.includes('Adet') ? ' Adet' : ` ${symbol}`;
+                            valSpan.textContent = newValue.toLocaleString('tr-TR', { minimumFractionDigits: originalText.includes('Adet') ? 0 : 2, maximumFractionDigits: 2 }) + unit;
+                        }
+                    }
+                });
+            });
+
+            console.log(`Dashboard updated for Branch: ${branch}, Currency: ${currency}, Date: ${dateRange}`);
+        }
+
         function openDashboardSettings() {
             openModal('modal-dashboard-settings');
         }
