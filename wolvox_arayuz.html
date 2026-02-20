@@ -4119,24 +4119,8 @@
                 </ul>
         </div>
 
-
-
-
-
         </li>
-        <li class="menu-item sub-menu">
-            <a href="#">
-                <span class="menu-icon"><i class="bi bi-arrow-repeat"></i></span>
-                <span class="menu-title">Satış Yönetimi</span>
-            </a>
-            <div class="sub-menu-list">
-                <ul>
-                    <li class="menu-item"><a href="#"><span class="menu-title">İşlemler</span></a></li>
-                    <li class="menu-item"><a href="#"><span class="menu-title">Tanımlar</span></a></li>
-                    <li class="menu-item"><a href="#"><span class="menu-title">Raporlar</span></a></li>
-                </ul>
-            </div>
-        </li>
+    
         <li class="menu-item sub-menu">
             <a href="#">
                 <span class="menu-icon">
@@ -5553,51 +5537,7 @@
                 </ul>
             </div>
         </li>
-
-
-
-
-
-        <li class="menu-item sub-menu">
-            <a href="#">
-                <span class="menu-icon">
-                    <i class="bi bi-arrow-repeat"></i>
-                </span>
-                <span class="menu-title">Servis Yönetimi</span>
-            </a>
-            <div class="sub-menu-list">
-                <ul>
-                    <li class="menu-item"><a href="#"><span class="menu-title">Servis İşlemleri</span></a></li>
-                    <li class="menu-item"><a href="#"><span class="menu-title">Tanımlar</span></a></li>
-                    <li class="menu-item"><a href="#"><span class="menu-title">Raporlar</span></a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="menu-item sub-menu">
-            <a href="#">
-                <span class="menu-icon">
-                    <i class="bi bi-arrow-repeat"></i>
-                </span>
-                <span class="menu-title">Finans Yönetimi</span>
-            </a>
-            <div class="sub-menu-list">
-                <ul>
-                    <li class="menu-item sub-menu">
-                        <a href="#">
-                            <span class="menu-title">Finans İşlemleri</span>
-                        </a>
-                        <div class="sub-menu-list">
-                            <ul>
-                                <li class="menu-item"><a href="#" onclick="openBusinessScreen()"><span
-                                            class="menu-title">İşletme Bilgi Kaydı</span></a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="menu-item"><a href="#"><span class="menu-title">Tanımlar</span></a></li>
-                    <li class="menu-item"><a href="#"><span class="menu-title">Raporlar</span></a></li>
-                </ul>
-            </div>
-        </li>
+      
         <li class="menu-item sub-menu">
             <a href="#"><span class="menu-icon">
                     <i class="bi bi-arrow-repeat"></i>
@@ -5906,18 +5846,6 @@
                 </ul>
             </div>
         </li>
-        <li class="menu-item sub-menu">
-            <a href="#">
-                <span class="menu-icon"><i class="bi bi-arrow-repeat"></i></span>
-                <span class="menu-title">İthalat Yönetimi</span>
-            </a>
-            <div class="sub-menu-list">
-                <ul>
-                    <li class="menu-item"><a href="#"><span class="menu-title">İthalat İşlemleri</span></a></li>
-                    <li class="menu-item"><a href="#"><span class="menu-title">Raporlar</span></a></li>
-                </ul>
-            </div>
-        </li>
 
         <li class="menu-item sub-menu">
             <a href="#"><span class="menu-icon">
@@ -5987,10 +5915,6 @@
                 </ul>
             </div>
         </li>
-
-
-
-
 
         </ul>
         </nav>
@@ -7432,8 +7356,30 @@
                         /* Removed display: block !important to prevent overlap with other screens */
                     }
 
-                    /* Important: Reset height/flex for scrollability */
-                    #satisFaturasiView div {
+                    .invoice-tabs-container {
+                        overflow-x: auto !important;
+                        /* ENABLE horizontal scroll */
+                        overflow-y: hidden !important;
+                        white-space: nowrap !important;
+                        -webkit-overflow-scrolling: touch;
+                        scrollbar-width: none;
+                        flex-wrap: nowrap !important;
+                        display: flex !important;
+                        padding-bottom: 2px !important;
+                    }
+
+                    .invoice-tabs-container::-webkit-scrollbar {
+                        display: none;
+                    }
+
+                    .invoice-tabs-container>div {
+                        flex-shrink: 0 !important;
+                        flex: 0 0 auto !important;
+                        /* DO NOT shrink items */
+                    }
+
+                    /* Important: Reset height/flex for scrollability, BUT ALLOW OVERFLOW-X on scrollable areas */
+                    #satisFaturasiView div:not(.invoice-tabs-container):not(.invoice-header-buttons) {
                         height: auto !important;
                         min-height: 0 !important;
                         overflow: visible !important;
@@ -7444,6 +7390,7 @@
                     .invoice-tab-content {
                         padding: 10px !important;
                         display: none;
+                        overflow: visible !important;
                     }
 
                     .invoice-tab-content.active {
@@ -7492,19 +7439,72 @@
                         flex: 1 1 100% !important;
                     }
 
-                    /* Header Buttons Stacking */
+                    /* Header Layout Refinement */
+                    #satisFaturasiView .invoice-header {
+                        display: flex !important;
+                        align-items: center !important;
+                        overflow: hidden !important;
+                    }
+
+                    #satisFaturasiView .invoice-header>div:first-child {
+                        flex: 0 0 auto !important;
+                        /* Title doesn't shrink */
+                        white-space: nowrap !important;
+                    }
+
+                    /* Header Buttons Horizontal Scroll */
                     #satisFaturasiView .invoice-header-buttons {
                         justify-content: flex-start !important;
+                        flex-wrap: nowrap !important;
+                        /* Force single line */
                         gap: 4px !important;
                         overflow-x: auto !important;
+                        /* ENABLE horizontal scroll */
+                        overflow-y: hidden !important;
+                        -webkit-overflow-scrolling: touch;
                         padding-bottom: 5px !important;
-                        width: 100% !important;
+                        margin-left: 10px !important;
+                        /* Give some space from title */
+                        flex: 1 1 auto !important;
+                        /* Take remaining space */
+                        min-width: 0 !important;
+                        /* Allow shrinking to enable scroll */
+                        scrollbar-width: none;
+                        /* Hide scrollbar for cleaner look */
                         display: flex !important;
+                    }
+
+                    #satisFaturasiView .invoice-header-buttons::-webkit-scrollbar {
+                        display: none;
+                    }
+
+                    /* Special handling for Özel Tanımlar rows */
+                    #tab-content-ozeltanimlar .invoice-form-grid>div {
+                        flex-wrap: wrap !important;
+                        gap: 1.1px !important;
+                        margin-bottom: 2px !important;
+                    }
+
+                    #tab-content-ozeltanimlar .invoice-form-grid>div>label {
+                        width: 100% !important;
+                        text-align: left !important;
+                        margin-bottom: 2px !important;
+                    }
+
+                    #tab-content-ozeltanimlar .invoice-form-grid>div>input {
+                        width: 100% !important;
+                        flex: none !important;
+                    }
+
+                    .invoice-dropdown-content {
+                        position: fixed !important;
+                        z-index: 99999999 !important;
                     }
 
                     #satisFaturasiView .invoice-header-buttons button,
                     #satisFaturasiView .invoice-header-buttons .invoice-dropdown {
                         flex: 0 0 auto !important;
+                        /* DO NOT shrink buttons */
                         min-width: fit-content !important;
                     }
 
@@ -7557,7 +7557,7 @@
             <div
                 style="border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);background:#fff;display:flex;flex-direction:column;flex:1;min-height:0;overflow:visible !important;position:relative;z-index:10 !important;">
                 <!-- Header -->
-                <div
+                <div class="invoice-header"
                     style="background:linear-gradient(to right, #1e40af, #1d4584); padding:2px 10px; display:flex; align-items:center; gap:10px; color:#fff; border-bottom:1px solid #1d4ed8; position: relative; z-index: 999999 !important; overflow: visible !important;">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <i class="bi bi-file-earmark-text" style="font-size:16px;"></i>
@@ -8332,10 +8332,10 @@
                 </div>
                 <!-- Pazarlama Tab -->
                 <div id="tab-content-pazarlama" class="invoice-tab-content"
-                    style="display:none; flex-direction: column; justify-content: flex-start !important; padding:10px 15px;">
+                    style="display:none; flex-direction: column; justify-content: flex-start !important; padding:10px 15px; ">
                     <div class="invoice-form-grid" style="display:flex; gap:30px; align-items: flex-start;">
                         <!-- Left: Pazarlamacı Kullan -->
-                        <div style="border:1px solid #cfd6df; padding:4px 10px; background:#fff; width:200px;">
+                        <div style="border:1px solid #cfd6df; padding:4px 10px; background:#fff; width:200px; ">
                             <h4
                                 style="margin-top:0px; margin-bottom:10px; font-size:11px; color:#333; border-bottom:1px solid #eee; padding-bottom:5px;">
                                 Pazarlamacı Kullan</h4>
@@ -8350,7 +8350,7 @@
                         </div>
 
                         <!-- Right: Personel & Oranlar -->
-                        <div style="border:1px solid #cfd6df; padding:4px 10px; background:#fff; min-width:300px;">
+                        <div style="border:1px solid #cfd6df; padding:4px 10px; background:#fff; min-width:300px;  ">
                             <div style="display:flex; align-items:center; margin-bottom:10px;">
                                 <label
                                     style="width:80px; font-size:11px; font-weight:bold; text-align:right; margin-right:5px; color:#555;">Personel
@@ -8830,19 +8830,51 @@
 
                 function toggleInvoiceDropdown(id) {
                     const dropdown = document.getElementById(id);
+                    const trigger = event.currentTarget; // Get the button that triggered the click
+
                     // Close Kayıt Bilgileri if open
                     const kayitPopup = document.getElementById('kayit-bilgileri-popup');
                     if (kayitPopup) kayitPopup.style.display = 'none';
 
                     if (dropdown.classList.contains('show')) {
                         dropdown.classList.remove('show');
+                        dropdown.style.top = '';
+                        dropdown.style.left = '';
+                        dropdown.style.right = '';
                     } else {
                         // Close all others
                         const dropdowns = document.getElementsByClassName("invoice-dropdown-content");
                         for (let i = 0; i < dropdowns.length; i++) {
                             dropdowns[i].classList.remove('show');
+                            dropdowns[i].style.top = '';
+                            dropdowns[i].style.left = '';
+                            dropdowns[i].style.right = '';
                         }
-                        dropdown.classList.toggle("show");
+
+                        // Mobile positioning logic
+                        if (window.innerWidth <= 900) {
+                            const rect = trigger.getBoundingClientRect();
+                            const isUpward = dropdown.classList.contains('upward');
+
+                            if (isUpward) {
+                                dropdown.style.top = 'auto';
+                                dropdown.style.bottom = (window.innerHeight - rect.top + 5) + 'px';
+                            } else {
+                                dropdown.style.top = (rect.bottom + 5) + 'px';
+                                dropdown.style.bottom = 'auto';
+                            }
+
+                            // Check if it should align to left or right based on screen position
+                            if (rect.left + 160 > window.innerWidth) {
+                                dropdown.style.right = (window.innerWidth - rect.right) + 'px';
+                                dropdown.style.left = 'auto';
+                            } else {
+                                dropdown.style.left = rect.left + 'px';
+                                dropdown.style.right = 'auto';
+                            }
+                        }
+
+                        dropdown.classList.add("show");
                     }
                 }
 
