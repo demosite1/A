@@ -169,6 +169,9 @@
         #satisFaturasiView {
             transform-origin: top left;
             transition: transform 0.1s ease-out;
+            flex-direction: column;
+            height: 100%;
+            overflow: auto;
         }
 
         #satisFaturasiView,
@@ -1217,9 +1220,8 @@
         /* Sales Invoice Mobile Fixes */
         @media (max-width: 980px) {
             #satisFaturasiView {
-                height: auto !important;
+                /* Let the 900px media block control position, height and overflow for scroll */
                 flex: none !important;
-                overflow: visible !important;
             }
 
             #satisFaturasiView>div:first-child {
@@ -1235,6 +1237,8 @@
                 scrollbar-width: none;
                 flex-wrap: nowrap !important;
                 padding-bottom: 2px !important;
+                display: flex !important;
+                gap: 2px !important;
             }
 
             .invoice-tabs-container::-webkit-scrollbar {
@@ -1245,28 +1249,79 @@
                 flex-shrink: 0 !important;
             }
 
-            .invoice-tab-content-wrapper {
-                overflow-y: visible !important;
+            /* Important: Reset height/flex for scrollability, AND PREVENT HORIZONTAL OVERFLOW */
+            /* Added containers to exceptions to allow 2D scroll */
+            #satisFaturasiView div:not(.invoice-tabs-container):not(.invoice-header-buttons):not(#invoice-bottom-tabs):not(#hareketler-container):not(.invoice-dropdown):not(.invoice-dropdown-content):not(.invoice-tab-content):not(.connections-table-container):not(.table-scroll-container) {
                 height: auto !important;
+                min-height: 0 !important;
+                overflow: hidden !important;
                 flex: none !important;
+                max-width: 100vw !important;
+                box-sizing: border-box !important;
             }
 
             .invoice-tab-content {
-                height: auto !important;
-                padding: 10px !important;
-            }
-
-            #hareketler-container {
-                height: auto !important;
-                min-height: 300px !important;
-                flex: none !important;
                 overflow: visible !important;
             }
 
-            #hareketler-container>div:last-child {
-                height: 250px !important;
-                /* Table area height */
-                overflow: hidden !important;
+            #invoice-bottom-tabs {
+                overflow-x: auto !important;
+                white-space: nowrap !important;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                display: flex !important;
+                gap: 5px !important;
+                padding-bottom: 5px !important;
+            }
+
+            #invoice-bottom-tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            /* Tab content visibility logic: default hidden */
+            .invoice-tab-content {
+                padding: 10px !important;
+                display: none;
+                overflow: visible !important;
+            }
+
+            #hareketler-container {
+                min-height: 300px !important;
+                border-top: 2px solid #ccc !important;
+                margin-top: 10px !important;
+                display: block !important;
+                overflow: auto !important;
+                max-height: 50vh !important;
+                width: 100% !important;
+            }
+
+            #hareketler-container table {
+                min-width: 1200px !important;
+                display: table !important;
+            }
+
+            /* Bağlantılar tab specific scroll */
+            .connections-table-container {
+                display: block !important;
+                overflow: auto !important;
+            }
+
+            .connections-table-container table {
+                min-width: 600px !important;
+                width: auto !important;
+                display: table !important;
+            }
+
+            .table-scroll-container {
+                display: block !important;
+                overflow: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+
+            .table-scroll-container table {
+                min-width: 1200px !important;
+                width: auto !important;
+                display: table !important;
             }
 
             .invoice-form-grid {
@@ -1295,6 +1350,8 @@
                 width: 100% !important;
                 overflow: hidden !important;
                 padding: 10px !important;
+                box-sizing: border-box !important;
+                max-width: 100vw !important;
             }
 
             #satisFaturasiView .totals-grid {
@@ -1304,6 +1361,7 @@
                 gap: 10px !important;
                 width: 100% !important;
                 column-gap: 5px !important;
+                box-sizing: border-box !important;
             }
 
             #satisFaturasiView .totals-grid>div {
@@ -1320,6 +1378,7 @@
                 padding: 10px !important;
                 display: flex !important;
                 width: 100% !important;
+                box-sizing: border-box !important;
             }
 
             #satisFaturasiView .footer-status-bar>div {
@@ -1334,6 +1393,37 @@
             #satisFaturasiView div[style*="min-width: 300px"] {
                 min-width: 0 !important;
                 width: 100% !important;
+            }
+
+            #satisFaturasiView .invoice-header {
+                flex-wrap: wrap !important;
+                height: auto !important;
+                padding: 5px 10px !important;
+            }
+
+            #satisFaturasiView .invoice-header-buttons {
+                margin-left: initial !important;
+                width: 100% !important;
+                justify-content: flex-start !important;
+                padding-top: 5px !important;
+            }
+
+            body {
+                overflow-x: hidden !important;
+                width: 100% !important;
+                position: relative !important;
+            }
+
+            .window {
+                overflow-x: hidden !important;
+            }
+
+            .workspace {
+                overflow-x: hidden !important;
+            }
+
+            #satisFaturasiView {
+                overflow-x: hidden !important;
             }
         }
 
@@ -4120,7 +4210,7 @@
         </div>
 
         </li>
-    
+
         <li class="menu-item sub-menu">
             <a href="#">
                 <span class="menu-icon">
@@ -5537,7 +5627,7 @@
                 </ul>
             </div>
         </li>
-      
+
         <li class="menu-item sub-menu">
             <a href="#"><span class="menu-icon">
                     <i class="bi bi-arrow-repeat"></i>
@@ -7294,8 +7384,7 @@
         </div> <!-- End of yoneticiEkraniView -->
 
         <!-- SATIS FATURASI VIEW -->
-        <div id="satisFaturasiView"
-            style="display:none; flex-direction:column; background:#fff; height:100%; overflow:visible !important; ">
+        <div id="satisFaturasiView" style="display:none; background:#fff;">
             <!-- Top Section Container (Header + Tabs + Forms) -->
             <style>
                 /* Invoice Dropdown Styles */
@@ -7308,17 +7397,25 @@
                     display: none;
                     position: absolute;
                     background-color: #fff;
-                    min-width: 160px;
+                    min-width: 180px;
                     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
                     z-index: 1000000 !important;
                     border: 1px solid #ccc;
                     border-radius: 4px;
                     right: 0;
                     transform: translateZ(0);
+                    max-height: 50vh;
+                    /* Reduced for better scroll area visibility on mobile */
+                    overflow-y: auto !important;
+                    overflow-x: hidden !important;
+                    -webkit-overflow-scrolling: touch;
                 }
 
                 .invoice-dropdown-content.show {
-                    display: block;
+                    display: block !important;
+                    max-height: 45vh !important;
+                    overflow-y: auto !important;
+                    -webkit-overflow-scrolling: touch !important;
                 }
 
                 /* Upward dropdown for bottom button */
@@ -7348,12 +7445,17 @@
                 /* MOBILE RESPONSIVE STYLES FOR SALES INVOICE */
                 @media (max-width: 900px) {
                     #satisFaturasiView {
-                        height: auto !important;
-                        min-height: min-content !important;
-                        overflow: visible !important;
-                        padding-bottom: 50px !important;
-                        /* Extra padding for footer buttons */
-                        /* Removed display: block !important to prevent overlap with other screens */
+                        position: fixed !important;
+                        top: 114px !important;
+                        /* Space for Titlebar (32px) + Tabsrow (50px) + Workhead (32px) */
+                        left: 0 !important;
+                        right: 0 !important;
+                        bottom: 0 !important;
+                        height: calc(100% - 114px) !important;
+                        overflow-y: auto !important;
+                        -webkit-overflow-scrolling: touch !important;
+                        z-index: 9999 !important;
+                        background: #fff !important;
                     }
 
                     .invoice-tabs-container {
@@ -7378,12 +7480,33 @@
                         /* DO NOT shrink items */
                     }
 
-                    /* Important: Reset height/flex for scrollability, BUT ALLOW OVERFLOW-X on scrollable areas */
-                    #satisFaturasiView div:not(.invoice-tabs-container):not(.invoice-header-buttons) {
+                    /* Important: Reset height/flex for scrollability, AND PREVENT HORIZONTAL OVERFLOW */
+                    /* Added containers to exceptions to allow 2D scroll */
+                    #satisFaturasiView div:not(.invoice-tabs-container):not(.invoice-header-buttons):not(#invoice-bottom-tabs):not(#hareketler-container):not(.invoice-dropdown):not(.invoice-dropdown-content):not(.invoice-tab-content):not(.connections-table-container):not(.table-scroll-container) {
                         height: auto !important;
                         min-height: 0 !important;
-                        overflow: visible !important;
+                        overflow: hidden !important;
                         flex: none !important;
+                        max-width: 100vw !important;
+                        box-sizing: border-box !important;
+                    }
+
+                    .invoice-tab-content {
+                        overflow: visible !important;
+                    }
+
+                    #invoice-bottom-tabs {
+                        overflow-x: auto !important;
+                        white-space: nowrap !important;
+                        -webkit-overflow-scrolling: touch;
+                        scrollbar-width: none;
+                        display: flex !important;
+                        gap: 5px !important;
+                        padding-bottom: 5px !important;
+                    }
+
+                    #invoice-bottom-tabs::-webkit-scrollbar {
+                        display: none;
                     }
 
                     /* Tab content visibility logic: default hidden */
@@ -7399,18 +7522,51 @@
 
                     /* Movements container minimum height */
                     #hareketler-container {
-                        min-height: 500px !important;
+                        min-height: 300px !important;
                         border-top: 2px solid #ccc !important;
                         margin-top: 10px !important;
                         display: block !important;
+                        overflow: auto !important;
+                        /* Force 2D scroll here */
+                        max-height: 50vh !important;
+                        width: 100% !important;
                     }
 
-                    /* Table should SCROLL HORIZONTALLY but NOT clip vertically */
-                    #hareketler-container table {
+                    /* Table: full 2D scroll with high-specificity to beat the div:not() rule */
+                    #satisFaturasiView #hareketler-container {
+                        overflow: auto !important;
+                        -webkit-overflow-scrolling: touch !important;
+                    }
+
+                    #satisFaturasiView #hareketler-container table {
+                        display: table !important;
+                        min-width: 1200px !important;
+                        width: auto !important;
+                    }
+
+                    /* Bağlantılar tab specific scroll */
+                    .connections-table-container {
+                        height: 40vh !important;
                         display: block !important;
-                        overflow-x: auto !important;
-                        -webkit-overflow-scrolling: touch;
-                        width: 100% !important;
+                        overflow: auto !important;
+                    }
+
+                    .connections-table-container table {
+                        min-width: 600px !important;
+                        width: auto !important;
+                        display: table !important;
+                    }
+
+                    .table-scroll-container {
+                        display: block !important;
+                        overflow: auto !important;
+                        -webkit-overflow-scrolling: touch !important;
+                    }
+
+                    .table-scroll-container table {
+                        min-width: 1200px !important;
+                        width: auto !important;
+                        display: table !important;
                     }
 
                     /* Footer container stacking */
@@ -7421,7 +7577,7 @@
                         display: block !important;
                         border-top: 2px solid #ccc !important;
                         margin-top: 10px !important;
-                        padding-bottom: 30px !important;
+                        padding-bottom: 5px !important;
                     }
 
                     .invoice-tab-content {
@@ -7499,6 +7655,9 @@
                     .invoice-dropdown-content {
                         position: fixed !important;
                         z-index: 99999999 !important;
+                        max-height: 65vh !important;
+                        overflow-y: auto !important;
+                        -webkit-overflow-scrolling: touch !important;
                     }
 
                     #satisFaturasiView .invoice-header-buttons button,
@@ -7512,6 +7671,13 @@
                     #satisFaturasiView input,
                     #satisFaturasiView select {
                         max-width: 100% !important;
+                    }
+
+                    /* Bottom tabs: prevent flex shrink so horizontal scroll works */
+                    #invoice-bottom-tabs>div {
+                        flex-shrink: 0 !important;
+                        flex: 0 0 auto !important;
+                        white-space: nowrap !important;
                     }
 
                     /* Footer Buttons Stacking */
@@ -8521,7 +8687,8 @@
                                 class="bi bi-plus-lg"></i> Satır Ekle</button>
                     </div>
 
-                    <div style="border:1px solid #ccc; background:#fff; height:80px; overflow:auto;">
+                    <div class="connections-table-container"
+                        style="border:1px solid #ccc; background:#fff; height:80px; overflow:auto;">
                         <table style="width:100%; border-collapse:collapse; font-size:11px;">
                             <thead style="background:#f0f2f5; position:sticky; top:0;">
                                 <tr style="background:#e8f0f7;">
@@ -8557,7 +8724,7 @@
             </div> <!-- Close scrollable content wrapper (line 7246) -->
 
             <div id="hareketler-container"
-                style="display:flex;flex-direction:column;border-top:5px solid #e0e0e0;margin-top:0;flex:1;min-height:0;overflow:hidden;position:relative;z-index:1 !important;">
+                style="display:flex;flex-direction:column;border-top:5px solid #e0e0e0;margin-top:0;flex:1;min-height:0;overflow:visible;position:relative;z-index:1 !important;">
                 <!-- Tabs for grid -->
                 <div
                     style="display:flex;gap:8px;border-bottom:1px solid #ccc;margin-bottom:0;background:#f5f5f5;padding-top:3px;padding-left:8px;">
@@ -8588,7 +8755,7 @@
                 </div>
 
                 <div
-                    style="display:flex; flex:1; min-height:150px; border:1px solid #ccc; background:#fff; overflow:hidden;">
+                    style="display:flex; flex:1; min-height:150px; border:1px solid #ccc; background:#fff; overflow:visible;">
                     <!-- Left Icon Toolbar -->
                     <div
                         style="width:28px;background:#f0f2f5;border-right:1px solid #ccc;display:flex;flex-direction:column;align-items:center;padding-top:8px;gap:12px;">
@@ -8602,7 +8769,7 @@
                         <i class="bi bi-upc-scan" style="cursor:pointer;color:#333;font-size:14px;" title="Barkod"></i>
                     </div>
 
-                    <div style="flex:1;overflow:auto;position:relative;">
+                    <div class="table-scroll-container" style="flex:1;overflow:auto;position:relative;">
                         <table style="width:100%;border-collapse:collapse;font-size:10px;white-space:nowrap;">
                             <thead style="background:#eef2f7;position:sticky;top:0;z-index:999;">
                                 <tr style="color:#334155;font-weight:700;">
@@ -8878,16 +9045,41 @@
                     }
                 }
 
+                function toggleKayitBilgileri(event) {
+                    if (event) event.stopPropagation();
+                    const popup = document.getElementById('kayit-bilgileri-popup');
+                    if (!popup) return;
+
+                    // Close all invoice dropdowns first
+                    const dropdowns = document.getElementsByClassName("invoice-dropdown-content");
+                    for (let i = 0; i < dropdowns.length; i++) {
+                        dropdowns[i].classList.remove('show');
+                    }
+
+                    if (popup.style.display === 'none' || popup.style.display === '') {
+                        popup.style.display = 'block';
+                    } else {
+                        popup.style.display = 'none';
+                    }
+                }
+
                 // Close the dropdown if the user clicks outside of it
                 document.addEventListener('click', function (event) {
-                    if (!event.target.closest('.invoice-dropdown')) {
+                    // Don't close if clicking inside the dropdown content or the trigger button
+                    if (!event.target.closest('.invoice-dropdown') && !event.target.closest('.invoice-dropdown-content') && !event.target.closest('#kayit-bilgileri-popup')) {
                         const dropdowns = document.getElementsByClassName("invoice-dropdown-content");
                         for (let i = 0; i < dropdowns.length; i++) {
                             const openDropdown = dropdowns[i];
                             if (openDropdown.classList.contains('show')) {
                                 openDropdown.classList.remove('show');
+                                openDropdown.style.top = '';
+                                openDropdown.style.left = '';
+                                openDropdown.style.right = '';
+                                openDropdown.style.bottom = '';
                             }
                         }
+                        const kayitPopup = document.getElementById('kayit-bilgileri-popup');
+                        if (kayitPopup) kayitPopup.style.display = 'none';
                     }
                 });
             </script>
@@ -8897,7 +9089,8 @@
                 <!-- Footer Totals (Persistent Summary Area) -->
                 <div>
                     <!-- Tabs for bottom summary -->
-                    <div style="display:flex;gap:5px;padding:5px 10px 0;background:#f5f5f5;">
+                    <div id="invoice-bottom-tabs"
+                        style="display:flex;gap:5px;padding:5px 10px 0;background:#f5f5f5;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;white-space:nowrap;">
                         <div
                             style="font-size:11px;font-weight:bold;background:#fff;padding:4px 12px;border-radius:4px 4px 0 0;border:1px solid #ccc;border-bottom:none;color:#333;">
                             Alt Toplamlar</div>
@@ -9043,7 +9236,7 @@
                             Yenile
                         </button>
                         <!-- Kayıt Bilgileri Popup Button -->
-                        <div style="position:relative;">
+                        <div class="invoice-dropdown" style="position:relative;">
                             <button onclick="toggleKayitBilgileri(event)"
                                 style="height:26px; padding:0 8px; background:linear-gradient(#fff, #f3f4f6); border:1px solid #9ca3af; border-radius:3px; cursor:pointer; display:flex; align-items:center; gap:3px; color:#374151;">
                                 <!-- Liste ikonu (SVG) -->
@@ -9060,8 +9253,8 @@
                                 </svg>
                             </button>
                             <!-- Kayıt Bilgileri Popup -->
-                            <div id="kayit-bilgileri-popup"
-                                style="display:none; position:absolute; bottom:32px; right:0; background:#fff; border:1px solid #ccc; border-radius:4px; box-shadow:0 4px 16px rgba(0,0,0,0.18); min-width:260px; z-index:2000;">
+                            <div id="kayit-bilgileri-popup" class="invoice-dropdown-content"
+                                style="display:none; position:absolute; bottom:42px; right:0; background:#fff; border:1px solid #ccc; border-radius:4px; box-shadow:0 4px 16px rgba(0,0,0,0.18); min-width:260px; z-index:2000;">
                                 <div
                                     style="background:#c0392b; color:#fff; text-align:center; padding:5px 10px; font-size:12px; font-weight:bold; border-radius:4px 4px 0 0;">
                                     Kayıt Bilgileri</div>
@@ -9102,26 +9295,6 @@
                                 </div>
                             </div>
                         </div>
-                        <script>
-                            function toggleKayitBilgileri(e) {
-                                e.stopPropagation();
-
-                                // Close any open invoice dropdowns
-                                const dropdowns = document.getElementsByClassName("invoice-dropdown-content");
-                                for (let i = 0; i < dropdowns.length; i++) {
-                                    dropdowns[i].classList.remove('show');
-                                }
-
-                                const popup = document.getElementById('kayit-bilgileri-popup');
-                                popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
-                            }
-                            document.addEventListener('click', function (e) {
-                                const popup = document.getElementById('kayit-bilgileri-popup');
-                                if (popup && !popup.closest('div[style*="position:relative"]')?.contains(e.target)) {
-                                    popup.style.display = 'none';
-                                }
-                            });
-                        </script>
                     </div>
                 </div>
             </div>
@@ -9484,15 +9657,31 @@
                 screenTitle.textContent = normalizedTitle;
                 screenPath.textContent = 'Wolvox ERP  ›  ' + normalizedTitle;
 
-                // FULL SCREEN MODE: Hide sidebar and workhead completely and adjust grid
-                if (leftPanel) leftPanel.style.display = 'none';
-                if (workhead) workhead.style.display = 'none';
-                if (mainContainer) mainContainer.style.gridTemplateColumns = '1fr';
+                // FULL SCREEN MODE: Conditional for mobile/desktop
+                if (window.innerWidth < 900) {
+                    // Mobile: Show header and tabs for context (1 and 2 photos request)
+                    if (leftPanel) leftPanel.style.display = 'flex';
+                    if (workhead) workhead.style.display = 'flex';
+                    if (mainContainer) mainContainer.style.gridTemplateColumns = '1fr';
+                } else {
+                    // Desktop: Clean full screen
+                    if (leftPanel) leftPanel.style.display = 'none';
+                    if (workhead) workhead.style.display = 'none';
+                    if (mainContainer) mainContainer.style.gridTemplateColumns = '1fr';
+                }
 
                 const workspace = document.querySelector('.workspace');
                 if (workspace) {
                     workspace.style.padding = '0';
                     workspace.style.overflow = 'auto';
+                }
+
+                // Force correct scroll on mobile for fixed-position invoice view
+                const satisView = document.getElementById('satisFaturasiView');
+                if (satisView && window.innerWidth < 900) {
+                    satisView.style.overflow = '';
+                    satisView.style.overflowY = 'auto';
+                    satisView.style.height = '';
                 }
 
             } else {
