@@ -986,7 +986,7 @@
                                             <i class="bi bi-arrow-repeat"></i>
                                         </span>
                                         <span class="menu-title">Stok Yönetimi</span>
-                                        <span class="menu-suffix">
+                                        <span class="menu-suffix"></span>
                                     </a>
 
 
@@ -8617,10 +8617,10 @@
                                     </div>
 
                                     <!-- Right Currency Panel (Highly Compressed) -->
-                                    <div
+                                    <div class="invoice-currency-panel"
                                         style="flex:3.5; border:1px solid #ccc; border-radius:4px; padding:4px 8px; background:#fff; display:flex; flex-direction:row; gap:12px; align-items:center; min-height:40px;">
                                         <!-- Section 1: Döviz Kullan & Birimi -->
-                                        <div style="display:flex; align-items:center; gap:8px;">
+                                        <div class="currency-section" style="display:flex; align-items:center; gap:8px;">
                                             <label
                                                 style="font-size:11px; font-weight:bold; color:#6b21a8; display:flex; align-items:center; gap:4px; white-space:nowrap; cursor:pointer;">
                                                 <input type="checkbox" checked
@@ -8644,7 +8644,7 @@
                                         </div>
 
                                         <!-- Section 2: Döviz Hesabına İşle -->
-                                        <div
+                                        <div class="currency-section"
                                             style="display:flex; flex-direction:column; gap:1px; border-left:1px solid #eee; padding-left:10px;">
                                             <div style="font-size:10px; font-weight:bold; color:#ea580c;">Döviz Hesabına
                                                 İşle</div>
@@ -8663,7 +8663,7 @@
                                         </div>
 
                                         <!-- Section 3: Kullanılan Cari Hesabı -->
-                                        <div
+                                        <div class="currency-section"
                                             style="display:flex; flex-direction:column; gap:1px; border-left:1px solid #eee; padding-left:10px;">
                                             <div style="font-size:10px; font-weight:bold; color:#1e40af;">Kullanılan
                                                 Hesap</div>
@@ -9061,20 +9061,20 @@
 
                                 <div class="connections-table-container"
                                     style="border:1px solid #ccc; background:#fff; height:80px; overflow:auto;">
-                                    <table style="width:100%; border-collapse:collapse; font-size:11px;">
+                                    <table style="width:100%; border-collapse:collapse; font-size:11px; table-layout: fixed;">
                                         <thead style="background:#f0f2f5; position:sticky; top:0;">
                                             <tr style="background:#e8f0f7;">
                                                 <th
-                                                    style="border:1px solid #d1d5db; padding:2px; width:20px; text-align:center;">
+                                                    style="border:1px solid #d1d5db; padding:2px; width:30px; text-align:center;">
                                                     ::
                                                 </th>
                                                 <th
-                                                    style="border:1px solid #d1d5db; padding:2px; text-align:left; width:150px;">
+                                                    style="border:1px solid #d1d5db; padding:2px; text-align:left; width:40%;">
                                                     Modül</th>
                                                 <th
                                                     style="border:1px solid #d1d5db; padding:2px; text-align:left; width:100px;">
                                                     Tarihi</th>
-                                                <th style="border:1px solid #d1d5db; padding:2px; text-align:left;">
+                                                <th style="border:1px solid #d1d5db; padding:2px; text-align:left; width:auto;">
                                                     Evrak No
                                                 </th>
                                             </tr>
@@ -9564,11 +9564,11 @@
 
                 <!-- YURT İÇİ VERİLEN TEKLİF VIEW -->
                 <div id="yurtIciVerilenTeklifView"
-                    style="display:none; flex-direction:column; height:100%; width:100% !important; max-width:100% !important; background:#fff; position:relative; overflow:hidden !important;">                    <div id="teklif-inner-wrapper"
-                        style="border:none; background:#fff; display:flex; flex-direction:column; flex:1; min-height:0; max-width:100%; min-width:0; overflow:hidden; position:relative; z-index:10 !important;">
+                    style="display:none; background:#fff;">                    <div id="teklif-inner-wrapper"
+                        style="border:none; background:#fff; display:flex; flex-direction:column; flex:1; min-height:0; max-width:100%; min-width:0; overflow:visible !important; position:relative; z-index:10 !important;">
                         <!-- Header -->
                         <div class="invoice-header"
-                            style="background:linear-gradient(to right, #1e40af, #1d4584); padding:2px 10px; display:flex; align-items:center; gap:10px; color:#fff; border-bottom:1px solid #1d4ed8; position: sticky; top: 0; z-index: 999999 !important; width: 100%; max-width: 100%; box-sizing: border-box; flex-wrap: wrap; overflow: hidden;">
+                            style="background:linear-gradient(to right, #1e40af, #1d4584); padding:2px 10px; display:flex; align-items:center; gap:10px; color:#fff; border-bottom:1px solid #1d4ed8; position: relative; z-index: 999999 !important; width: 100%; max-width: 100%; box-sizing: border-box; flex-wrap: wrap; overflow: visible !important;">
                             <div style="display:flex; align-items:center; gap:10px;">
                                 <i class="bi bi-file-earmark-text" style="font-size:16px;"></i>
                                 <b style="font-size:12px;text-shadow:0 1px 2px rgba(0,0,0,0.3);">Yurt İçi Verilen
@@ -9605,7 +9605,7 @@
 
                         <!-- Teklif Tabs -->
                         <div class="invoice-tabs-container"
-                            style="display:flex;gap:2px;padding:0 6px 0;background:#f0f2f5;">
+                            style="display:flex;gap:2px;padding:0 6px 0;background:#fff;border-bottom:1px solid #cfd6df;">
                             <div id="teklif-tab-header-cari" onclick="openTeklifTab('cari')"
                                 style="padding:2px 10px;background:#fff;border:1px solid #cfd6df;border-bottom:1px solid #fff;border-radius:4px 4px 0 0;font-size:11px;font-weight:700;color:#333;cursor:pointer;">
                                 Cari</div>
@@ -9640,7 +9640,7 @@
 
                         <!-- Content wrapper -->
                         <div class="invoice-tab-content-wrapper"
-                            style="display: flex; flex-direction: column; justify-content: flex-start !important; padding:0; background:#ffffff; height: 175px; min-height: 175px; max-height: 175px; overflow-y:auto; overflow-x:hidden; border-bottom:1px solid #e0e0e0; position:relative;">
+                            style="display: flex; flex-direction: column; justify-content: flex-start !important; padding:0; background:#ffffff; min-height: 215px; overflow:visible !important; border-bottom:1px solid #e0e0e0; position:relative;">
 
                             <!-- Cari Tab -->
                             <div id="teklif-tab-content-cari" class="invoice-tab-content"
@@ -10093,10 +10093,10 @@
 
                                     <!-- KDV Öncesi Sections (Split into two) -->
                                     <div class="teklif-kdv-oncesi-row"
-                                        style="display:flex; gap:10px; flex:1; min-width:700px;">
+                                        style="display:flex; gap:10px; flex:1; flex-wrap:wrap;">
                                         <!-- Box 1 -->
                                         <div
-                                            style="flex:1; border:1px solid #ccc; padding:4px 8px; background:#fff; border-radius:3px;">
+                                            style="flex:1; border:1px solid #ccc; padding:4px 8px; background:#fff; border-radius:3px; min-width:300px;">
                                             <div
                                                 style="font-size:10px; font-weight:bold; color:#0369a1; border-bottom:1px solid #eee; margin-bottom:5px; padding-bottom:2px;">
                                                 KDV Öncesi</div>
@@ -10182,9 +10182,8 @@
                                             </div>
                                         </div>
 
-                                        <!-- Box 2 -->
                                         <div
-                                            style="flex:1; border:1px solid #ccc; padding:4px 8px; background:#fff; border-radius:3px;">
+                                            style="flex:1; border:1px solid #ccc; padding:4px 8px; background:#fff; border-radius:3px; min-width:300px;">
                                             <div
                                                 style="font-size:10px; font-weight:bold; color:#0369a1; border-bottom:1px solid #eee; margin-bottom:5px; padding-bottom:2px;">
                                                 KDV Öncesi</div>
@@ -10483,20 +10482,22 @@
 
                             <!-- Bilgiler Tab -->
                             <div id="teklif-tab-content-bilgiler" class="invoice-tab-content"
-                                style="display:none; flex-direction: row; gap:10px; justify-content: flex-start !important; padding:10px 15px; flex: 1; min-height: 0; overflow: hidden;">
+                                style="display:none; flex-direction: column; gap:10px; justify-content: flex-start !important; padding:10px 15px; flex: 1; min-height: 0; overflow: hidden;">
                                 <!-- Teklif Bilgileri 1 -->
                                 <div
-                                    style="flex:1; border:1px solid #ccc; background:#fff; border-radius:4px; min-height:100px; padding:4px;">
+                                    style="flex:1; border:1px solid #ccc; background:#fff; border-radius:4px; min-height:100px; padding:4px; display:flex; flex-direction:column;">
                                     <div
                                         style="font-size:11px; font-weight:bold; color:#333; border-bottom:1px solid #eee; padding-bottom:3px; margin-bottom:5px;">
                                         Teklif Bilgileri 1</div>
+                                    <textarea style="flex:1; border:1px solid #ccc; font-size:10.5px; font-family:inherit; padding:5px; border-radius:2px; resize:none;" placeholder="Teklif Bilgileri 1..."></textarea>
                                 </div>
                                 <!-- Teklif Bilgileri 2 -->
                                 <div
-                                    style="flex:1; border:1px solid #ccc; background:#fff; border-radius:4px; min-height:100px; padding:4px;">
+                                    style="flex:1; border:1px solid #ccc; background:#fff; border-radius:4px; min-height:100px; padding:4px; display:flex; flex-direction:column;">
                                     <div
                                         style="font-size:11px; font-weight:bold; color:#333; border-bottom:1px solid #eee; padding-bottom:3px; margin-bottom:5px;">
                                         Teklif Bilgileri 2</div>
+                                    <textarea style="flex:1; border:1px solid #ccc; font-size:10.5px; font-family:inherit; padding:5px; border-radius:2px; resize:none;" placeholder="Teklif Bilgileri 2..."></textarea>
                                 </div>
                             </div>
 
@@ -10836,7 +10837,7 @@
 
                         <!-- Footer for Teklif -->
                         <div
-                            style="background: #fff; border-top: 1px solid #ccc; flex: 0 0 auto; position: sticky; bottom: 0; z-index: 1000; box-shadow: 0 -2px 5px rgba(0,0,0,0.05);">
+                            style="background: #fff; border-top: 1px solid #ccc; flex: 0 0 auto; position: relative; overflow: visible !important; box-shadow: 0 -2px 5px rgba(0,0,0,0.05);">
                             <!-- Tabs for footer -->
                             <div
                                 style="display:flex;background:#f1f5f9;border-bottom:1px solid #cbd5e1;padding-left:8px;">
@@ -10856,43 +10857,45 @@
                             <div class="footer-summary-flex"
                                 style="background:#fff;border:1px solid #ccc;padding:2px 10px;display:flex;justify-content:space-between;align-items:center;">
                                 <!-- Alt Toplamlar Grid (Full) -->
-                                <div class="totals-grid"
-                                    style="display:grid;grid-template-columns:auto 80px auto 80px auto 80px;column-gap:15px;row-gap:1px;font-size:10.5px;">
-                                    <!-- Row 1 -->
-                                    <div style="text-align:right;color:#333;">Toplam</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
-                                    <div style="text-align:right;color:#333;">ÖTV Tutarı</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
-                                    <div style="text-align:right;color:#333;">Tah.Edin.KDV</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                <div id="bt-teklif-alt-toplamlar" class="inv-bottom-pane active" style="flex:1;">
+                                    <div class="totals-grid"
+                                        style="display:grid;grid-template-columns:auto 80px auto 80px auto 80px;column-gap:15px;row-gap:1px;font-size:10.5px;">
+                                        <!-- Row 1 -->
+                                        <div style="text-align:right;color:#333;">Toplam</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <div style="text-align:right;color:#333;">ÖTV Tutarı</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <div style="text-align:right;color:#333;">Tah.Edin.KDV</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
 
-                                    <!-- Row 2 -->
-                                    <div style="text-align:right;color:#333;">İsk.Toplam</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
-                                    <div style="text-align:right;color:#333;">KDV Tutarı</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
-                                    <div style="text-align:right;color:#333;">Ek Tutarlar</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <!-- Row 2 -->
+                                        <div style="text-align:right;color:#333;">İsk.Toplam</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <div style="text-align:right;color:#333;">KDV Tutarı</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <div style="text-align:right;color:#333;">Ek Tutarlar</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
 
-                                    <!-- Row 3 -->
-                                    <div style="text-align:right;color:#333;">Ara Toplam</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
-                                    <div style="text-align:right;color:#333;">Hesaplanan KDV</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
-                                    <div style="text-align:right;color:#333;">Ek Kesintiler</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <!-- Row 3 -->
+                                        <div style="text-align:right;color:#333;">Ara Toplam</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <div style="text-align:right;color:#333;">Hesaplanan KDV</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <div style="text-align:right;color:#333;">Ek Kesintiler</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
 
-                                    <!-- Row 4 -->
-                                    <div style="text-align:right;color:#333;">Yuvarlama</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
-                                    <div style="text-align:right;color:#333;">Tevkifat Tutarı</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
-                                    <div style="text-align:right;color:#333;">85 Nolu Matrah</div>
-                                    <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <!-- Row 4 -->
+                                        <div style="text-align:right;color:#333;">Yuvarlama</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <div style="text-align:right;color:#333;">Tevkifat Tutarı</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                        <div style="text-align:right;color:#333;">85 Nolu Matrah</div>
+                                        <div style="text-align:right;font-weight:bold;">0,000 TL</div>
+                                    </div>
                                 </div>
 
                                 <!-- Genel Toplamlar Box -->
-                                <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-end;">
+                                <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-end; flex-shrink:0;">
                                     <div
                                         style="border:1px solid #c0c0c0; background:#fff; padding:2px 10px; border-radius:3px; min-width:140px; text-align:right;">
                                         <div style="font-size:10px; color:#666; font-weight:bold;">Genel Toplamlar
@@ -10969,12 +10972,20 @@
                 style="background: linear-gradient(to right, #40688a, #7ea4c4); padding: 8px 15px; display: flex; align-items: center; border-bottom: 2px solid #204163; color: white; flex-shrink: 0;">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <i class="bi bi-box-seam" style="font-size: 20px;"></i>
-                    <span style="font-size: 16px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Sipariş
+                    <span style="font-size: 16px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); text-align: left;">Sipariş
                         Teslim Raporu (Satış Yönetimi)</span>
                 </div>
                 <div style="flex: 1;"></div>
                 <!-- Top Right Actions -->
-                <div style="display: flex; gap: 10px; align-items: center;">
+                <div class="str-header-actions" style="display: flex; gap: 10px; align-items: center; white-space: nowrap; flex-shrink: 0;">
+                    <div class="str-mobile-hamb" onclick="toggleMenu();" style="display: none; flex-direction: column; align-items: center; cursor: pointer;">
+                        <i class="bi bi-list" style="font-size: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);"></i>
+                        <span style="font-size: 10px;">Menü</span>
+                    </div>
+                    <div class="str-mobile-filter" onclick="toggleStrFilter();" style="display: none; flex-direction: column; align-items: center; cursor: pointer;">
+                        <i class="bi bi-funnel" style="font-size: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);"></i>
+                        <span style="font-size: 10px;">Filtre</span>
+                    </div>
                     <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer;">
                         <i class="bi bi-folder2-open"
                             style="font-size: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);"></i>
@@ -10999,9 +11010,9 @@
             </div>
 
             <!-- Main Content Area with Split Layout -->
-            <div style="display: flex; flex: 1; overflow: hidden; background: #f0f2f5;">
+            <div class="view-content-row" style="display: flex; flex: 1; overflow: hidden; background: #f0f2f5;">
                 <!-- Left Filter Panel -->
-                <div
+                <div id="str-filter-panel"
                     style="width: 250px; background: #fff; border-right: 1px solid #ccc; display: flex; flex-direction: column; font-size: 11px; overflow: hidden;">
                     <!-- Filter Tabs -->
                     <div class="str-filter-tab-bar"
@@ -11031,7 +11042,7 @@
                     </div>
 
                     <!-- Filter Content (Scrollable) -->
-                    <div style="flex: 1; overflow-y: auto; padding: 5px;">
+                    <div class="str-filter-scroll-area" style="flex: 1; overflow-y: auto; padding: 5px;">
 
                         <!-- TAB: Filtre -->
                         <div id="str-pane-filtre" class="str-filter-pane" style="display: block;">
@@ -11405,7 +11416,7 @@
                 </div>
 
                 <!-- Main Grid Area (Right side, below table) -->
-                <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+                <div id="str-main-content" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
                     <!-- Top Table Area -->
                     <div
                         style="flex: 1; min-height: 80px; height: calc(100vh - 800px); overflow: auto; background: #fff; border-bottom: 1px solid #ccc;">
@@ -11559,23 +11570,25 @@
                         <!-- Panel 2: Buttons & Actions Area -->
                         <div
                             style="display: flex; padding: 10px; gap: 15px; background: #e5e7eb; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; align-items: center;">
-                            <div style="display: flex; flex-direction: column; gap: 4px; width: 110px;">
-                                <button
-                                    style="height: 25px; padding: 0; border: 1px solid #ccc; background: linear-gradient(#fff, #f3f4f6); border-radius: 3px; font-size: 11px; font-weight: bold; cursor: pointer;">Tümünü
-                                    Seç</button>
-                                <button
-                                    style="height: 25px; padding: 0; border: 1px solid #ccc; background: linear-gradient(#fff, #f3f4f6); border-radius: 3px; font-size: 11px; font-weight: bold; cursor: pointer;">Seçimi
-                                    Kaldır</button>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 4px; width: 140px;">
-                                <button id="btn-faturalandir" onclick="siparisMuhasebeModalAc()"
-                                    style="height: 25px; padding: 0 12px; border: 1px solid #ccc; background: linear-gradient(#fff, #f3f4f6); border-radius: 3px; font-size: 11px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold; justify-content: start;">
-                                    <img src="https://img.icons8.com/color/16/null/ms-excel.png" /> Faturalandır
-                                </button>
-                                <button
-                                    style="height: 25px; padding: 0 12px; border: 1px solid #ccc; background: linear-gradient(#fff, #f3f4f6); border-radius: 3px; font-size: 11px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold; justify-content: start;">
-                                    <img src="https://img.icons8.com/color/16/null/box.png" /> İrsaliyelendir
-                                </button>
+                            <div class="str-footer-buttons" style="display: flex; gap: 15px; align-items: center;">
+                                <div style="display: flex; flex-direction: column; gap: 4px; width: 110px;">
+                                    <button
+                                        style="height: 25px; padding: 0; border: 1px solid #ccc; background: linear-gradient(#fff, #f3f4f6); border-radius: 3px; font-size: 11px; font-weight: bold; cursor: pointer;">Tümünü
+                                        Seç</button>
+                                    <button
+                                        style="height: 25px; padding: 0; border: 1px solid #ccc; background: linear-gradient(#fff, #f3f4f6); border-radius: 3px; font-size: 11px; font-weight: bold; cursor: pointer;">Seçimi
+                                        Kaldır</button>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 4px; width: 140px;">
+                                    <button id="btn-faturalandir" onclick="siparisMuhasebeModalAc()"
+                                        style="height: 25px; padding: 0 12px; border: 1px solid #ccc; background: linear-gradient(#fff, #f3f4f6); border-radius: 3px; font-size: 11px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold; justify-content: start;">
+                                        <img src="https://img.icons8.com/color/16/null/ms-excel.png" /> Faturalandır
+                                    </button>
+                                    <button
+                                        style="height: 25px; padding: 0 12px; border: 1px solid #ccc; background: linear-gradient(#fff, #f3f4f6); border-radius: 3px; font-size: 11px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: bold; justify-content: start;">
+                                        <img src="https://img.icons8.com/color/16/null/box.png" /> İrsaliyelendir
+                                    </button>
+                                </div>
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 5px; flex: 1; font-size: 11px;">
                                 <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
@@ -11771,7 +11784,10 @@
                 <img src="https://img.icons8.com/color/48/000000/invoice.png" style="width: 24px; height: 24px;" alt="icon">
                 <span style="font-weight: bold; font-size: 15px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">Masraf Faturası Raporu</span>
             </div>
-            <div style="display: flex; gap: 5px;">
+            <div style="display: flex; gap: 5px; align-items: center;">
+                <button id="mfr-filter-toggle" onclick="toggleMfrFilter()" style="display: none; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-right: 10px;">
+                    <i class="bi bi-funnel-fill"></i> Filtre
+                </button>
                 <div style="display: flex; flex-direction: column; align-items: center; padding: 0 12px; cursor: pointer; border-radius: 4px; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
                     <i class="bi bi-file-earmark-text" style="font-size: 20px;"></i>
                     <span style="font-size: 9px; font-weight: bold;">Faturayı Aç</span>
@@ -11791,9 +11807,10 @@
             </div>
         </div>
 
-        <div style="display: flex; flex: 1; overflow: hidden;">
+        <div id="mfr-sidebar-overlay" onclick="toggleMfrFilter()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:100000001;"></div>
+        <div style="display: flex; flex: 1; overflow: hidden; position: relative;">
             <!-- Left Sidebar (Filters) -->
-            <div style="width: 250px; background: #fff; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; flex-shrink: 0;">
+            <div id="mfr-filter-panel" class="mfr-sidebar" style="width: 250px; background: #fff; border-right: 1px solid #cbd5e1; display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s ease; z-index: 1000;">
                 <!-- Sidebar Tabs -->
                 <div style="display: flex; background: #e2e8f0; font-size: 11px; flex-shrink: 0; border-bottom: 1px solid #cbd5e1;">
                     <div id="mfr-filter-tab-1" onclick="switchMfrFilterTab(1)" style="flex: 1; padding: 6px 2px; text-align: center; border-bottom: 2px solid #1e40af; font-weight: bold; background: #fff; cursor: pointer;">Fatura</div>
@@ -12840,7 +12857,7 @@
                 İşareti kaldırılan öğeler menüde gizlenecektir.
             </p>
 
-            <div style="display: flex; gap: 10px; margin-bottom: 15px; align-items: center;">
+            <div class="admin-header-actions" style="display: flex; gap: 10px; margin-bottom: 15px; align-items: center;">
                 <button onclick="toggleAllAdminMenus(true)"
                     style="padding: 6px 12px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-size: 13px;">Tümünü
                     Seç</button>
@@ -12850,14 +12867,14 @@
                 <button onclick="showHome()"
                     style="padding: 6px 12px; background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-size: 13px;">Wolvox
                     ERP'ye Dön</button>
-                <div style="flex: 1; position: relative; margin-left: 10px;">
+                <div class="admin-search-wrapper" style="flex: 1; position: relative; margin-left: 10px;">
                     <i class="bi bi-search"
                         style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 12px;"></i>
                     <input type="text" id="adminMenuSearch" placeholder="Menü öğesi ara..."
                         oninput="filterAdminChecklist(this.value)"
                         style="width: 100%; padding: 6px 12px 6px 30px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px;">
                 </div>
-                <button onclick="saveAdminMenuSettings()"
+                <button class="save-admin-btn" onclick="saveAdminMenuSettings()"
                     style="padding: 6px 20px; background: #22c55e; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; margin-left: 10px; box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);">AYARLARI
                     KAYDET</button>
             </div>
@@ -13602,7 +13619,7 @@
                 </div>
                 <div class="nk-right-panel">
                     <div class="nk-keypad-grid">
-                        <!-- Left column: Quick Amounts -->
+                        <!-- Left column: Quick Amounts (Restored to original grid) -->
                         <div class="nk-quick-col">
                             <div class="nk-btn nk-btn-quick" onclick="nakitSetAmount('5')">5</div>
                             <div class="nk-btn nk-btn-quick" onclick="nakitSetAmount('10')">10</div>
