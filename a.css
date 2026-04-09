@@ -155,7 +155,8 @@ p {
 }
 
 /* High Density and Scaling for Sales Invoice */
-#satisFaturasiView {
+#satisFaturasiView,
+#yurtIciVerilenTeklifView {
     transform-origin: top left;
     transition: transform 0.1s ease-out;
     flex-direction: column;
@@ -164,23 +165,35 @@ p {
 }
 
 #satisFaturasiView,
+#yurtIciVerilenTeklifView,
 #satisFaturasiView input,
+#yurtIciVerilenTeklifView input,
 #satisFaturasiView select,
+#yurtIciVerilenTeklifView select,
 #satisFaturasiView button,
+#yurtIciVerilenTeklifView button,
 #satisFaturasiView select option,
+#yurtIciVerilenTeklifView select option,
 #satisFaturasiView label,
+#yurtIciVerilenTeklifView label,
 #satisFaturasiView div,
+#yurtIciVerilenTeklifView div,
 #satisFaturasiView span,
+#yurtIciVerilenTeklifView span,
 #satisFaturasiView td,
-#satisFaturasiView th {
+#yurtIciVerilenTeklifView td,
+#satisFaturasiView th,
+#yurtIciVerilenTeklifView th {
     font-size: 10.5px !important;
 }
 
-#satisFaturasiView .bi {
+#satisFaturasiView .bi,
+#yurtIciVerilenTeklifView .bi {
     font-size: 13px !important;
 }
 
-#satisFaturasiView h4 {
+#satisFaturasiView h4,
+#yurtIciVerilenTeklifView h4 {
     font-size: 11px !important;
     margin-bottom: 4px !important;
 }
@@ -314,7 +327,7 @@ p {
 }
 
 .menubar-dropdown-content .sub-header::after {
-    content: "▸";
+    content: "\25b8";
     font-size: 12px;
     transition: transform 0.2s;
     color: #94a3b8;
@@ -1057,7 +1070,7 @@ p {
 }
 
 .pro-menu-wrap .menu-item.sub-menu>a::after {
-    content: "▸";
+    content: "\25b8";
     margin-left: auto;
     color: #94a3b8;
     transition: transform .18s ease;
@@ -2257,7 +2270,7 @@ p {
         flex: none !important;
     }
 
-    /* Ensure Web Cam and Farklı Kaydet are side-by-side */
+    /* Ensure Web Cam and FarklÄ± Kaydet are side-by-side */
     #stokTanimlarView #st-tab-genel .st-form-right>div[style*="display:flex"]>div[style*="display:flex"] {
         flex-direction: row !important;
         width: auto !important;
@@ -2369,7 +2382,8 @@ p {
 @media (max-width: 900px) {
 
     #satisFaturasiView,
-    #yurtIciVerilenTeklifView {
+    #yurtIciVerilenTeklifView,
+    #satisEkraniView {
         position: fixed !important;
         top: 114px !important;
         /* Space for Titlebar (32px) + Tabsrow (50px) + Workhead (32px) */
@@ -2406,8 +2420,15 @@ p {
     }
 
     /* Important: Reset height/flex for scrollability, AND PREVENT HORIZONTAL OVERFLOW */
-    #satisFaturasiView div:not(.invoice-tabs-container):not(.invoice-header-buttons):not(#invoice-bottom-tabs):not(#hareketler-container):not(.invoice-dropdown):not(.invoice-dropdown-content):not(.invoice-tab-content):not(.connections-table-container):not(.table-scroll-container):not(.invoice-tab-content-wrapper),
-    #yurtIciVerilenTeklifView div:not(.invoice-tabs-container):not(.invoice-header-buttons):not(#teklif-hareketler-container):not(.invoice-dropdown):not(.invoice-dropdown-content):not(.invoice-tab-content):not(.table-scroll-container):not(.invoice-tab-content-wrapper) {
+    #satisFaturasiView > div,
+    #yurtIciVerilenTeklifView #teklif-inner-wrapper {
+        height: auto !important;
+        overflow: visible !important;
+        flex: none !important;
+    }
+
+    #satisFaturasiView div:not(.invoice-tabs-container):not(.invoice-header-buttons):not(#invoice-bottom-tabs):not(#hareketler-container):not(.invoice-dropdown):not(.invoice-dropdown-content):not(.connections-table-container):not(.table-scroll-container),
+    #yurtIciVerilenTeklifView div:not(.invoice-tabs-container):not(.invoice-header-buttons):not(#teklif-hareketler-container):not(.invoice-dropdown):not(.invoice-dropdown-content):not(.table-scroll-container) {
         height: auto !important;
         min-height: 0 !important;
         overflow: hidden !important;
@@ -2520,14 +2541,16 @@ p {
     }
 
     .invoice-form-grid,
-    #teklif-tab-content-cari>div[style*="wrap"] {
+    .invoice-tab-content > div[style*="display:flex"][style*="wrap"],
+    .invoice-tab-content > div[style*="display: flex"][style*="wrap"] {
         flex-direction: column !important;
         gap: 15px !important;
         display: flex !important;
     }
 
     .invoice-form-col,
-    #teklif-tab-content-cari>div[style*="wrap"]>div {
+    .invoice-tab-content > div[style*="display:flex"][style*="wrap"] > div,
+    .invoice-tab-content > div[style*="display: flex"][style*="wrap"] > div {
         min-width: 100% !important;
         flex: 1 1 100% !important;
     }
@@ -2616,6 +2639,7 @@ p {
     #yurtIciVerilenTeklifView input,
     #yurtIciVerilenTeklifView select {
         max-width: 100% !important;
+        min-width: 0 !important;
     }
 
     /* Bottom tabs: prevent flex shrink so horizontal scroll works */
@@ -2627,19 +2651,20 @@ p {
 
     /* Footer Buttons Stacking */
     #satisFaturasiView .menubar,
-    #satisFaturasiView .footer-status-bar {
+    #satisFaturasiView .footer-status-bar,
+    #yurtIciVerilenTeklifView .footer-status-bar {
         flex-wrap: wrap !important;
         height: auto !important;
         gap: 10px !important;
-        padding: 10px !important;
-        display: flex !important;
     }
 
     /* Totals Area Stacking */
-    #satisFaturasiView .totals-grid {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important;
+    #satisFaturasiView .totals-grid,
+    #yurtIciVerilenTeklifView .totals-grid {
         display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        width: 100% !important;
     }
 
     /* Responsive footer action buttons */
@@ -2665,6 +2690,284 @@ p {
     #satisFaturasiView .footer-summary-flex>div,
     #yurtIciVerilenTeklifView .footer-summary-flex>div {
         width: 100% !important;
+    }
+
+    /* Admin Panel Mobile Adjustments */
+    #adminPaneliView .admin-header-actions {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        justify-content: space-between !important;
+        padding: 10px 0 !important;
+    }
+
+    #adminPaneliView .admin-header-actions>button:not(.save-admin-btn) {
+        flex: 1 1 calc(33.33% - 10px) !important;
+        min-width: 70px !important;
+        font-size: 11px !important;
+        padding: 8px 4px !important;
+        text-align: center !important;
+        white-space: normal !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: auto !important;
+        min-height: 40px !important;
+    }
+
+    #adminPaneliView .admin-search-wrapper {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        margin: 5px 0 !important;
+        order: 10 !important;
+    }
+
+    #adminPaneliView .save-admin-btn {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        margin-left: 0 !important;
+        margin-top: 5px !important;
+        order: 11 !important;
+        padding: 12px !important;
+    }
+
+    /* Satış Ekranı (Hızlı Satış) Mobile Adjustments */
+    #satisEkraniView .se-container,
+    #satisEkraniView .se-main-content {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    #satisEkraniView .se-edge-bar {
+        display: none !important;
+    }
+
+    #satisEkraniView .se-left,
+    #satisEkraniView .se-middle,
+    #satisEkraniView .se-right {
+        width: 100% !important;
+        flex: none !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+
+    #satisEkraniView .se-top-display {
+        height: auto !important;
+        min-height: 50px !important;
+        padding: 6px 10px !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    #satisEkraniView .se-amount {
+        font-size: 32px !important;
+        margin-top: 4px !important;
+    }
+
+    #satisEkraniView .se-table-container {
+        max-height: 250px !important;
+        overflow: auto !important;
+    }
+
+    #satisEkraniView .se-product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+        grid-auto-rows: min-content !important;
+        height: auto !important;
+        max-height: 400px !important;
+        overflow-y: auto !important;
+    }
+
+    #satisEkraniView .se-product-item {
+        min-width: 0 !important;
+        min-height: 50px !important;
+        font-size: 10px !important;
+        padding: 4px !important;
+    }
+
+    #satisEkraniView .se-payments-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    #satisEkraniView .se-btn-payment {
+        height: 60px !important;
+    }
+
+    #satisEkraniView .se-num-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+
+    #satisEkraniView .se-num-btn {
+        height: 40px !important;
+    }
+
+    #satisEkraniView .se-num-btn.tall {
+        height: 84px !important;
+    }
+
+    #satisEkraniView .se-bottom-toolbar {
+        height: auto !important;
+        display: grid !important;
+        grid-template-columns: repeat(6, 1fr) !important;
+        grid-template-rows: repeat(2, 40px) !important;
+        gap: 3px !important;
+        padding: 4px !important;
+    }
+
+    #satisEkraniView .se-toolbar-btn {
+        flex: none !important;
+        width: 100% !important;
+        height: 100% !important;
+        font-size: 8px !important;
+    }
+
+    /* Modal Mobile Adjustments */
+    .sb-modal-content {
+        width: 95% !important;
+        height: 90vh !important;
+        margin: 5vh auto !important;
+    }
+
+    .sb-modal-body {
+        flex-direction: column !important;
+        height: calc(100% - 40px) !important;
+        overflow-y: auto !important;
+    }
+
+    .sb-sidebar {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 40% !important;
+        flex: none !important;
+        border-right: none !important;
+        border-bottom: 2px solid #ccc !important;
+        overflow-y: auto !important;
+        padding: 5px !important;
+    }
+
+    .sb-main {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 300px !important;
+    }
+
+    .sb-tabs {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .sb-tab {
+        padding: 4px 2px !important;
+        font-size: 9px !important;
+    }
+
+    .sb-filter-actions {
+        position: sticky !important;
+        bottom: 0 !important;
+        background: #f8f9fa !important;
+        padding: 5px !important;
+    }
+
+    /* Modal Sizing (Photo 1) */
+    .bl-modal-content,
+    .ba-modal-content,
+    .ind-modal-content {
+        width: 95% !important;
+        margin: 10px auto !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+        background: #fff !important;
+        z-index: 100000010 !important;
+    }
+
+    /* Nakit/Pos Reorganization (Round 6) */
+    .nk-modal-body {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: stretch !important;
+    }
+
+    .nk-left-panel {
+        width: 130px !important;
+        padding: 4px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        border-right: 1px solid #ddd !important;
+    }
+
+    .nk-left-panel .nk-label {
+        font-size: 10px !important;
+    }
+
+    .nk-left-panel .nk-val {
+        font-size: 11px !important;
+    }
+
+    .nk-summary-row {
+        padding: 3px 5px !important;
+    }
+
+    .nk-right-panel {
+        flex: 1 !important;
+        padding: 5px !important;
+    }
+
+    .nk-keypad-grid {
+        display: grid !important;
+        grid-template-columns: 60px 1fr 75px !important; /* Back to 3 columns: Quick | Numpad | Actions */
+        gap: 4px !important;
+    }
+
+    .nk-quick-col {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 3px !important;
+    }
+
+    .nk-btn-quick {
+        height: 42px !important;
+        font-size: 11px !important;
+    }
+
+    .nk-keypad-grid .nk-btn {
+        font-size: 14px !important;
+        height: 60px !important; 
+        font-weight: bold !important;
+    }
+
+    /* Header & Modal Layering (Photo 1 Fix) */
+    .workhead {
+        z-index: 5000 !important; /* Lower than modals */
+    }
+
+    .sb-modal,
+    .bl-modal-content,
+    .nk-modal-content,
+    .ba-modal-content,
+    .ind-modal-content {
+        z-index: 100000050 !important; /* Higher than header */
+    }
+
+    /* Sidebar Drawer Mobile Fix (Photo 1 Fix) */
+    .left {
+        z-index: 100000100 !important; /* Top level */
+        max-height: 100vh !important;
+        overflow-y: auto !important; /* Round 7 Fix */
+        background: #fff !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    .left.open {
+        display: block !important;
+        transform: translateX(0) !important;
+        visibility: visible !important;
+    }
+
+    /* Global Hamburger Visibility */
+    .hamb {
+        display: flex !important;
+        z-index: 100000080 !important;
     }
 }
 
@@ -4374,20 +4677,17 @@ p {
 .summary-header-red { background: #fef2f2 !important; color: #b91c1c !important; }
 .summary-header-yellow { background: #fffbeb !important; color: #1e40af !important; }
 
-/* Extracted from wolvox_arayuz.html */
-.table-scroll-container {
+/* Extracted fr.table-scroll-container {
     scrollbar-width: auto;
     scrollbar-color: #94a3b8 #f1f5f9;
 }
 
 .table-scroll-container::-webkit-scrollbar {
     height: 14px !important;
-    display: block !important;
 }
 
 .table-scroll-container::-webkit-scrollbar-track {
     background: #f1f5f9;
-    border-radius: 0;
 }
 
 .table-scroll-container::-webkit-scrollbar-thumb {
@@ -4399,3 +4699,595 @@ p {
 .table-scroll-container::-webkit-scrollbar-thumb:hover {
     background: #6c757d;
 }
+
+/* Targeted Mobile Adjustments for Yurt Ici Satis Faturasi */
+@media (max-width: 600px) {
+    /* Aggressive scaling and stacking for better fit */
+    #satisFaturasiView .invoice-form-col {
+        min-width: 100% !important;
+        padding: 4px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important; 
+    }
+
+    #satisFaturasiView .invoice-form-col div[style*="display:flex"],
+    #satisFaturasiView .invoice-form-col div[style*="display: flex"] {
+        flex-wrap: wrap !important;
+        gap: 2px !important;
+    }
+
+    /* Shrink labels even more and adjust alignment */
+    #satisFaturasiView .invoice-form-col label {
+        width: 60px !important;
+        font-size: 9px !important;
+        flex-shrink: 0 !important;
+        padding-right: 2px !important;
+    }
+
+    /* Small font for all inputs and buttons on mobile */
+    #satisFaturasiView .invoice-form-col input,
+    #satisFaturasiView .invoice-form-col select,
+    #satisFaturasiView .invoice-form-col button {
+        font-size: 9px !important;
+        padding: 1px 2px !important;
+        height: auto !important;
+        min-width: 0 !important;
+    }
+
+    /* Force "Bakiye" and similar secondary elements to wrap if needed */
+    #satisFaturasiView .invoice-form-col div[style*="display:flex"] > label:not(:first-child),
+    #satisFaturasiView .invoice-form-col div[style*="display: flex"] > label:not(:first-child) {
+        width: auto !important;
+        margin-left: 5px !important;
+        font-size: 9px !important;
+    }
+
+    /* Specific fix for multi-input rows */
+    #satisFaturasiView .invoice-form-col div[style*="display:flex"] > div,
+    #satisFaturasiView .invoice-form-col div[style*="display: flex"] > div {
+        min-width: 0 !important;
+        flex-shrink: 1 !important;
+    }
+
+    /* Fix for combo boxes that are too wide */
+    #satisFaturasiView select {
+        max-width: 100% !important;
+    }
+
+    #satisFaturasiView .totals-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 4px !important;
+    }
+
+    #satisFaturasiView .table-scroll-container table {
+        font-size: 9px !important;
+    }
+
+    /* Currency Panel Adjustments */
+    .invoice-currency-panel {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        height: auto !important;
+    }
+    .currency-section {
+        border-left: none !important;
+        padding-left: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Connections Table Scroll Fix and Row Shortening */
+    #tab-content-baglantilar {
+        padding: 2px !important;
+    }
+    .connections-table-container {
+        display: block !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    .connections-table-container table {
+        width: 600px !important;
+        table-layout: fixed !important;
+    }
+    .connections-table-container th,
+    .connections-table-container td {
+        padding: 4px 2px !important;
+        height: auto !important;
+        line-height: 1.2 !important;
+    }
+    /* Mobile-specific column widths for better fit/scroll */
+    .connections-table-container th:nth-child(2) { width: 130px !important; }
+    .connections-table-container th:nth-child(3) { width: 85px !important; }
+    .connections-table-container th:nth-child(4) { width: 300px !important; } /* Much wider for Evrak No visibility */
+
+    /* Genel Bilgiler - Expand to full width */
+    #tab-content-genel {
+        padding: 2px !important;
+    }
+    #satisFaturasiView .invoice-form-col {
+        min-width: 100% !important;
+        margin: 0 0 10px 0 !important;
+        padding: 8px 4px !important;
+    }
+}
+
+/* Sipariş Teslim Raporu - Mobile Only (<=768px) */
+@media (max-width: 768px) {
+    #siparisTeslimRaporuSatisView .view-content-row {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 auto !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: 100% !important;
+    }
+
+    #str-filter-panel {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px !important;
+        z-index: 100000002 !important;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+        display: flex !important;
+        flex-direction: column !important;
+        background: #fff !important;
+        overflow: hidden !important;
+        pointer-events: auto !important;
+    }
+
+    .str-filter-scroll-area {
+        flex: 1 !important;
+        overflow-y: auto !important;
+    }
+
+    #str-filter-panel.open {
+        transform: translateX(0);
+    }
+
+    #str-main-content {
+        width: 100% !important;
+        flex: none !important;
+        height: auto !important;
+        overflow: visible !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    #siparisTeslimRaporuSatisView div[style*="height: calc(100vh - 800px)"] {
+        height: 450px !important;
+        min-height: 350px !important;
+        flex: none !important;
+    }
+
+    .str-header-actions {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px !important;
+        width: auto !important;
+        align-items: start !important;
+    }
+
+    .str-mobile-hamb, .str-mobile-filter {
+        display: flex !important;
+    }
+
+    .str-footer-buttons {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+
+    .str-footer-buttons > div {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 5px !important;
+    }
+}
+
+/* Sipariş Muhasebelendirme Modal - Mobile Only (<=768px) */
+@media (max-width: 768px) {
+    #siparis-muhasebe-modal > div {
+        width: 95vw !important;
+        max-width: 95vw !important;
+        max-height: 90vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+    }
+
+    #siparis-muhasebe-modal div[style*="height: 180px"] {
+        height: 130px !important;
+        overflow-x: auto !important;
+        overflow-y: auto !important;
+    }
+
+    #siparis-muhasebe-modal div[style*="background: #eef2f6"] {
+        overflow-x: hidden !important;
+    }
+
+    #siparis-muhasebe-modal table {
+        font-size: 10px !important;
+        min-width: 500px !important;
+    }
+
+    #siparis-muhasebe-modal th,
+    #siparis-muhasebe-modal td {
+        padding: 2px !important;
+    }
+
+    #siparis-muhasebe-modal div[style*="Barkodu"],
+    #siparis-muhasebe-modal div[style*="barkod"] {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+}
+
+/* Sipariş Muhasebe Modal - Bottom Controls stacking on mobile */
+@media (max-width: 768px) {
+    #siparis-muhasebe-modal div[style*="align-items: center; gap: 10px; padding: 10px"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+}
+
+/* Masraf Faturasi - Mobile Only (<=768px) */
+@media (max-width: 768px) {
+    /* 1. Prevent right overflow on the main view */
+    #masrafFaturasiView {
+        width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+        transform: none !important;
+        top: 0 !important;
+        height: 100% !important;
+        border-radius: 0 !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+    }
+
+    /* 2. Alt Toplamlar: stack 3 columns into 1 column */
+    #masrafFaturasiView div[style*="grid-template-columns: 1fr 1fr 1.2fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+
+    /* 3. Firma Bilgileri: stack fields and move buttons under Vergi No */
+    #masrafFaturasiView div[style*="display: flex; align-items: center; gap: 10px"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    #masrafFaturasiView div[style*="flex: 1; display: flex; flex-direction: column; gap: 5px"] {
+        width: 100% !important;
+    }
+
+    #masrafFaturasiView div[style*="background: #e2e8f0; padding: 5px; border: 1px solid #cbd5e1; border-radius: 2px"] {
+        flex-direction: row !important;
+        width: 100% !important;
+        justify-content: flex-end !important;
+        margin-top: 5px !important;
+    }
+
+    /* 4. Ödemeler section: stack items vertically */
+    #masrafFaturasiView div[style*="display: flex; gap: 20px; flex-wrap: wrap"] {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    /* 5. Ensure no horizontal overflow */
+    #masrafFaturasiView #masraf-tab-content-fis {
+        overflow-x: hidden !important;
+    }
+
+    /* 6. Hızlı Cari Arama Modal Refinement */
+    #hizliCariAramaView {
+        width: 95% !important;
+        height: 90% !important;
+        max-width: 95% !important;
+        max-height: 90% !important;
+    }
+
+    /* Stack sidebar and table */
+    #hizliCariAramaView div[style*="display: flex; flex: 1; overflow: hidden; background: #f1f5f9"] {
+        flex-direction: column !important;
+        overflow-y: auto !important;
+    }
+
+    #hizliCariAramaView div[style*="width: 220px; background: #fff; border-right: 1px solid #cbd5e1"] {
+        width: 100% !important;
+        height: auto !important;
+        border-right: none !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+        flex: none !important;
+    }
+
+    #hizliCariAramaView div[style*="flex: 1; background: #fff; display: flex; flex-direction: column; overflow: hidden"] {
+        flex: 1 !important;
+        height: 300px !important;
+        min-height: 250px !important;
+    }
+}
+
+    /* 7. Hizmet Arama Modal - Mobile & Desktop Fix */
+    #hizmetAramaView {
+        width: 75% !important;
+        height: 75% !important;
+        max-width: 1000px !important;
+        max-height: 800px !important;
+    }
+
+    /* Desktop alignment: Sidebar left, Table right */
+    #hizmetAramaView div[style*="display: flex; border: 1px solid #cbd5e1; flex: 1; overflow: hidden"] {
+        flex-direction: row !important;
+    }
+
+    @media (max-width: 768px) {
+        #hizmetAramaView {
+            width: 95% !important;
+            height: 90% !important;
+            max-width: 95% !important;
+            max-height: 90% !important;
+        }
+
+        /* Stack sidebar and table area on mobile */
+        #hizmetAramaView div[style*="display: flex; border: 1px solid #cbd5e1; flex: 1; overflow: hidden"] {
+            flex-direction: column !important;
+            overflow-y: auto !important;
+        }
+
+        #hizmetAramaView div[style*="width: 250px; border-right: 1px solid #cbd5e1; background: #fff"] {
+            width: 100% !important;
+            height: auto !important;
+            border-right: none !important;
+            border-bottom: 1px solid #cbd5e1 !important;
+            flex: none !important;
+        }
+
+        #hizmetAramaView div[style*="flex: 1; background: #fff; display: flex; flex-direction: column; overflow: hidden"] {
+            flex: 1 !important;
+            height: 350px !important;
+            min-height: 300px !important;
+        }
+    }
+
+    /* Masraf Faturasi - Mobile Input Stacking */
+    @media (max-width: 768px) {
+        #masrafFaturasiView div[style*="display: flex; align-items: center; gap: 5px"] {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 2px !important;
+        }
+
+        #masrafFaturasiView div[style*="display: flex; align-items: center; gap: 5px"] label {
+            width: 100% !important;
+            text-align: left !important;
+        }
+
+        #masrafFaturasiView div[style*="background: #e2e8f0; padding: 5px; border: 1px solid #cbd5e1; border-radius: 2px"] button {
+            min-width: 45px !important;
+            width: 45px !important;
+            flex: none !important;
+        }
+    }
+
+    /* Phase 2: Refinements for Masraf Faturasi & Hizmet Arama */
+    @media (max-width: 768px) {
+        /* 1. Ensure Masraf Faturasi inputs take 100% width when stacked */
+        #masrafFaturasiView div[style*="display: flex; align-items: center; gap: 5px"] input {
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        /* 2. Center the magnifying glass and pencil buttons */
+        #masrafFaturasiView div[style*="background: #e2e8f0; padding: 5px; border: 1px solid #cbd5e1; border-radius: 2px"] {
+            justify-content: center !important;
+            gap: 15px !important;
+        }
+
+        /* 3. Force Hizmet Arama Modal to be centered on mobile */
+        #hizmetAramaView {
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            margin: 0 !important;
+        }
+    }
+
+    /* Phase 3: Hizmet Tanimlari Modal & Masraf Faturasi Input Refinement */
+    @media (max-width: 768px) {
+        /* 1. Hizmet Tanimlari Modal Responsive */
+        #hizmetTanimlariView {
+            width: 95vw !important;
+            height: 90vh !important;
+            max-width: 95vw !important;
+            max-height: 90vh !important;
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+        }
+
+        /* Stack all rows in Hizmet Bilgileri */
+        #hizmetTanimlariView div[style*="display: flex; align-items: center; gap: 10px"],
+        #hizmetTanimlariView div[style*="display: flex; gap: 10px"] {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 4px !important;
+        }
+
+        /* Labels full width and left-aligned */
+        #hizmetTanimlariView label {
+            width: 100% !important;
+            text-align: left !important;
+        }
+
+        /* Inputs and Selects full width */
+        #hizmetTanimlariView input[type="text"],
+        #hizmetTanimlariView select {
+            width: calc(100% - 10px) !important;
+            flex: none !important;
+        }
+        
+        /* Special case for Aktif checkbox row */
+        #hizmetTanimlariView label:has(input[type="checkbox"]) {
+            width: auto !important;
+            flex-direction: row !important;
+        }
+
+        /* Bilg.Kodu special margin fix */
+        #hizmetTanimlariView span[style*="margin-left: 50px"] {
+            margin-left: 0 !important;
+        }
+
+        /* 2. Masraf Faturasi Input Width Adjustment (2px shorter) */
+        #masrafFaturasiView div[style*="display: flex; align-items: center; gap: 5px"] input {
+            width: calc(100% - 6px) !important; /* Adjusted for perfect fit */
+        }
+    }
+
+    /* Masraf Faturasi Raporu - Mobile (<= 768px) */
+    @media (max-width: 768px) {
+        #masrafFaturasiRaporuView #mfr-filter-toggle {
+            display: block !important;
+        }
+
+        #masrafFaturasiRaporuView .mfr-sidebar {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            height: 100% !important;
+            z-index: 100000002 !important;
+            transform: translateX(-100%);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.3) !important;
+        }
+
+        /* Stack labels inside sidebar */
+        #masrafFaturasiRaporuView .mfr-sidebar label {
+            width: 100% !important;
+            text-align: left !important;
+            font-size: 11px !important;
+        }
+
+        #masrafFaturasiRaporuView .mfr-sidebar div[style*="display: flex; gap: 2px"] {
+            width: 100% !important;
+        }
+
+        /* Ensure main content takes full width */
+        #masrafFaturasiRaporuView div[style*="flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative"] {
+            width: 100% !important;
+            min-width: 100% !important;
+        }
+
+        /* Header action buttons: reduce padding/font on mobile */
+        #masrafFaturasiRaporuView div[style*="display: flex; flex-direction: column; align-items: center; padding: 0 12px"] {
+            padding: 0 6px !important;
+        }
+        
+        #masrafFaturasiRaporuView div[style*="display: flex; flex-direction: column; align-items: center; padding: 0 12px"] span {
+            font-size: 8px !important;
+        }
+
+        /* Bottom tabs: allow wrapping or stack */
+        #masrafFaturasiRaporuView div[style*="display: flex; background: #cbd5e1; padding: 2px 10px 0 10px; gap: 2px"] {
+            flex-wrap: wrap !important;
+        }
+        
+        #masrafFaturasiRaporuView div[style*="padding: 4px 15px; background: #fff; border: 1px solid #94a3b8"] {
+            padding: 4px 8px !important;
+            font-size: 10px !important;
+        }
+    }
+
+    /* Phase 2: Masraf Faturasi Raporu Height & Position Fixes */
+    @media (max-width: 768px) {
+        /* Force full viewport height and flex layout for the entire view */
+        #masrafFaturasiRaporuView {
+            height: 100vh !important;
+            max-height: 100vh !important;
+            display: flex !important; 
+            flex-direction: column !important;
+        }
+        /* Respect hidden state to avoid refresh visibility bug */
+        #masrafFaturasiRaporuView[style*="display:none"],
+        #masrafFaturasiRaporuView[style*="display: none"] {
+            display: none !important;
+        }
+
+        /* Ensure sidebar spans full viewport height */
+        #masrafFaturasiRaporuView .mfr-sidebar {
+            height: 100vh !important;
+            top: 0 !important;
+            position: fixed !important; /* Fixed ensures it covers full screen regardless of main scroll */
+        }
+
+        /* Essential: Main body container must stretch */
+        #masrafFaturasiRaporuView div[style*="display: flex; flex: 1; overflow: hidden; position: relative"] {
+            flex: 1 1 auto !important;
+            height: auto !important;
+        }
+
+        /* Table area must stretch to push Summary to bottom */
+        #masrafFaturasiRaporuView div[style*="flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative"],
+        #masrafFaturasiRaporuView div[style*="flex: 1;display: flex;flex-direction: column;overflow: hidden;position: relative"] {
+            flex: 1 1 auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        /* Summary section pinned to bottom */
+        #masrafFaturasiRaporuView div[style*="background: #e2e8f0; border-top: 1px solid #cbd5e1; flex-shrink: 0"] {
+            margin-top: auto !important;
+        }
+    }
+
+    /* Masraf Faturasi Raporu - Header Button Grid for Mobile (<= 768px) */
+    @media (max-width: 768px) {
+        /* Header Layout: Stack title and grid buttons */
+        #masrafFaturasiRaporuView > div[style*="background: linear-gradient(to bottom, #3b82f6, #1e40af)"] {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            padding: 10px !important;
+            gap: 15px !important;
+        }
+
+        /* Title Area */
+        #masrafFaturasiRaporuView > div[style*="background: linear-gradient(to bottom, #3b82f6, #1e40af)"] > div:first-child {
+            justify-content: center !important;
+            width: 100% !important;
+        }
+
+        /* Buttons Container -> 3 Column Grid */
+        #masrafFaturasiRaporuView > div[style*="background: linear-gradient(to bottom, #3b82f6, #1e40af)"] > div:last-child {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 12px 8px !important;
+            width: 100% !important;
+            justify-items: center !important;
+            align-items: start !important;
+        }
+
+        /* Individual buttons in the header */
+        #masrafFaturasiRaporuView div[style*="display: flex; flex-direction: column; align-items: center; padding: 0 12px"] {
+            padding: 0 !important;
+            width: 100% !important;
+        }
+        
+        #masrafFaturasiRaporuView div[style*="display: flex; flex-direction: column; align-items: center; padding: 0 12px"] span {
+            font-size: 10px !important;
+        }
+
+        #masrafFaturasiRaporuView #mfr-filter-toggle {
+            display: flex !important; /* Force flex for grid centering */
+            padding: 5px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            justify-content: center !important;
+        }
+    }
