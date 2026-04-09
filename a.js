@@ -130,9 +130,9 @@ function addConnectionRow() {
     const row = document.createElement('tr');
     row.innerHTML = `
                             <td style="border:1px solid #ccc;padding:2px;text-align:center;"><i class="bi bi-trash" style="cursor:pointer;" onclick="this.closest('tr').remove()"></i></td>
-                            <td style="border:1px solid #ccc;padding:2px;"><input type="text" style="width:100%;border:none;outline:none;font-size:11px;"></td>
-                            <td style="border:1px solid #ccc;padding:2px;"><input type="date" style="width:100%;border:none;outline:none;font-size:11px;"></td>
-                            <td style="border:1px solid #ccc;padding:2px;"><input type="text" style="width:100%;border:none;outline:none;font-size:11px;"></td>
+                            <td style="border:1px solid #ccc;padding:2px;"><input type="text" style="width:100%;border:none;outline:none;font-size:11px;min-width:0;"></td>
+                            <td style="border:1px solid #ccc;padding:2px;"><input type="date" style="width:100%;border:none;outline:none;font-size:11px;min-width:0;"></td>
+                            <td style="border:1px solid #ccc;padding:2px;"><input type="text" style="width:100%;border:none;outline:none;font-size:11px;min-width:0;"></td>
                         `;
     tbody.appendChild(row);
 }
@@ -1123,9 +1123,21 @@ function toggleMenu() {
 }
 
 function closeMenu() {
-    if (!leftPanel || !overlay) return;
-    leftPanel.classList.remove('open');
-    overlay.classList.remove('show');
+    if (leftPanel) leftPanel.classList.remove('open');
+    if (overlay) overlay.classList.remove('show');
+
+    // Also close the Sipariş Teslim Raporu filter panel
+    const strPanel = document.getElementById('str-filter-panel');
+    if (strPanel) strPanel.classList.remove('open');
+}
+
+function toggleStrFilter() {
+    const panel = document.getElementById('str-filter-panel');
+    const ovl = document.getElementById('ovl');
+    if (panel && ovl) {
+        panel.classList.toggle('open');
+        ovl.classList.toggle('show');
+    }
 }
 
 
@@ -1134,24 +1146,30 @@ if (btnClose) btnClose.addEventListener('click', closeMenu);
 if (overlay) overlay.addEventListener('click', closeMenu);
 
 // Hamburger button in workhead
-const btnHamb2 = document.getElementById('hamb2');
-if (btnHamb2) btnHamb2.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMenu();
+document.addEventListener('click', (e) => {
+    const hamb = e.target.closest('#hamb2, #hamb, .hamb');
+    if (hamb) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleMenu();
+    }
 });
 
 // Global click listener to close menu when clicking outside left panel (mobile)
 document.addEventListener('click', (e) => {
     if (window.innerWidth <= 980) {
         const lp = document.getElementById('leftPanel');
-        if (lp && lp.classList.contains('open')) {
-            // Check if click is outside left panel and not on a toggle button
-            const hamb = document.getElementById('hamb2');
-            const topHamb = document.getElementById('top-menu-toggle');
+        const strPanel = document.getElementById('str-filter-panel');
+        
+        const isLpOpen = lp && lp.classList.contains('open');
+        const isStrOpen = strPanel && strPanel.classList.contains('open');
 
-            if (!lp.contains(e.target) &&
-                (!hamb || !hamb.contains(e.target)) &&
-                (!topHamb || !topHamb.contains(e.target))) {
+        if (isLpOpen || isStrOpen) {
+            const isToggleBtn = e.target.closest('#hamb2, #hamb, .hamb, #top-menu-toggle, .str-mobile-hamb, .str-mobile-filter');
+            const isInsideLp = lp && lp.contains(e.target);
+            const isInsideStr = strPanel && strPanel.contains(e.target);
+
+            if (!isToggleBtn && !isInsideLp && !isInsideStr) {
                 closeMenu();
             }
         }
@@ -2785,11 +2803,20 @@ function switchHrhFilterTab(tabIndex) {
                 menu.style.display = 'none';
             } else {
                 menu.style.display = 'block';
-                // Position menu above or near the button
-                const btnRect = event.currentTarget.getBoundingClientRect();
-                menu.style.left = btnRect.left + 'px';
-                menu.style.top = (btnRect.top - menu.offsetHeight - 5) + 'px';
-                // We will refine positioning dynamically via CSS or JS later
+                // Position menu above or near the button, but center on mobile
+                if (window.innerWidth < 900) {
+                    menu.style.position = 'fixed';
+                    menu.style.left = '50%';
+                    menu.style.top = '50%';
+                    menu.style.transform = 'translate(-50%, -50%)';
+                    menu.style.zIndex = '100000020';
+                } else {
+                    menu.style.position = 'absolute';
+                    menu.style.transform = 'none';
+                    const btnRect = event.currentTarget.getBoundingClientRect();
+                    menu.style.left = btnRect.left + 'px';
+                    menu.style.top = (btnRect.top - menu.offsetHeight - 5) + 'px';
+                }
             }
         }
 
@@ -3113,6 +3140,40 @@ function switchHrhFilterTab(tabIndex) {
                         }
                     }
                 });
+
+                // Mobile: also trigger on long-press (basılı tutunca) if in Edit Mode
+                let touchTimer;
+                productGrid.addEventListener('touchstart', function (e) {
+                    if (window.innerWidth >= 900) return;
+                    const item = e.target.closest('.se-product-item');
+                    if (item) {
+                        touchTimer = setTimeout(() => {
+                            const bottomPanel = document.getElementById('editModeBottomPanel');
+                            const isEditMode = bottomPanel && bottomPanel.style.display !== 'none';
+                            if (!isEditMode) return;
+
+                            e.preventDefault();
+                            selectedProductItem = item;
+                            const menu = document.getElementById('itemContextMenu');
+                            if (menu) {
+                                menu.style.display = 'block';
+                                menu.style.position = 'fixed';
+                                menu.style.left = '50%';
+                                menu.style.top = '15%';
+                                menu.style.transform = 'translateX(-50%)';
+                                menu.style.zIndex = '100000050';
+                                menu.style.margin = '0'; // Photo 1: prevent edge-sticking
+                            }
+                        }, 500);
+                    }
+                }, { passive: false });
+
+                productGrid.addEventListener('touchend', function () {
+                    clearTimeout(touchTimer);
+                });
+                productGrid.addEventListener('touchmove', function () {
+                    clearTimeout(touchTimer);
+                });
             }
             makeDraggable('stokBulModal', '.sb-modal-header', '.sb-modal-content');
             makeDraggable('nakitModal', '.nk-modal-header', '.nk-modal-content');
@@ -3297,3 +3358,19 @@ function switchHrhFilterTab(tabIndex) {
             makeDraggable('masrafFaturasiView', '.masraf-header', '#masrafFaturasiView');
             makeDraggable('hizmetTanimlariWrapper', '.ht-modal-header', '.ht-modal-content');
         });
+
+/* Masraf Faturasi Raporu - Filter Toggle for Mobile */
+function toggleMfrFilter() {
+    const sidebar = document.getElementById('mfr-filter-panel');
+    const overlay = document.getElementById('mfr-sidebar-overlay');
+    if (!sidebar) return;
+    
+    if (sidebar.style.transform === 'translateX(0px)') {
+        sidebar.style.transform = 'translateX(-100%)';
+        if (overlay) overlay.style.display = 'none';
+    } else {
+        sidebar.style.transform = 'translateX(0px)';
+        if (overlay) overlay.style.display = 'block';
+    }
+}
+
