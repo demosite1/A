@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>Wolvox Restoran</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Wolvox Restoran Styles */
+        .rest-table-box {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 5px;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            font-family: sans-serif;
+            transition: transform 0.1s;
+            user-select: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .rest-table-box.empty {
+            background: linear-gradient(to bottom, #76c7c0, #4caf50);
+            border: 1px solid #388e3c;
+        }
+
+        .rest-table-box.occupied {
+            background: linear-gradient(to bottom, #ff8a80, #f44336);
+            border: 1px solid #d32f2f;
+        }
+
+        .table-header-info { height: 12px; text-align: right; }
+        .table-time { font-size: 9px; font-weight: bold; }
+        .table-number { font-size: 24px; font-weight: 900; text-align: center; line-height: 1; }
+        .table-details { display: flex; flex-direction: column; font-size: 9px; font-weight: bold; }
+        .waiter-name { color: #ffd8d8; }
+        .table-amount { color: #fff; font-size: 11px; }
+
+        /* Adisyon View (POS) Styles */
+        #adisyonView button {
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 3px;
+            font-size: 11px;
+        }
+
+        #adisyonView button:active {
+            filter: brightness(0.9);
+        }
+
+        .adisyon-cat-btn {
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 4px;
+            padding: 10px 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+        }
+
+        .cat-yellow { background: #ffff80 !important; }
+        .cat-pink { background: #ff80ff !important; }
+        .cat-blue { background: #8080ff !important; color: white !important; }
+        .cat-orange { background: #ffaa80 !important; }
+        .cat-grey { background: #e0e0e0 !important; }
+        .cat-bordeaux { background: #c00040 !important; color: white !important; }
+
+        .adisyon-prod-btn {
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 4px;
+            padding: 15px 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .prod-price {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #000;
+        }
+
+        .category-active {
+            box-shadow: inset 0 0 0 3px rgba(0,0,0,0.2) !important;
+        }
+
+        /* Fişler Grid Styles */
+        .fisler-box {
+            background: #fff;
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            min-height: 80px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .fisler-box-header {
+            background: #4a6fa1;
+            color: #fff;
+            padding: 2px 5px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .fisler-box-header.occupied {
+            background: #e74c3c;
+        }
+
+        .fisler-box-body {
+            flex: 1;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 11px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .fisler-box-footer {
+            padding: 2px 5px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: right;
+            color: #0b5aa2;
+            background: #f1f5f9;
+            border-top: 1px solid #eee;
+        }
+
+        /* POS Menu Dropdown Styles */
+        .pos-menu-main {
+            position: fixed;
+            background: #f8f9fa;
+            border: 1px solid #94a3b8;
+            box-shadow: 2px 4px 12px rgba(0,0,0,0.2);
+            z-index: 11000;
+            width: 260px;
+            font-size: 11px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            padding: 2px;
+        }
+
+        .pos-menu-item {
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            color: #333;
+            position: relative;
+            border: 1px solid transparent;
+        }
+
+        .pos-menu-item:hover, .pos-menu-item.active-parent {
+            background: #cbd5e1;
+            border: 1px dashed #94a3b8;
+        }
+
+        .pos-menu-item i.bi-caret-right-fill {
+            margin-left: auto;
+            font-size: 10px;
+            color: #666;
+        }
+
+        .pos-menu-item span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Submenu Styles */
+        .pos-submenu {
+            position: absolute;
+            left: 100%;
+            top: -2px;
+            background: #f8f9fa;
+            border: 1px solid #94a3b8;
+            box-shadow: 2px 4px 12px rgba(0,0,0,0.2);
+            width: 220px;
+            display: none;
+            padding: 2px;
+        }
+
+        .pos-menu-item:hover .pos-submenu, .pos-menu-item.active-parent .pos-submenu {
+            display: block;
+        }
+
+        .pos-menu-item i {
+            font-size: 14px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .pos-menu-separator {
+            height: 1px;
+            background: #cbd5e1;
+            margin: 4px 10px;
+        }
+
+        .pos-menu-item img {
+            opacity: 0.9;
+        }
+
+        /* Checkout (Hesap Kapat) Modal Styles */
+        .chk-tab {
+            padding: 10px 20px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #64748b;
+            border-right: 1px solid #cbd5e1;
+        }
+        .chk-tab.active {
+            background: #fff;
+            color: #1e3a8a;
+            border-bottom: 2px solid #3b82f6;
+        }
+        .chk-action-btn {
+            padding: 4px 12px;
+            background: #4a6fa1;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .chk-icon-btn {
+            width: 24px;
+            height: 24px;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .chk-num-btn {
+            height: 65px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        .chk-num-btn.blue { background: #3b82f6; }
+        .chk-num-btn.green { background: #22c55e; }
+        .chk-num-btn.lightblue { background: #60a5fa; }
+        .chk-num-btn.orange { background: #f97316; }
+        .chk-num-btn.pink { background: #ec4899; }
+        .chk-num-btn:active { filter: brightness(0.9); }
+
+        .chk-pay-btn {
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .chk-btn-std {
+            padding: 6px 15px;
+            background: #fff;
+            border: 1px solid #94a3b8;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- WOLVOX RESTORAN EKRANI -->
+    <div id="restoranView" style="display: flex; position: fixed; top: 0; left: 0; background: #fff; width: 100vw; height: 100vh; flex-direction: column; overflow: hidden; z-index: 10000;">
+        <!-- Restoran Header -->
+        <div style="background: #a5b4dc; color: #000; display: flex; justify-content: space-between; padding: 2px 10px; font-size: 11px; font-weight: bold; border-bottom: 1px solid #7593c6; box-shadow: inset 0 1px 0 #fff;">
+            <div>AKINSOFT Wolvox Restoran v9.03.13</div>
+            <div style="flex:1; text-align:right; margin-right: 20px;">Åžirket : 2025 - 01 MASA - İSPİR FIRIN CAFE (001)</div>
+            <div>Kullanıcı : Yetkili</div>
+        </div>
+        <!-- Main Toolbar -->
+        <div style="background: linear-gradient(to bottom, #abc2e8, #7a9fd2); display: flex; align-items: stretch; border-bottom: 1px solid #1e3a8a; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5); min-height: 40px;">
+            <div style="padding: 0 20px; font-weight: bold; color: #fff; border-right: 1px solid #5a7bb5; cursor:pointer; text-shadow: 1px 1px 1px rgba(0,0,0,0.3); display: flex; align-items: center;">İşler <i class="bi bi-caret-down-fill" style="margin-left: 10px; font-size:10px;"></i></div>
+            <div id="btn-nav-masalar" onclick="location.reload()" style="padding: 0 20px; font-weight: bold; color: #fff; background: linear-gradient(to bottom, #8faada, #6086c2); border-right: 1px solid #5a7bb5; border-left: 1px solid rgba(255,255,255,0.4); cursor:pointer; text-shadow: 1px 1px 1px rgba(0,0,0,0.3); display: flex; align-items: center;">Masalar</div>
+            <div id="btn-nav-adisyon" onclick="openAdisyonView()" style="padding: 0 20px; font-weight: bold; color: #fff; border-right: 1px solid #5a7bb5; border-left: 1px solid rgba(255,255,255,0.4); cursor:pointer; text-shadow: 1px 1px 1px rgba(0,0,0,0.3); display: flex; align-items: center;">Adisyon</div>
+            <div id="btn-nav-paket" onclick="openAdisyonView()" style="padding: 0 20px; font-weight: bold; color: #fff; border-right: 1px solid #5a7bb5; border-left: 1px solid rgba(255,255,255,0.4); cursor:pointer; text-shadow: 1px 1px 1px rgba(0,0,0,0.3); display: flex; align-items: center;">Paket</div>
+            <div id="btn-nav-menu" onclick="togglePOSMenu(event, this)" style="padding: 0 20px; font-weight: bold; color: #fff; border-right: 1px solid #5a7bb5; border-left: 1px solid rgba(255,255,255,0.4); cursor:pointer; text-shadow: 1px 1px 1px rgba(0,0,0,0.3); display: flex; align-items: center;">Menü</div>
+            <div style="flex:1;"></div>
+            <div onclick="goToERP()" style="background: #e74c3c; color: #fff; padding: 0 20px; font-weight: bold; cursor:pointer; display: flex; align-items: center; transition: background 0.2s;">ERP'ye Dön</div>
+        </div>
+        <!-- Sub tabs -->
+        <div style="background: #e2e8f0; display: flex; padding: 10px; border-bottom: 1px solid #cbd5e1; gap: 5px;">
+            <div id="btn-rest-salon" onclick="setRestoranFilter('all', this)" style="background: #fff; color:#0b5aa2; padding: 8px 30px; font-weight: bold; border-radius: 4px; font-size:12px; border: 1px solid #0b5aa2; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">SALON</div>
+            <div id="btn-rest-open" onclick="setRestoranFilter('open', this)" style="background: linear-gradient(to bottom, #abc2e8, #7a9fd2); color:#fff; padding: 8px 30px; font-weight: bold; border-radius: 4px; font-size:12px; border: 1px solid #1e3a8a; cursor: pointer; text-shadow: 1px 1px rgba(0,0,0,0.2);">AÇIK MASALAR</div>
+            <div id="btn-rest-all" onclick="setRestoranFilter('all', this)" style="background: linear-gradient(to bottom, #abc2e8, #7a9fd2); color:#fff; padding: 8px 30px; font-weight: bold; border-radius: 4px; font-size:12px; border: 1px solid #1e3a8a; cursor: pointer; text-shadow: 1px 1px rgba(0,0,0,0.2);">HEPSİ</div>
+        </div>
+        <!-- Grid -->
+        <div style="flex: 1; padding: 15px; overflow: auto; background: #fff;">
+            <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 10px;" id="restoranGridContainer">
+                <!-- Tables will be generated via JS -->
+            </div>
+        </div>
+        <!-- Footer -->
+        <div style="background: #f8f9fa; border-top: 1px solid #cbd5e1; padding: 8px 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div style="display: flex; gap: 20px; font-size: 11px;">
+                <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <div style="display: flex; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 2px; font-weight: bold; color: #0b5aa2;">
+                        <span style="width: 120px;"></span>
+                        <span style="width: 60px; text-align: center;">Tümü</span>
+                        <span style="width: 60px; text-align: center;">SALON</span>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <span style="width: 120px; font-weight: bold;">Toplam Masa Sayısı :</span>
+                        <span style="width: 60px; text-align: center;">60</span>
+                        <span style="width: 60px; text-align: center;">60</span>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <span style="width: 120px; font-weight: bold;">Açık Masa Sayısı :</span>
+                        <span style="width: 60px; text-align: center; color: #0b5aa2;">20</span>
+                        <span style="width: 60px; text-align: center; color: #0b5aa2;">20</span>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <span style="width: 120px; font-weight: bold;">Açık Masa Toplamı :</span>
+                        <span style="width: 60px; text-align: center; color: #0b5aa2;">19.905,50</span>
+                        <span style="width: 60px; text-align: center; color: #0b5aa2;">19.905,50</span>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <span style="width: 120px; font-weight: bold;">Toplam Kişi Sayısı :</span>
+                        <span style="width: 60px; text-align: center; color: #0b5aa2;">21</span>
+                        <span style="width: 60px; text-align: center; color: #0b5aa2;">21</span>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                    <i class="bi bi-stack" style="color: #0b5aa2; font-size: 32px;"></i>
+                    <span style="font-size: 28px; font-weight: bold; color: #0b5aa2; letter-spacing: -1px;">AKINSOFT</span>
+                    <span style="align-self: flex-start; color: #f44336; font-weight: bold; font-size: 14px; margin-top: 5px; margin-left: 2px;">Â²</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adisyon View (POS) -->
+    <div id="adisyonView" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; background: #f0f3f8; z-index: 10002; font-family: 'Segoe UI', Arial, sans-serif;">
+        <!-- POS Header -->
+        <div style="background: #f8f9fa; height: 35px; border-bottom: 1px solid #ccc; display: flex; align-items: center; padding: 0 10px; justify-content: space-between; font-size: 12px; font-weight: bold; color: #333;">
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <div onclick="closeAdisyonView()" style="cursor: pointer; padding: 5px 15px; border: 1px solid #bbb; background: #eee; border-radius: 3px;">Kapat</div>
+                <div onclick="openFişlerView()" style="cursor: pointer; padding: 5px 15px; border: 1px solid #bbb; background: #eee; border-radius: 3px;">Fişler [ ]</div>
+                <div onclick="closeAdisyonView()" style="cursor: pointer; background: #9ab9f1; color: #fff; padding: 5px 15px; border: 1px solid #7a9fd2; border-radius: 3px;">Masalar</div>
+                <div onclick="openAdisyonView()" style="cursor: pointer; background: #6086c2; color: #fff; padding: 5px 15px; border: 1px solid #4a6fa1; border-radius: 3px;">Adisyon</div>
+                <div onclick="openAdisyonView()" style="cursor: pointer; padding: 5px 15px; border: 1px solid #bbb; background: #eee; border-radius: 3px;">Paket</div>
+                <div onclick="togglePOSMenu(event, this)" style="cursor: pointer; padding: 5px 15px; border: 1px solid #bbb; background: #eee; border-radius: 3px;">Menü</div>
+            </div>
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <span>Şirket : 2025 - 01 MASA - İSPİR FIRIN CAFE (001)</span>
+                <span>Kullanıcı : Yetkili</span>
+                <div onclick="goToERP()" style="background: #e74c3c; color: #fff; padding: 0 15px; height: 26px; font-weight: bold; cursor:pointer; display: flex; align-items: center; border-radius: 3px; border: 1px solid #c0392b;">ERP'ye Dön</div>
+            </div>
+        </div>
+
+        <div style="flex: 1; display: flex; overflow: hidden;">
+            <!-- Left Panel (Order Details) -->
+            <div style="width: 380px; background: #fff; border-right: 1px solid #ccc; display: flex; flex-direction: column; padding: 5px;">
+                <div style="display: flex; gap: 2px; margin-bottom: 5px;">
+                    <input type="text" value="07" style="width: 50px; text-align: center; border: 1px solid #ccc;">
+                    <select style="flex: 1; border: 1px solid #ccc;"><option>MİK0003</option></select>
+                    <div style="background: #ffecf0; color: #d00; border: 1px solid #faa; padding: 5px; font-size: 10px; cursor: pointer; text-align: center;">Yeni Ads. Fişi</div>
+                </div>
+                
+                <!-- Ticket Info -->
+                <div style="background: #eef3fb; border: 1px solid #cbd5e1; padding: 5px; font-size: 11px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                        <span style="background: #abc2e8; padding: 2px 10px; width: 60px;">Müşteri</span>
+                        <span style="flex: 1; margin-left: 2px; border-bottom: 1px solid #bbb;">GENEL MÜŞTERİ</span>
+                        <div style="display: flex; gap: 2px; margin-left: 5px;">
+                            <button style="font-size: 10px;">Düz.</button>
+                            <button style="font-size: 10px;">Yeni</button>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                        <span style="background: #abc2e8; padding: 2px 10px; width: 60px;">Telefon</span>
+                        <span style="flex: 1; margin-left: 2px; border-bottom: 1px solid #bbb;"></span>
+                        <span style="background: #abc2e8; padding: 2px 10px; width: 60px; margin-left: 2px;">Adres</span>
+                        <span style="flex: 1; margin-left: 2px; border-bottom: 1px solid #bbb;"></span>
+                    </div>
+                </div>
+
+                <!-- Product Table -->
+                <div style="flex: 1; margin-top: 10px; border: 1px solid #ccc; overflow: auto; background: #fff;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                        <thead style="background: #eee; position: sticky; top: 0;">
+                            <tr>
+                                <th style="border: 1px solid #ddd; text-align: left; padding: 4px;">Ürün</th>
+                                <th style="border: 1px solid #ddd; text-align: right; padding: 4px;">Fiyatı</th>
+                                <th style="border: 1px solid #ddd; text-align: center; padding: 4px;">Mik.</th>
+                                <th style="border: 1px solid #ddd; text-align: right; padding: 4px;">Toplam</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adisyon-items-body">
+                            <!-- Items will appear here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Totals and Controls -->
+                <div style="padding-top: 5px; border-top: 1px solid #ccc;">
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 5px;">
+                         <span>Satır Sayısı : 0</span>
+                         <span>Ürün Sayısı : 0,000</span>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 2fr 2fr 1fr; gap: 2px; height: 120px;">
+                        <div style="grid-row: span 2; background: #dcd0ff; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid #aaa; font-size: 10px; font-weight: bold; text-align: center;">
+                            0 ADET<br>0,00 TL
+                        </div>
+                        <div style="background: #d4f7d4; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">+</div>
+                        <div style="background: #dcd0ff; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px;">Fiyat</div>
+                        <div style="background: #ffffcc; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px;">Açıklama</div>
+                        <div style="grid-row: span 2; background: #ffcce0; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; color: #d00;">İPTAL</div>
+                        <div style="background: #ffcce0; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">-</div>
+                        <div style="background: #ffccbc; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px;">İşlemler ▼</div>
+                        <div style="background: #ffccbc; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px;">İkram ▼</div>
+                        <div style="background: #ffffcc; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px;">Alarm</div>
+                        
+                        <div style="grid-column: span 2; background: #b2ebf2; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px;">Mutfağa Yaz(F3)</div>
+                        <div style="background: #b2ebf2; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px;">Marş</div>
+                        <div style="grid-column: span 1; background: #b2ebf2; border: 1px solid #aaa; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px;">Adisyonu Yaz (F4)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel (Products) -->
+            <div style="flex: 1; display: flex; flex-direction: column; background: #eaedf2;">
+                <!-- Barcode Area -->
+                <div style="padding: 10px; display: flex; align-items: center; border-bottom: 1px solid #ccc; background: #fff;">
+                    <input type="text" placeholder="Barkodu" style="flex: 1; font-size: 32px; padding: 5px; border: 1px solid #ccc; background: #fff9e6;">
+                    <div style="display: flex; gap: 5px; margin-left: 10px;">
+                        <button style="padding: 10px 20px; font-weight: bold;">🔍 </button>
+                        <button style="padding: 10px 20px; background: #c8e6c9; font-weight: bold;">Ekstra</button>
+                    </div>
+                    <!-- Totals in Barcode area -->
+                    <div onclick="openHesapKapatModal()" style="margin-left: 20px; display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 5px 10px; border: 1px solid #7a9fd2; background: #eef3fb; border-radius: 4px; transition: background 0.2s;" onmouseover="this.style.background='#d0e0ff'" onmouseout="this.style.background='#eef3fb'">
+                       <span style="font-size: 14px; font-weight: bold; color:#1e3a8a;">Hesabı Kapat (F2)</span>
+                       <span style="font-size: 36px; font-weight: bold; color: #0b5aa2;" id="adisyon-total-val">0,00</span>
+                       <span style="font-size: 24px; font-weight: bold; color: #0b5aa2;">TL</span>
+                       <!-- Mini Pay Buttons -->
+                       <div style="display: flex; gap: 2px; height: 50px; margin-left: 10px;">
+                           <div style="background: red; color: white; padding: 5px; font-size: 10px; width: 60px; text-align: center; display: flex; align-items: center;">Nakit<br>(FIRIN KASA)</div>
+                           <div style="background: blue; color: white; padding: 5px; font-size: 10px; width: 60px; text-align: center; display: flex; align-items: center;">(d)</div>
+                           <div style="background: magenta; color: white; padding: 5px; font-size: 10px; width: 60px; text-align: center; display: flex; align-items: center;">YEMEKSEPETI</div>
+                       </div>
+                    </div>
+                </div>
+
+                <!-- Categories Grid -->
+                <div style="padding: 5px; background: #cbd5e1;">
+                    <div id="adisyon-category-container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;">
+                        <!-- Categories will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div style="flex: 1; padding: 5px; overflow: auto;">
+                    <div id="adisyon-product-container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;">
+                        <!-- Products will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fişler View (Tickets) -->
+    <div id="fislerView" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; background: #eaedf2; z-index: 10003; font-family: 'Segoe UI', Arial, sans-serif;">
+        <!-- Fişler Header -->
+        <div style="background: #f8f9fa; height: 35px; border-bottom: 1px solid #ccc; display: flex; align-items: center; padding: 0 10px; justify-content: space-between; font-size: 12px; font-weight: bold; color: #333;">
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <div onclick="closeFişlerView()" style="cursor: pointer; padding: 5px 15px; border: 1px solid #bbb; background: #eee; border-radius: 3px;">Kapat</div>
+                <div onclick="openFişlerView()" style="cursor: pointer; background: #6086c2; color: #fff; padding: 5px 15px; border: 1px solid #4a6fa1; border-radius: 3px;">Fişler [ ]</div>
+                <div onclick="closeFişlerView()" style="cursor: pointer; padding: 5px 15px; border: 1px solid #bbb; background: #eee; border-radius: 3px;">Masalar</div>
+                <div onclick="openAdisyonView()" style="cursor: pointer; padding: 5px 15px; border: 1px solid #bbb; background: #eee; border-radius: 3px;">Adisyon</div>
+                <div onclick="openAdisyonView()" style="cursor: pointer; padding: 5px 15px; border: 1px solid #bbb; background: #eee; border-radius: 3px;">Paket</div>
+                <div onclick="togglePOSMenu(event, this)" style="cursor: pointer; padding: 5px 15px; border: 1px solid #bbb; background: #eee; border-radius: 3px;">Menü</div>
+            </div>
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <span>Şirket : 2025 - 01 MASA - İSPİR FIRIN CAFE (001)</span>
+                <span>Kullanıcı : Yetkili</span>
+                <div onclick="goToERP()" style="background: #e74c3c; color: #fff; padding: 0 15px; height: 26px; font-weight: bold; cursor:pointer; display: flex; align-items: center; border-radius: 3px; border: 1px solid #c0392b;">ERP'ye Dön</div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div style="background: #eee; padding: 5px 10px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #ccc;">
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <span>Ara</span>
+                <input type="text" style="width: 150px; border: 1px solid #ccc; padding: 2px;">
+            </div>
+            <div style="display: flex; align-items: center; border: 1px solid #bbb; background: #e0e0e0; padding: 2px 10px; cursor: pointer; font-size: 11px;">
+                <span style="color: red; margin-right: 5px;">✘</span> Aramayı Sıfırla
+            </div>
+            <select style="border: 1px solid #ccc; font-size: 11px;"><option>Adisyon Numarası</option></select>
+            <div style="flex: 1;"></div>
+            <div style="background: #ddd; border: 1px solid #bbb; padding: 5px 15px; font-size: 11px; cursor: pointer;">📋 Tüm Fişler</div>
+        </div>
+
+        <div style="flex: 1; display: flex; overflow: hidden;">
+            <!-- Ticket Grid -->
+            <div id="fislerGridContainer" style="flex: 1; display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; padding: 15px; overflow: auto; align-content: start; background: #fff;">
+                <!-- Ticket boxes will be generated via JS -->
+            </div>
+            
+            <!-- Side Controls -->
+            <div style="width: 50px; border-left: 1px solid #ccc; background: #eee; display: flex; flex-direction: column;">
+                <div style="height: 50px; display: flex; align-items: center; justify-content: center; color: red; font-size: 24px; cursor: pointer; border-bottom: 1px solid #ddd;">✘</div>
+                <div style="flex: 1;"></div>
+                <div style="height: 50px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; border-top: 1px solid #ddd; background: #fff; color: green;">▲</div>
+                <div style="height: 50px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; border-top: 1px solid #ddd; background: #fff; color: green;">▼</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POS Menü Dropdown -->
+    <div id="posMenuDropdown" class="pos-menu-main" style="display: none;">
+        <div class="pos-menu-item"><i class="bi bi-pencil-square"></i> Dizayn Moduna Geç</div>
+        <div class="pos-menu-item"><i class="bi bi-lock"></i> Kilitle</div>
+        <div class="pos-menu-item has-submenu">
+             <span><i class="bi bi-person-check"></i> Yetkili</span> <i class="bi bi-caret-right-fill"></i>
+        </div>
+        <div class="pos-menu-item"><i class="bi bi-gear"></i> Program Ayarları</div>
+        <div class="pos-menu-item has-submenu">
+             <span><i class="bi bi-list-check"></i> Tanımlar</span> <i class="bi bi-caret-right-fill"></i>
+             <div class="pos-submenu" style="width: 320px;">
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/box.png" style="width:16px;"> Stok Detayları <i class="bi bi-caret-right-fill"></i></div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/automatic.png" style="width:16px;"> Otomatik Üretim <i class="bi bi-caret-right-fill"></i></div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/list.png" style="width:16px;"> Fiş Tipleri</div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/pda.png" style="width:16px;"> Ürün Sıralaması (PDA ve otomatik dizilim modu)</div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/image.png" style="width:16px;"> PDA Tablet Menü Ürün Resim Tanımları</div>
+                 <div class="pos-menu-item">
+                    <img src="https://img.icons8.com/color/48/000000/code.png" style="width:16px;"> 
+                    <span>Script Paket İşlemleri</span>
+                    <span style="margin-left:auto; color:#888; font-size:9px;">Ctrl+F12</span>
+                 </div>
+                 <div class="pos-menu-separator"></div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/plus.png" style="width:16px;"> Hızlı Stok Kayıt</div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/cancel.png" style="width:16px;"> Ürün Bloke</div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/settings.png" style="width:16px;"> Ürün Özel Ayarlar</div>
+                 <div class="pos-menu-separator"></div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/file.png" style="width:16px;"> Stok Listesi Raporu</div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/data-transfer-both.png" style="width:16px;"> Stok Detay ve Dönüşüm Raporları</div>
+                 <div class="pos-menu-separator"></div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/edit.png" style="width:16px;"> Hızlı Adisyon Ekranı Düzenleme</div>
+                 <div class="pos-menu-item"><img src="https://img.icons8.com/color/48/000000/copy.png" style="width:16px;"> Şube Tanımları Kopyala</div>
+             </div>
+        </div>
+        <div class="pos-menu-item"><i class="bi bi-display"></i> Ekranlar</div>
+        <div class="pos-menu-item"><i class="bi bi-people"></i> Cari İşlemler</div>
+        <div class="pos-menu-item"><i class="bi bi-safe"></i> Kasa İşlemleri</div>
+        <div class="pos-menu-item"><i class="bi bi-calendar-check"></i> Günsonu</div>
+        <div class="pos-menu-item"><i class="bi bi-bar-chart"></i> Grafik Raporlar</div>
+        <div class="pos-menu-item"><i class="bi bi-calculator"></i> Muhasebelendir</div>
+        <div class="pos-menu-item"><i class="bi bi-credit-card"></i> Kredili Kart</div>
+        <div class="pos-menu-item"><i class="bi bi-cash-stack"></i> Ön Ödeme</div>
+        <div class="pos-menu-item"><i class="bi bi-tools"></i> Araçlar</div>
+        <div class="pos-menu-item"><i class="bi bi-chat-left-text"></i> Notlar</div>
+        <div class="pos-menu-item"><i class="bi bi-question-circle"></i> Yardım</div>
+        <div class="pos-menu-item"><i class="bi bi-cup-hot"></i> Mutfak</div>
+    </div>
+
+    <!-- HESAP KAPAT MODAL -->
+    <div id="hesapKapatModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 20000; align-items: center; justify-content: center; font-family: 'Segoe UI', Tahoma, sans-serif;">
+        <div style="background: #fff; width: 950px; max-width: 95vw; height: auto; max-height: 95vh; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; overflow: hidden; border: 1px solid #7a9fd2;">
+            <!-- Modal Header -->
+            <div style="background: linear-gradient(to bottom, #4a6fa1, #2c3e50); border-bottom: 2px solid #1a252f; padding: 8px 15px; display: flex; align-items: center; justify-content: space-between; color: #fff;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="bi bi-person-workspace" style="font-size: 20px;"></i>
+                    <span style="font-weight: bold; font-size: 14px;">Hesap Kapat</span>
+                </div>
+                <div style="background: #e67e22; padding: 2px 15px; border-radius: 3px; font-size: 13px; font-weight: bold;">07 - MİK00033</div>
+                <div onclick="closeHesapKapatModal()" style="cursor: pointer; background: #c0392b; color: #fff; border-radius: 3px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;"><i class="bi bi-x-lg"></i></div>
+            </div>
+
+            <!-- Modal Body -->
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <div style="flex: 1; display: flex;">
+                    <!-- Left: Bill Summary -->
+                    <div style="width: 320px; border-right: 1px solid #ccc; background: #f8fafc; display: flex; flex-direction: column;">
+                        <div style="display: flex; background: #edf2f7; border-bottom: 1px solid #cbd5e1;">
+                            <div class="chk-tab active">Fiş Özeti</div>
+                            <div class="chk-tab">Fiş İşlemleri</div>
+                        </div>
+                        <div style="flex: 1; overflow: auto; padding: 5px;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                                <thead style="background: #cbd5e1; position: sticky; top: 0;">
+                                    <tr>
+                                        <th style="padding: 4px; text-align: center; border: 1px solid #94a3b8; width: 30px;">SEÇ</th>
+                                        <th style="padding: 4px; text-align: left; border: 1px solid #94a3b8;">Ürün</th>
+                                        <th style="padding: 4px; text-align: right; border: 1px solid #94a3b8; width: 60px;">Toplam</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="chk-ticket-items">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="padding: 5px; border-top: 1px solid #cbd5e1; display: flex; gap: 5px; background: #edf2f7;">
+                            <button class="chk-action-btn">TİP EKLE</button>
+                            <div style="flex: 1;"></div>
+                            <button class="chk-icon-btn"><i class="bi bi-chevron-down"></i></button>
+                            <button class="chk-icon-btn"><i class="bi bi-chevron-up"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Center: Numpad & Calculations -->
+                    <div style="flex: 1; background: #fff; padding: 10px; display: flex; flex-direction: column;">
+                        <div style="background: #eef3fb; border: 1px solid #7a9fd2; border-radius: 4px; padding: 10px; display: flex; justify-content: flex-end; align-items: center; margin-bottom: 15px;">
+                            <span style="font-size: 48px; font-weight: bold; color: #0b5aa2;" id="chk-final-total">0,00 TL</span>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex: 1; padding-bottom: 5px;">
+                            <div style="flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;">
+                                <button class="chk-num-btn blue">5 TL</button>
+                                <button class="chk-num-btn green">1</button>
+                                <button class="chk-num-btn green">2</button>
+                                <button class="chk-num-btn green">3</button>
+                                <button class="chk-num-btn blue">10 TL</button>
+                                <button class="chk-num-btn green">4</button>
+                                <button class="chk-num-btn green">5</button>
+                                <button class="chk-num-btn green">6</button>
+                                <button class="chk-num-btn blue">20 TL</button>
+                                <button class="chk-num-btn green">7</button>
+                                <button class="chk-num-btn green">8</button>
+                                <button class="chk-num-btn green">9</button>
+                                <button class="chk-num-btn blue">50 TL</button>
+                                <button class="chk-num-btn green">,</button>
+                                <button class="chk-num-btn green">0</button>
+                                <button class="chk-num-btn green" style="color: #e74c3c;"><i class="bi bi-chevron-left"></i></button>
+                                <button class="chk-num-btn blue">100 TL</button>
+                                <button class="chk-num-btn lightblue">1/2</button>
+                                <button class="chk-num-btn lightblue">1/3</button>
+                                <button class="chk-num-btn lightblue">1/x</button>
+                                <button class="chk-num-btn orange" style="grid-column: span 2;">Ara Ödeme</button>
+                                <button class="chk-num-btn pink" style="grid-column: span 2;">Adisyon İptal</button>
+                            </div>
+                            <div style="width: 160px; display: flex; flex-direction: column; gap: 8px; margin-right: 15px;">
+                                <div style="border: 1px solid #ccc; padding: 5px; background: #fafafa; position: relative;">
+                                    <span style="position: absolute; top: -10px; left: 10px; background: #fafafa; padding: 0 4px; font-size: 11px; font-weight: bold;">Kalan</span>
+                                    <input type="text" id="chk-remaining-val" value="0,00" style="width: 100%; border: none; background: transparent; text-align: right; font-size: 24px; font-weight: bold; color: #333;" readonly>
+                                </div>
+                                <div style="border: 1px solid #000; padding: 5px; background: #fff; position: relative;">
+                                    <span style="position: absolute; top: -10px; left: 10px; background: #fff; padding: 0 4px; font-size: 11px; font-weight: bold;">Ödenen</span>
+                                    <input type="text" id="chk-paid-val" value="0,00" style="width: 100%; border: none; background: transparent; text-align: right; font-size: 24px; font-weight: bold; color: #000;">
+                                </div>
+                                <div style="border: 1px solid #ccc; padding: 5px; background: #fafafa; position: relative;">
+                                    <span style="position: absolute; top: -10px; left: 10px; background: #fafafa; padding: 0 4px; font-size: 11px; font-weight: bold;">Para Üstü</span>
+                                    <input type="text" id="chk-change-val" value="0,00" style="width: 100%; border: none; background: transparent; text-align: right; font-size: 24px; font-weight: bold; color: #d00;" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additions/Deductions Footer -->
+                        <div style="margin-top: 15px; border: 1px solid #cbd5e1; padding: 10px; display: flex; gap: 20px;">
+                             <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: bold;">
+                                 <input type="checkbox"> Adisyon Yazdır
+                             </label>
+                             <div style="flex: 1; display: flex; align-items: center; gap: 10px;">
+                                 <span style="font-size: 11px; color:#666;">Otel Müşterisi</span>
+                                 <select style="flex: 1; border: 1px solid #ccc; font-size: 12px;"><option></option></select>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Quick Payments -->
+                    <div style="width: 150px; background: #f1f5f9; border-left: 1px solid #ccc; display: flex; flex-direction: column; gap: 2px; padding: 2px;">
+                        <button class="chk-pay-btn" style="background: #b45309; height: 75px;">Nakit (FIRIN KASA)</button>
+                        <button class="chk-pay-btn" style="background: #1d4ed8; height: 75px;">(d)</button>
+                        <button class="chk-pay-btn" style="background: #be185d; height: 75px;">YEMEKSEPETİ</button>
+                        <div style="flex: 1;"></div>
+                        <button class="chk-pay-btn" style="background: #e67e22; height: 60px;">Borçlu Kapat</button>
+                    </div>
+                </div>
+
+                <!-- Footer Area -->
+                </div>
+                
+                <!-- Customer Info Bar (With Integrated Footer Actions) -->
+                <div style="padding: 10px; background: #e2e8f0; border-top: 1px solid #cbd5e1; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-weight: bold; font-size: 13px; width: 120px;">GENEL MÜŞTERİ</span>
+                    <button class="chk-btn-std">Fatura Bilgileri</button>
+                    <button class="chk-btn-std">Seç</button>
+                    <button class="chk-btn-std">Yeni Kayıt</button>
+                    <div style="flex: 1;"></div>
+                    <button onclick="closeHesapKapatModal()" style="background: #e74c3c; color: #fff; border: 1px solid #c0392b; padding: 6px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                        <i class="bi bi-x-lg"></i> Vazgeç
+                    </button>
+                    <button style="background: #27ae60; color: #fff; border: 1px solid #219150; padding: 6px 30px; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                        <i class="bi bi-check-lg"></i> Tamam
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRestoranFilter = 'all';
+
+        function setRestoranFilter(filter, el) {
+            currentRestoranFilter = filter;
+            
+            const btnSalon = document.getElementById('btn-rest-salon');
+            const btnOpen = document.getElementById('btn-rest-open');
+            const btnAll = document.getElementById('btn-rest-all');
+            
+            const buttons = [btnSalon, btnOpen, btnAll];
+            
+            buttons.forEach(btn => {
+                if (!btn) return;
+                if (btn === el) {
+                    btn.style.background = '#fff';
+                    btn.style.color = '#0b5aa2';
+                    btn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                    btn.style.border = '1px solid #0b5aa2';
+                    btn.style.textShadow = 'none';
+                } else {
+                    btn.style.background = 'linear-gradient(to bottom, #abc2e8, #7a9fd2)';
+                    btn.style.color = '#fff';
+                    btn.style.boxShadow = 'none';
+                    btn.style.border = '1px solid #1e3a8a';
+                    btn.style.textShadow = '1px 1px rgba(0,0,0,0.2)';
+                }
+            });
+            
+            initRestoranGrid();
+        }
+
+        function initRestoranGrid() {
+            const container = document.getElementById('restoranGridContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const occupiedTables = [1, 2, 3, 8, 9, 26, 27, 29, 31, 38, 40, 41, 44, 45, 46, 47, 56, 58];
+            const tableData = {
+                1: { time: '12726dk', waiter: 'GARSON 1.', amount: '1.220,00' },
+                2: { time: '12726dk', waiter: 'GARSON 1.', amount: '660,00' },
+                3: { time: '12725dk', waiter: 'GARSON 1.', amount: '1.620,00' },
+                8: { time: '14504dk', waiter: 'GARSON 1.', amount: '710,00' },
+                9: { time: '55714dk', amount: '643,50' },
+                26: { time: '27329dk', amount: '550,00' },
+                27: { time: '27319dk', amount: '700,00' },
+                29: { time: '54141dk', amount: '0,00' },
+                31: { time: '23081dk', amount: '110,00' },
+                38: { time: '63660dk', amount: '49,50' },
+                40: { time: '13643dk', amount: '1.250,00' },
+                41: { time: '24781dk', amount: '3.400,00' },
+                44: { time: '27332dk', amount: '500,00' },
+                45: { time: '23082dk', amount: '170,00' },
+                46: { time: '04780dk', amount: '2.625,00' },
+                47: { time: '23083dk', amount: '45,00' },
+                56: { time: '98467dk', amount: '322,50' },
+                58: { time: '24898dk', amount: '0,00' }
+            };
+
+            for (let i = 1; i <= 60; i++) {
+                const isOccupied = occupiedTables.includes(i);
+                if (currentRestoranFilter === 'open' && !isOccupied) continue;
+
+                const data = tableData[i];
+                const table = document.createElement('div');
+                table.className = 'rest-table-box ' + (isOccupied ? 'occupied' : 'empty');
+                table.onclick = () => openAdisyonView();
+                
+                let innerHTML = `
+                    <div class="table-header-info">
+                        ${isOccupied ? `<span class="table-time">${data.time}</span>` : ''}
+                    </div>
+                    <div class="table-number">${i < 10 ? '0' + i : i}</div>
+                    <div class="table-details">
+                        ${isOccupied ? `
+                            <div class="waiter-name">${data.waiter || ''}</div>
+                            <div class="table-amount">${data.amount}</div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                table.innerHTML = innerHTML;
+                container.appendChild(table);
+            }
+        }
+
+        /* Adisyon View Logic */
+        const adisyonData = {
+            categories: [
+                { name: 'EKMEK %10', color: 'cat-yellow' },
+                { name: 'MAYALI', color: 'cat-yellow' },
+                { name: 'BÖREK', color: 'cat-yellow' },
+                { name: 'APERATİF', color: 'cat-yellow' },
+                { name: 'KAHVALTI', color: 'cat-yellow' },
+                { name: 'KURUPASTA', color: 'cat-yellow' },
+                { name: 'PAKET ÜRÜN', color: 'cat-yellow' },
+                { name: 'TEZGAH ÜSTÜ', color: 'cat-yellow' },
+                { name: 'SICAK İÇECEKLER', color: 'cat-bordeaux' },
+                { name: 'İÇECEK', color: 'cat-pink' },
+                { name: 'ADET PASTALAR', color: 'cat-blue' },
+                { name: 'YAŞ PASTALAR', color: 'cat-blue' },
+                { name: 'SÜTLÜ TATLILAR', color: 'cat-blue' },
+                { name: 'PASTA', color: 'cat-grey' },
+                { name: 'BAKLAVALAR KG', color: 'cat-orange' },
+                { name: 'ŞERBETLİLER', color: 'cat-orange' },
+                { name: 'DONDURMA', color: 'cat-orange' },
+                { name: 'UNLU MAMÜLLER', color: 'cat-grey' }
+            ],
+            products: {
+                'İÇECEK': [
+                    { name: 'KÜÇÜK SU', price: '15,00', color: '#8BC34A' },
+                    { name: 'SADE SODA', price: '20,00', color: '#00BCD4' },
+                    { name: 'PINAR SÜT', price: '25,00', color: '#FF6D00' },
+                    { name: 'PINAR AYRAN 200 ML', price: '18,00', color: '#FFB300' },
+                    { name: 'SARIKIZ SODA ÇEŞİTLERİ 200 ML', price: '25,00', color: '#8BC34A' },
+                    { name: 'DİMES TENEKE 250 ML MEYVESUYU', price: '40,00', color: '#6200EA' },
+                    { name: 'DİMES KUTU 200 ML MEYVESUYU', price: '25,00', color: '#212121' },
+                    { name: 'AROMA CAM 200 ML İÇECEK', price: '35,00', color: '#B71C1C' },
+                    { name: 'CAPRİ-SUN İÇECEK 200 ML', price: '30,00', color: '#FF6D00' },
+                    { name: 'DİMES 1 LT MEYVESUYU', price: '65,00', color: '#AEEA00' },
+                    { name: 'CHURCHILL SODA', price: '40,00', color: '#00C853' },
+                    { name: 'FREŞA 200 ML İÇECEK', price: '25,00', color: '#039BE5' },
+                    { name: 'GAZOZ', price: '40,00', color: '#00E5FF' },
+                    { name: 'SUSURLUK AYRANI', price: '25,00', color: '#FFAB00' },
+                    { name: 'TAMEK KARPUZ ÇİLEK ICE TEA 330 ML', price: '35,00', color: '#AEEA00' },
+                    { name: 'deneme test ürün', price: '35,00', color: '#B0164B' }
+                ],
+                'EKMEK %10': [
+                    { name: 'TUZSUZ NORMAL EKMEK', price: '35,00' },
+                    { name: 'NORMAL EKMEK KÜÇÜK', price: '10,00' },
+                    { name: 'EKŞİ MAYA EKMEK BÜYÜK', price: '45,00' },
+                    { name: 'EKŞİ MAYA EKMEK KÜÇÜK', price: '40,00' },
+                    { name: 'CHİA TOHUMLU EKMEK', price: '45,00' },
+                    { name: 'ÇAVDAR EKMEĞİ', price: '40,00' },
+                    { name: 'KARABUĞDAY EKMEĞİ', price: '45,00' },
+                    { name: 'KARAKILÇIK EKMEĞİ', price: '45,00' },
+                    { name: 'KÖY EKMEĞİ BÜYÜK', price: '45,00' },
+                    { name: 'NOHUT MAYALI EKMEK', price: '40,00' },
+                    { name: 'TAM TAHIL EKMEK', price: '45,00' },
+                    { name: 'TRABZON EKMEĞİ', price: '40,00' },
+                    { name: 'SANDWİÇ EKMEĞİ', price: '15,00' },
+                    { name: 'SİMİT EKMEK', price: '35,00' },
+                    { name: 'TANDIR', price: '35,00' },
+                    { name: 'SİYEZ EKMEK', price: '45,00' },
+                    { name: 'SÜTLÜ EKMEK', price: '40,00' },
+                    { name: 'ZEYTİNLİ KEKİKLİ EKMEK', price: '45,00' },
+                    { name: 'BALİNA EKMEK', price: '125,00' },
+                    { name: 'BAGET EKMEK', price: '40,00' },
+                    { name: 'ISPARTA EKMEĞİ', price: '45,00' },
+                    { name: 'İSPİR EKMEĞİ', price: '45,00' },
+                    { name: 'JALAPONE EKMEĞİ', price: '45,00' },
+                    { name: 'EKMEK HAMURU', price: '12,50' },
+                    { name: 'PİDE', price: '25,00' },
+                    { name: 'PİDE YUMURTALI', price: '30,00' },
+                    { name: 'MISIR EKMEĞİ', price: '45,00' },
+                    { name: 'LAVAŞ', price: '25,00' },
+                    { name: 'KEPEK EKMEK', price: '25,00' },
+                    { name: 'BAYAT EKMEK', price: '8,50' },
+                    { name: 'BOŞ ÇUVAL', price: '5,00' }
+                ]
+            }
+        };
+
+        let currentAdisyonCategory = 'EKMEK %10';
+
+        function openAdisyonView() {
+            const view = document.getElementById('adisyonView');
+            if (view) {
+                view.style.display = 'flex';
+                renderAdisyonCategories();
+                switchAdisyonCategory(currentAdisyonCategory);
+            }
+        }
+
+        function closeAdisyonView() {
+            const view = document.getElementById('adisyonView');
+            if (view) view.style.display = 'none';
+
+            const fislerView = document.getElementById('fislerView');
+            if (fislerView && fislerView.style.display === 'none') {
+                const restView = document.getElementById('restoranView');
+                if (restView) restView.style.display = 'flex';
+            }
+        }
+
+        function renderAdisyonCategories() {
+            const container = document.getElementById('adisyon-category-container');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            adisyonData.categories.forEach(cat => {
+                const btn = document.createElement('div');
+                btn.className = `adisyon-cat-btn ${cat.color} ${cat.name === currentAdisyonCategory ? 'category-active' : ''}`;
+                btn.innerText = cat.name;
+                btn.onclick = (e) => switchAdisyonCategory(cat.name, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function switchAdisyonCategory(category, el) {
+            currentAdisyonCategory = category;
+            
+            if (el) {
+                document.querySelectorAll('.adisyon-cat-btn').forEach(b => b.classList.remove('category-active'));
+                el.classList.add('category-active');
+            } else {
+                document.querySelectorAll('.adisyon-cat-btn').forEach(b => {
+                     if (b.innerText === category) b.classList.add('category-active');
+                     else b.classList.remove('category-active');
+                });
+            }
+            
+            renderAdisyonProducts(category);
+        }
+
+        function renderAdisyonProducts(category) {
+            const container = document.getElementById('adisyon-product-container');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            const products = adisyonData.products[category] || [];
+            
+            products.forEach(p => {
+                const btn = document.createElement('div');
+                btn.className = 'adisyon-prod-btn';
+                if (p.color) {
+                    btn.style.backgroundColor = p.color;
+                    btn.style.color = '#fff';
+                } else {
+                    btn.style.backgroundColor = '#fff';
+                    btn.style.color = '#1e3a8a';
+                    btn.style.border = '1px solid #cbd5e1';
+                }
+                
+                btn.innerHTML = `
+                    <span style="display:block; width:100%; text-overflow:ellipsis; overflow:hidden;">${p.name}</span>
+                    <span class="prod-price">[${p.price} TL]</span>
+                `;
+                
+                btn.onclick = () => addProductToTicket(p);
+                container.appendChild(btn);
+            });
+        }
+
+        const adisyonTicket = [];
+
+        function addProductToTicket(product) {
+            adisyonTicket.push(product);
+            renderAdisyonTicket();
+        }
+
+        function renderAdisyonTicket() {
+            const body = document.getElementById('adisyon-items-body');
+            if (!body) return;
+            body.innerHTML = '';
+            
+            let total = 0;
+            adisyonTicket.forEach(item => {
+                const priceNum = parseFloat(item.price.replace('.', '').replace(',', '.'));
+                total += priceNum;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="border: 1px solid #ddd; padding: 4px;">${item.name}</td>
+                    <td style="border: 1px solid #ddd; text-align: right; padding: 4px;">${item.price}</td>
+                    <td style="border: 1px solid #ddd; text-align: center; padding: 4px;">1</td>
+                    <td style="border: 1px solid #ddd; text-align: right; padding: 4px;">${item.price}</td>
+                `;
+                body.appendChild(row);
+            });
+            
+            document.getElementById('adisyon-total-val').innerText = total.toLocaleString('tr-TR', { minimumFractionDigits: 2 });
+        }
+
+        function openFişlerView() {
+            closeAdisyonView();
+            closeRestoranView();
+            const view = document.getElementById('fislerView');
+            if (view) {
+                view.style.display = 'flex';
+                initFişlerGrid();
+            }
+        }
+
+        function closeFişlerView() {
+            const view = document.getElementById('fislerView');
+            if (view) view.style.display = 'none';
+            const restView = document.getElementById('restoranView');
+            if (restView) restView.style.display = 'flex';
+        }
+
+        function closeRestoranView() {
+            const view = document.getElementById('restoranView');
+            if (view) view.style.display = 'none';
+        }
+
+        function goToERP() {
+            window.location.href = 'wolvox_arayuz.html';
+        }
+
+        function initFişlerGrid() {
+            const container = document.getElementById('fislerGridContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const mockFisler = [
+                { no: '04', user: 'Yetkili', time: '13:02', amount: '125,00', occupied: true },
+                { no: '05', user: 'Yetkili', time: '12:45', amount: '750,00', occupied: true },
+                { no: '07', user: 'Yetkili', time: '11:20', amount: '2.400,00', occupied: true },
+                { no: '12', user: 'Yetkili', time: '09:12', amount: '45,00', occupied: true },
+                { no: '18', user: 'Yetkili', time: '08:50', amount: '12,00', occupied: true },
+                { no: '22', user: 'Yetkili', time: '14:10', amount: '350,00', occupied: true },
+            ];
+
+            for (let i = 1; i <= 40; i++) {
+                const noStr = i.toString().padStart(2, '0');
+                const fis = mockFisler.find(f => f.no === noStr) || { no: noStr, occupied: false };
+                
+                const box = document.createElement('div');
+                box.className = 'fisler-box';
+                box.onclick = () => { if(fis.occupied) openAdisyonView(); };
+
+                box.innerHTML = `
+                    <div class="fisler-box-header ${fis.occupied ? 'occupied' : ''}">MASA - ${fis.no}</div>
+                    <div class="fisler-box-body">
+                        ${fis.occupied ? `
+                            <div style="font-size:10px; color:#666;">${fis.user}</div>
+                            <div style="margin-top:5px; font-weight:bold;">${fis.time}</div>
+                        ` : ''}
+                    </div>
+                    <div class="fisler-box-footer">
+                        ${fis.occupied ? fis.amount : '0,00'}
+                    </div>
+                `;
+                container.appendChild(box);
+            }
+        }
+
+        function togglePOSMenu(event, button) {
+            if (event) event.stopPropagation();
+            const menu = document.getElementById('posMenuDropdown');
+            if (!menu) return;
+
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                const rect = button.getBoundingClientRect();
+                let top = rect.bottom;
+                let left = rect.left;
+                if (left + 260 > window.innerWidth) {
+                    left = rect.right - 260;
+                }
+                menu.style.top = top + 'px';
+                menu.style.left = left + 'px';
+                menu.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('posMenuDropdown');
+            if (menu && menu.style.display === 'block') {
+                if (!menu.contains(event.target) && !event.target.closest('[onclick*="togglePOSMenu"]')) {
+                    menu.style.display = 'none';
+                }
+            }
+        });
+
+        function openHesapKapatModal() {
+            const modal = document.getElementById('hesapKapatModal');
+            if (!modal) return;
+            modal.style.display = 'flex';
+            
+            const chkBody = document.getElementById('chk-ticket-items');
+            if (chkBody) {
+                chkBody.innerHTML = '';
+                const summary = {};
+                adisyonTicket.forEach(item => {
+                    if (summary[item.name]) {
+                        summary[item.name].qty++;
+                        summary[item.name].total += parseFloat(item.price.replace('.','').replace(',','.'));
+                    } else {
+                        summary[item.name] = { 
+                            item: item, 
+                            qty: 1, 
+                            total: parseFloat(item.price.replace('.','').replace(',','.')) 
+                        };
+                    }
+                });
+                
+                Object.values(summary).forEach(s => {
+                    const row = document.createElement('tr');
+                    row.style.background = '#fff';
+                    row.style.borderBottom = '1px solid #eee';
+                    row.innerHTML = `
+                        <td style="padding: 6px; text-align: center; border: 1px solid #e2e8f0; width: 30px;"><i class="bi bi-square" style="color:#cbd5e1;"></i></td>
+                        <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.qty} X ${s.item.name}</td>
+                        <td style="padding: 6px; text-align: right; border: 1px solid #e2e8f0; font-weight:bold;">${s.total.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</td>
+                    `;
+                    chkBody.appendChild(row);
+                });
+            }
+            
+            const totalRaw = document.getElementById('adisyon-total-val').innerText;
+            document.getElementById('chk-final-total').innerText = totalRaw + ' TL';
+            document.getElementById('chk-remaining-val').value = totalRaw;
+            document.getElementById('chk-paid-val').value = '0,00';
+            document.getElementById('chk-change-val').value = '0,00';
+            
+            const paidInput = document.getElementById('chk-paid-val');
+            if (paidInput) {
+                paidInput.focus();
+                paidInput.select();
+            }
+        }
+
+        function closeHesapKapatModal() {
+            const modal = document.getElementById('hesapKapatModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        document.addEventListener('input', function(e) {
+            if (e.target.id === 'chk-paid-val') {
+                updateCheckoutCalculations();
+            }
+        });
+
+        function updateCheckoutCalculations() {
+            const totalStr = document.getElementById('chk-final-total').innerText.replace(' TL', '').replace('.', '').replace(',', '.');
+            const paidStr = document.getElementById('chk-paid-val').value.replace('.', '').replace(',', '.');
+            const total = parseFloat(totalStr) || 0;
+            const paid = parseFloat(paidStr) || 0;
+            const remaining = Math.max(0, total - paid);
+            const change = Math.max(0, paid - total);
+            document.getElementById('chk-remaining-val').value = remaining.toLocaleString('tr-TR', { minimumFractionDigits: 2 });
+            document.getElementById('chk-change-val').value = change.toLocaleString('tr-TR', { minimumFractionDigits: 2 });
+        }
+
+        window.onload = initRestoranGrid;
+    </script>
+</body>
+</html>
