@@ -562,6 +562,13 @@ function switchStokTab(el, tabId) {
 function openScreen(title) {
     const normalizedTitle = normalizeTitle(title);
 
+    // RESTORAN REDIRECT: Ensure standalone page navigation
+    const lowerTitle = normalizedTitle.toLowerCase();
+    if (lowerTitle === 'restoran' || lowerTitle === 'wolvox restoran') {
+        window.location.href = 'restoran.html';
+        return;
+    }
+
     // Only hide homeView if we are switching to a real full-screen view
     if (normalizedTitle !== 'Stok Tanımları') {
         homeView.style.display = 'none';
@@ -3373,4 +3380,3 @@ function toggleMfrFilter() {
         if (overlay) overlay.style.display = 'block';
     }
 }
-
